@@ -1,0 +1,325 @@
+<aside
+    class="sidebar bg-gradient-to-b from-gray-900 to-gray-800 text-white shadow-2xl"
+>
+    <div class="sidebar-brand py-5 px-6 border-b border-gray-700">
+        <a href="./index.html" class="brand-link flex items-center group">
+            <img
+                src="/assets/img/AdminLTELogo.png"
+                alt="AdminLTE Logo"
+                class="brand-image opacity-90 shadow-lg mr-3 h-8 transition duration-300 group-hover:opacity-100 group-hover:scale-105"
+            />
+            <span
+                class="brand-text font-bold text-xl bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-purple-400"
+            >
+                AdminLTE 4
+            </span>
+        </a>
+    </div>
+
+    <div class="sidebar-wrapper overflow-y-auto custom-scrollbar">
+        <div class="p-5 space-y-4">
+            <button
+                (click)="logout()"
+                class="btn btn-danger btn-sm btn-block text-white hover:bg-red-600 transition-all duration-300 ease-in-out transform hover:-translate-y-0.5 shadow-md hover:shadow-red-500/30 flex items-center justify-center py-2"
+            >
+                <i class="bi bi-box-arrow-left mr-2 text-lg"></i>
+                <span class="font-medium">Logout</span>
+            </button>
+            <button
+                [routerLink]="['/change-password']"
+                routerLinkActive="router-link-active"
+                class="btn btn-primary btn-sm btn-block text-white hover:bg-blue-600 transition-all duration-300 ease-in-out transform hover:-translate-y-0.5 shadow-md hover:shadow-blue-500/30 flex items-center justify-center py-2"
+            >
+                <i class="bi bi-key mr-2 text-lg"></i>
+                <span class="font-medium">Change Password</span>
+            </button>
+
+            <nav class="mt-8">
+                <ul
+                    class="nav sidebar-menu flex-col space-y-1"
+                    data-lte-toggle="treeview"
+                    role="menu"
+                    data-accordion="false"
+                >
+                    <li class="nav-item menu-open">
+                        <a
+                            routerLink="dashboard"
+                            routerLinkActive="active"
+                            class="nav-link flex items-center p-3 hover:bg-gray-700/50 rounded-lg transition-all duration-200 ease-in-out group"
+                        >
+                            <i
+                                class="nav-icon bi bi-speedometer2 mr-3 text-lg text-blue-400 group-[.active]:text-white"
+                            ></i>
+                            <p
+                                class="flex-1 font-medium text-gray-300 group-[.active]:text-white"
+                            >
+                                Configuration
+                            </p>
+                            <i
+                                class="nav-arrow bi bi-chevron-down ml-auto text-gray-400 text-xs group-[.active]:text-white"
+                            ></i>
+                        </a>
+                        <ul
+                            class="nav nav-treeview ml-8 mt-1 space-y-1 border-l-2 border-gray-700 pl-3"
+                        >
+                            <li class="nav-item">
+                                <a
+                                    routerLink="configuration/course-category"
+                                    routerLinkActive="active"
+                                    class="nav-link flex items-center p-2 hover:bg-gray-700/30 rounded-md transition-all duration-200 ease-in-out group"
+                                >
+                                    <i
+                                        class="nav-icon bi bi-circle-fill mr-2 text-[6px] text-blue-400 group-[.active]:text-white"
+                                    ></i>
+                                    <p
+                                        class="flex-1 text-sm text-gray-300 group-[.active]:text-white group-[.active]:font-medium"
+                                    >
+                                        Course Category
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a
+                                    routerLink="configuration/course"
+                                    routerLinkActive="active"
+                                    class="nav-link flex items-center p-2 hover:bg-gray-700/30 rounded-md transition-all duration-200 ease-in-out group"
+                                >
+                                    <i
+                                        class="nav-icon bi bi-circle-fill mr-2 text-[6px] text-blue-400 group-[.active]:text-white"
+                                    ></i>
+                                    <p
+                                        class="flex-1 text-sm text-gray-300 group-[.active]:text-white group-[.active]:font-medium"
+                                    >
+                                        Course
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a
+                                    routerLink="configuration/instructor"
+                                    routerLinkActive="active"
+                                    class="nav-link flex items-center p-2 hover:bg-gray-700/30 rounded-md transition-all duration-200 ease-in-out group"
+                                >
+                                    <i
+                                        class="nav-icon bi bi-circle-fill mr-2 text-[6px] text-blue-400 group-[.active]:text-white"
+                                    ></i>
+                                    <p
+                                        class="flex-1 text-sm text-gray-300 group-[.active]:text-white group-[.active]:font-medium"
+                                    >
+                                        Instructor
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a
+                                    routerLink="configuration/assign-course"
+                                    routerLinkActive="active"
+                                    class="nav-link flex items-center p-2 hover:bg-gray-700/30 rounded-md transition-all duration-200 ease-in-out group"
+                                >
+                                    <i
+                                        class="nav-icon bi bi-circle-fill mr-2 text-[6px] text-blue-400 group-[.active]:text-white"
+                                    ></i>
+                                    <p
+                                        class="flex-1 text-sm text-gray-300 group-[.active]:text-white group-[.active]:font-medium"
+                                    >
+                                        Assign Course
+                                    </p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a
+                            href="./generate/theme.html"
+                            class="nav-link flex items-center p-3 hover:bg-gray-700/50 rounded-lg transition-all duration-200 ease-in-out group"
+                        >
+                            <i
+                                class="nav-icon bi bi-palette mr-3 text-lg text-purple-400"
+                            ></i>
+                            <p class="flex-1 font-medium text-gray-300">
+                                Theme Generate
+                            </p>
+                        </a>
+                    </li>
+
+                    <li
+                        class="nav-header px-4 py-3 mt-6 text-gray-400 font-bold uppercase text-xs tracking-wider bg-gray-800/50 rounded-lg"
+                    >
+                        User Settings
+                    </li>
+
+                    <li class="nav-item mt-2">
+                        <a
+                            href="#"
+                            class="nav-link flex items-center p-3 hover:bg-gray-700/50 rounded-lg transition-all duration-200 ease-in-out group"
+                        >
+                            <i
+                                class="nav-icon bi bi-people mr-3 text-lg text-green-400"
+                            ></i>
+                            <p class="flex-1 font-medium text-gray-300">
+                                Manage Users
+                            </p>
+                            <i
+                                class="nav-arrow bi bi-chevron-right ml-auto text-gray-400 text-xs"
+                            ></i>
+                        </a>
+                        <ul
+                            class="nav nav-treeview ml-8 mt-1 space-y-1 border-l-2 border-gray-700 pl-3"
+                        >
+                            <li class="nav-item">
+                                <a
+                                    routerLink="configuration/users"
+                                    routerLinkActive="active"
+                                    class="nav-link flex items-center p-2 hover:bg-gray-700/30 rounded-md transition-all duration-200 ease-in-out group"
+                                >
+                                    <i
+                                        class="nav-icon bi bi-circle-fill mr-2 text-[6px] text-green-400 group-[.active]:text-white"
+                                    ></i>
+                                    <p
+                                        class="flex-1 text-sm text-gray-300 group-[.active]:text-white group-[.active]:font-medium"
+                                    >
+                                        Users
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a
+                                    routerLink="configuration/manage-role-module"
+                                    routerLinkActive="active"
+                                    class="nav-link flex items-center p-2 hover:bg-gray-700/30 rounded-md transition-all duration-200 ease-in-out group"
+                                >
+                                    <i
+                                        class="nav-icon bi bi-circle-fill mr-2 text-[6px] text-green-400 group-[.active]:text-white"
+                                    ></i>
+                                    <p
+                                        class="flex-1 text-sm text-gray-300 group-[.active]:text-white group-[.active]:font-medium"
+                                    >
+                                        Manage Module Role
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a
+                                    routerLink="configuration/manage-role"
+                                    routerLinkActive="active"
+                                    class="nav-link flex items-center p-2 hover:bg-gray-700/30 rounded-md transition-all duration-200 ease-in-out group"
+                                >
+                                    <i
+                                        class="nav-icon bi bi-circle-fill mr-2 text-[6px] text-green-400 group-[.active]:text-white"
+                                    ></i>
+                                    <p
+                                        class="flex-1 text-sm text-gray-300 group-[.active]:text-white group-[.active]:font-medium"
+                                    >
+                                        Manage Role
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a
+                                    routerLink="configuration/manage-permission"
+                                    routerLinkActive="active"
+                                    class="nav-link flex items-center p-2 hover:bg-gray-700/30 rounded-md transition-all duration-200 ease-in-out group"
+                                >
+                                    <i
+                                        class="nav-icon bi bi-circle-fill mr-2 text-[6px] text-green-400 group-[.active]:text-white"
+                                    ></i>
+                                    <p
+                                        class="flex-1 text-sm text-gray-300 group-[.active]:text-white group-[.active]:font-medium"
+                                    >
+                                        Manage Permissions
+                                    </p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a
+                            href="#"
+                            class="nav-link flex items-center p-3 hover:bg-gray-700/50 rounded-lg transition-all duration-200 ease-in-out group"
+                        >
+                            <i
+                                class="nav-icon bi bi-shield-lock mr-3 text-lg text-yellow-400"
+                            ></i>
+                            <p class="flex-1 font-medium text-gray-300">
+                                Manage Roles
+                            </p>
+                            <i
+                                class="nav-arrow bi bi-chevron-right ml-auto text-gray-400 text-xs"
+                            ></i>
+                        </a>
+                        <ul
+                            class="nav nav-treeview ml-8 mt-1 space-y-1 border-l-2 border-gray-700 pl-3"
+                        >
+                            <li class="nav-item">
+                                <a
+                                    routerLink="configuration/roles"
+                                    routerLinkActive="active"
+                                    class="nav-link flex items-center p-2 hover:bg-gray-700/30 rounded-md transition-all duration-200 ease-in-out group"
+                                >
+                                    <i
+                                        class="nav-icon bi bi-circle-fill mr-2 text-[6px] text-yellow-400 group-[.active]:text-white"
+                                    ></i>
+                                    <p
+                                        class="flex-1 text-sm text-gray-300 group-[.active]:text-white group-[.active]:font-medium"
+                                    >
+                                        Role
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a
+                                    routerLink="configuration/permissions"
+                                    routerLinkActive="active"
+                                    class="nav-link flex items-center p-2 hover:bg-gray-700/30 rounded-md transition-all duration-200 ease-in-out group"
+                                >
+                                    <i
+                                        class="nav-icon bi bi-circle-fill mr-2 text-[6px] text-yellow-400 group-[.active]:text-white"
+                                    ></i>
+                                    <p
+                                        class="flex-1 text-sm text-gray-300 group-[.active]:text-white group-[.active]:font-medium"
+                                    >
+                                        Permissions
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a
+                                    routerLink="configuration/app-module"
+                                    routerLinkActive="active"
+                                    class="nav-link flex items-center p-2 hover:bg-gray-700/30 rounded-md transition-all duration-200 ease-in-out group"
+                                >
+                                    <i
+                                        class="nav-icon bi bi-circle-fill mr-2 text-[6px] text-yellow-400 group-[.active]:text-white"
+                                    ></i>
+                                    <p
+                                        class="flex-1 text-sm text-gray-300 group-[.active]:text-white group-[.active]:font-medium"
+                                    >
+                                        App Module
+                                    </p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</aside>

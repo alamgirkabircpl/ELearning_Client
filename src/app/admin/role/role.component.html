@@ -1,0 +1,101 @@
+<div class="container mt-4">
+    <h2>Role Management</h2>
+
+    <!-- Role Form -->
+    <div class="card mb-4">
+        <div class="card-header">
+            {{ isEditing ? "Edit Role" : "Add New Role" }}
+        </div>
+        <div class="card-body">
+            <form #roleForm="ngForm" (ngSubmit)="onSubmit()">
+                <div class="mb-3">
+                    <label for="roleName" class="form-label">Role Name</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="roleName"
+                        name="roleName"
+                        [(ngModel)]="roleName"
+                        required
+                        #nameInput="ngModel"
+                    />
+                    <div
+                        *ngIf="
+                            nameInput.invalid &&
+                            (nameInput.dirty || nameInput.touched)
+                        "
+                        class="text-danger"
+                    >
+                        Role name is required
+                    </div>
+                </div>
+                <button
+                    type="submit"
+                    class="btn btn-primary me-2"
+                    [disabled]="!roleName.trim()"
+                >
+                    {{ isEditing ? "Update" : "Save" }}
+                </button>
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    (click)="resetForm()"
+                    *ngIf="isEditing"
+                >
+                    Cancel
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Roles Table -->
+    <div class="card">
+        <div class="card-header">Roles List (Total: {{ totalItems }})</div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Role ID</th>
+                        <th>Role Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let role of displayedRoles">
+                        <td>{{ role.roleId }}</td>
+                        <td>{{ role.roleName }}</td>
+                        <td>
+                            <button
+                                class="btn btn-sm btn-warning me-2"
+                                (click)="editRole(role)"
+                            >
+                                Edit
+                            </button>
+                            <button
+                                class="btn btn-sm btn-danger"
+                                (click)="deleteRole(role.roleId)"
+                            >
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Pagination -->
+            <nav *ngIf="totalItems > pageSize">
+                <ul class="pagination">
+                    <li
+                        class="page-item"
+                        *ngFor="let page of getPageNumbers()"
+                        [class.active]="page === currentPage"
+                    >
+                        <a class="page-link" (click)="onPageChange(page)">{{
+                            page
+                        }}</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>

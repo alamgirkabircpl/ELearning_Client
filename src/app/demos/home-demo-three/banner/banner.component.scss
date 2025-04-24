@@ -1,0 +1,230 @@
+.banner-wrapper-area {
+    padding: {
+        top: 225px;
+        bottom: 100px;
+    };
+}
+.banner-wrapper-content {
+    max-width: 710px;
+    left: 65px;
+    
+    h1 {
+        font-size: 48px;
+        line-height: 1.25;
+
+        span {
+            font-size: 72px;
+            margin-top: 5px;
+            display: block;
+        }
+    }
+}
+.banner-wrapper-images {
+    margin-top: -75px;
+
+    .col-sm-6 {
+        &:last-child {
+            .image {
+                margin-left: 15px;
+                border-radius: 25px;
+
+                img {
+                    border-radius: 25px;
+                }
+            }
+        }
+    }
+    .link-btn {
+        bottom: 0;
+        left: 460px;
+        width: 160px;
+        height: 160px;
+        padding-top: 34px;
+        position: absolute;
+        border: 1px solid #FBFBFB;
+
+        span {
+            margin-bottom: 5px;
+        }
+        img {
+            transition: var(--transition);
+        }
+        &:hover {
+            img {
+                transform: translateY(5px);
+            }
+        }
+    }
+}
+
+/* Max width 767px */
+@media only screen and (max-width : 767px) {
+
+    .banner-wrapper-area {
+        padding: {
+            top: 150px;
+            bottom: 60px;
+        };
+    }
+    .banner-wrapper-content {
+        max-width: 100%;
+        left: 0;
+        
+        h1 {
+            font-size: 30px;
+    
+            span {
+                font-size: 30px;
+                display: inline;
+                margin-top: 0;
+            }
+        }
+    }
+    .banner-wrapper-images {
+        margin-top: 0;
+    
+        .image {
+            margin-top: 25px;
+        }
+        .col-sm-6 {
+            &:last-child {
+                .image {
+                    margin-left: 0;
+                    border-radius: 15px;
+    
+                    img {
+                        border-radius: 15px;
+                    }
+                }
+            }
+        }
+        .link-btn {
+            left: 0;
+            width: 120px;
+            height: 120px;
+            margin-top: 25px;
+            padding-top: 24px;
+            position: relative;
+        }
+    }
+
+}
+
+/* Min width 576px to Max width 767px */
+@media only screen and (min-width : 576px) and (max-width : 767px) {}
+
+/* Min width 768px to Max width 991px */
+@media only screen and (min-width : 768px) and (max-width : 991px) {
+
+    .banner-wrapper-area {
+        padding: {
+            top: 180px;
+            bottom: 80px;
+        };
+    }
+    .banner-wrapper-content {
+        max-width: 100%;
+        left: 0;
+        
+        h1 {
+            font-size: 45px;
+    
+            span {
+                font-size: 45px;
+                display: inline;
+                margin-top: 0;
+            }
+        }
+    }
+    .banner-wrapper-images {
+        margin-top: 0;
+    
+        .image {
+            margin-top: 25px;
+        }
+        .col-sm-6 {
+            &:last-child {
+                .image {
+                    margin-left: 0;
+                    border-radius: 15px;
+    
+                    img {
+                        border-radius: 15px;
+                    }
+                }
+            }
+        }
+        .link-btn {
+            left: 0;
+            width: 135px;
+            height: 135px;
+            margin-top: 25px;
+            padding-top: 31px;
+            position: relative;
+        }
+    }
+
+}
+
+/* Min width 992px to Max width 1199px */
+@media only screen and (min-width : 992px) and (max-width : 1199px) {
+
+    .banner-wrapper-area {
+        padding: {
+            top: 190px;
+            bottom: 100px;
+        };
+    }
+    .banner-wrapper-content {
+        left: 0;
+        
+        h1 {
+            font-size: 45px;
+    
+            span {
+                font-size: 60px;
+            }
+        }
+    }
+    .banner-wrapper-images {
+        margin-top: 25px;
+    
+        .col-sm-6 {
+            &:last-child {
+                .image {
+                    margin-left: 0;
+                    border-radius: 20px;
+    
+                    img {
+                        border-radius: 20px;
+                    }
+                }
+            }
+        }
+        .link-btn {
+            left: 340px;
+            width: 120px;
+            height: 120px;
+            padding-top: 25px;
+        }
+    }
+
+}
+
+/* Min width 1200px to Max width 1399px */
+@media only screen and (min-width: 1200px) and (max-width: 1399px) {
+
+    .banner-wrapper-images {
+        margin-top: 25px;
+    
+        .link-btn {
+            left: 400px;
+            width: 150px;
+            height: 150px;
+        }
+    }
+
+}
+
+/* Min width 1600px */
+@media only screen and (min-width: 1600px) {}

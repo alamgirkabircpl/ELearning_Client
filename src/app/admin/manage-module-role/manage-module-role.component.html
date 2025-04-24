@@ -1,0 +1,100 @@
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <div class="d-flex justify-content-between align-items-center">
+                <h3 class="mb-0 text-white">Role Module Management</h3>
+                <div
+                    *ngIf="isLoading"
+                    class="spinner-border spinner-border-sm text-light"
+                    role="status"
+                >
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <!-- Role Selection -->
+            <div class="mb-4">
+                <label class="form-label fw-bold">Select Role</label>
+                <select
+                    class="form-select form-select-lg"
+                    [(ngModel)]="selectedRole"
+                    (ngModelChange)="onRoleSelect($event)"
+                    [disabled]="isLoading"
+                >
+                    <option [ngValue]="null" disabled>Select a Role</option>
+                    <option *ngFor="let role of roles" [ngValue]="role">
+                        {{ role.roleName }} ({{ role.roleId }})
+                    </option>
+                </select>
+            </div>
+
+            <!-- Modules Section -->
+            <div *ngIf="selectedRole" class="mb-4">
+                <div
+                    class="d-flex justify-content-between align-items-center mb-3"
+                >
+                    <h5 class="mb-0">
+                        Modules for {{ selectedRole.roleName }}
+                    </h5>
+                    <div class="form-check">
+                        <input
+                            class="form-check-input"
+                            type="checkbox"
+                            id="selectAllModules"
+                            [(ngModel)]="allSelected"
+                            [indeterminate]="indeterminateSelection"
+                            (change)="toggleSelectAll()"
+                            [disabled]="isLoading"
+                        />
+                        <label
+                            class="form-check-label fw-bold"
+                            for="selectAllModules"
+                        >
+                            {{ allSelected ? "Deselect All" : "Select All" }}
+                        </label>
+                    </div>
+                </div>
+
+                <div class="row g-3">
+                    <div
+                        class="col-6 col-sm-4 col-md-3"
+                        *ngFor="let module of allModules"
+                    >
+                        <div class="border rounded p-2 h-100">
+                            <div class="form-check">
+                                <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    [id]="'module-' + module.moduleId"
+                                    [(ngModel)]="module.selected"
+                                    (change)="onModuleToggle(module)"
+                                    [disabled]="isLoading"
+                                />
+                                <label
+                                    class="form-check-label"
+                                    [for]="'module-' + module.moduleId"
+                                >
+                                    {{ module.name }}
+                                    <small class="d-block text-muted"
+                                        >ID: {{ module.moduleId }}</small
+                                    >
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div
+                *ngIf="selectedRole && allModules.length === 0 && !isLoading"
+                class="text-center py-4"
+            >
+                <div class="alert alert-info">
+                    No modules available for this role
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,223 @@
+<app-navbar />
+
+<app-page-banner />
+
+<div class="pb-120 border-bottom"></div>
+
+<!-- Course Details -->
+<div class="course-details-area bg-f3f3f3 ptb-120">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-12">
+                <div class="course-details-sidebar">
+                    <div class="course-list">
+                        <h3 class="fw-semibold">Course</h3>
+                        <ul class="p-0 m-0 list-unstyled">
+                            <li>
+                                <a
+                                    routerLink="/course-details"
+                                    class="fw-medium active d-block"
+                                >
+                                    {{ course?.courseTitle }}
+                                </a>
+                            </li>
+                            <!-- <li>
+                                <a
+                                    routerLink="/course-details"
+                                    class="fw-medium d-block"
+                                >
+                                    Hindi Speaking
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    routerLink="/course-details"
+                                    class="fw-medium d-block"
+                                >
+                                    Urdu Speaking
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    routerLink="/course-details"
+                                    class="fw-medium d-block"
+                                >
+                                    German Speaking
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    routerLink="/course-details"
+                                    class="fw-medium d-block"
+                                >
+                                    Arabic Speaking
+                                </a>
+                            </li> -->
+                        </ul>
+                    </div>
+                    <div class="enroll-form">
+                        <form
+                            #registerForm="ngForm"
+                            (ngSubmit)="onSubmit(registerForm)"
+                        >
+                            <div class="form-group">
+                                <input
+                                    type="text"
+                                    class="form-control shadow-none bg-transparent"
+                                    [(ngModel)]="user.firstName"
+                                    name="firstName"
+                                    placeholder="First Name"
+                                    required
+                                />
+                            </div>
+                            <div class="form-group">
+                                <input
+                                    type="text"
+                                    class="form-control shadow-none bg-transparent"
+                                    [(ngModel)]="user.lastName"
+                                    name="lastName"
+                                    placeholder="Last Name"
+                                    required
+                                />
+                            </div>
+                            <div class="form-group">
+                                <input
+                                    type="email"
+                                    class="form-control shadow-none bg-transparent"
+                                    [(ngModel)]="user.email"
+                                    name="email"
+                                    placeholder="Email"
+                                    required
+                                />
+                            </div>
+
+                            <div class="form-group">
+                                <input
+                                    type="text"
+                                    class="form-control shadow-none bg-transparent"
+                                    [(ngModel)]="user.userName"
+                                    name="userName"
+                                    placeholder="Username"
+                                    required
+                                />
+                            </div>
+                            <!-- <div class="form-group">
+                                <select
+                                    class="form-select shadow-none bg-transparent"
+                                >
+                                    <option selected>Select Course</option>
+                                    <option value="1">English Speaking</option>
+                                    <option value="2">Hindi Speaking</option>
+                                    <option value="3">Urdu Speaking</option>
+                                    <option value="4">German Speaking</option>
+                                    <option value="5">Arabic Speaking</option>
+                                </select>
+                            </div> -->
+
+                            <div class="form-group position-relative">
+                                <input
+                                    [type]="showPassword ? 'text' : 'password'"
+                                    class="form-control shadow-none"
+                                    [(ngModel)]="user.password"
+                                    name="password"
+                                    placeholder="Password"
+                                    required
+                                />
+                                <button
+                                    type="button"
+                                    class="p-0 bg-transparent border-0"
+                                    (click)="togglePasswordVisibility()"
+                                >
+                                    <i
+                                        [class]="
+                                            showPassword
+                                                ? 'fa-regular fa-eye'
+                                                : 'fa-regular fa-eye-slash'
+                                        "
+                                    ></i>
+                                </button>
+                            </div>
+                            <div class="form-group position-relative">
+                                <input
+                                    [type]="showPassword ? 'text' : 'password'"
+                                    class="form-control shadow-none"
+                                    [(ngModel)]="user.confirmPassword"
+                                    name="confirmPassword"
+                                    placeholder="Confirm Password"
+                                    required
+                                />
+                            </div>
+                            <button
+                                type="submit"
+                                class="default-btn d-block w-100"
+                            >
+                                Enroll Now
+                            </button>
+                        </form>
+
+                        <app-payment></app-payment>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-12">
+                <div class="course-details-desc">
+                    <div class="image">
+                        <img
+                            src="images/course-details.jpg"
+                            alt="course-details-image"
+                        />
+                    </div>
+                    <h2 class="fw-semibold">{{ course?.courseTitle }}</h2>
+                    <p>
+                        {{ course?.description }}
+                    </p>
+                    <h3 class="fw-semibold">Course Duration:</h3>
+                    <ul>
+                        <li>
+                            Choose from flexible schedules:
+                            {{ course?.startDate }}
+                        </li>
+                        <li>
+                            {{ course?.endDate }}
+                        </li>
+                    </ul>
+                    <h3 class="fw-semibold">Course Objectives:</h3>
+                    <ol>
+                        <li>Develop fluency in spoken English.</li>
+                        <li>Enhance pronunciation and articulation.</li>
+                        <li>
+                            Build a strong foundation in grammar and vocabulary.
+                        </li>
+                        <li>Improve listening and comprehension skills.</li>
+                        <li>
+                            Gain confidence in diverse communication scenarios.
+                        </li>
+                    </ol>
+                    <div class="instructor d-flex align-items-center">
+                        <img
+                            src="images/users/user14.jpg"
+                            class="rounded-circle"
+                            alt="user-image"
+                        />
+                        <div>
+                            <h4 class="fw-medium">
+                                {{ instructor?.firstName }}
+                                {{ instructor?.lastName }}
+                            </h4>
+                            <span class="d-block">
+                                Instructor, {{ course?.courseTitle }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Course Details -->
+
+<app-contact />
+
+<app-footer />
+
+<app-back-to-top />

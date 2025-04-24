@@ -1,0 +1,159 @@
+.main-banner-area {
+    padding-top: 242px;
+}
+.main-banner-content {
+    h1 {
+        font-size: 72px;
+        line-height: 1.25;
+        margin-bottom: 38px;
+    }
+    p {
+        max-width: 615px;
+    }
+    .btn-box {
+        margin-top: 40px;
+
+        .default-btn {
+            margin: {
+                left: 20px;
+                right: 20px;
+            };
+            &:nth-child(2) {
+                z-index: 1;
+                position: relative;
+                color: var(--paragraphColor);
+                background-color: transparent;
+
+                &::before {
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    content: '';
+                    border-radius: 5px;
+                    position: absolute;
+                    border: 1px solid var(--paragraphColor);
+                }
+                &:hover {
+                    color: var(--whiteColor);
+                    background-color: var(--secondaryColor);
+
+                    &::before {
+                        border-block-end: var(--secondaryColor);
+                    }
+                }
+            }
+            &:first-child {
+                margin-left: 0;
+            }
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+    }
+}
+.main-banner-image {
+    margin-top: -15px;
+}
+
+/* Max width 767px */
+@media only screen and (max-width : 767px) {
+
+    .main-banner-area {
+        padding: {
+            top: 150px;
+            bottom: 60px;
+        };
+    }
+    .main-banner-content {
+        h1 {
+            font-size: 30px;
+            margin-bottom: 17px;
+        }
+        p {
+            max-width: 100%;
+        }
+        .btn-box {
+            margin-top: 25px;
+    
+            .default-btn {
+                margin: {
+                    left: 5px;
+                    right: 5px;
+                };
+            }
+        }
+    }
+    .main-banner-image {
+        margin-top: 30px;
+    }
+
+}
+
+/* Min width 576px to Max width 767px */
+@media only screen and (min-width : 576px) and (max-width : 767px) {}
+
+/* Min width 768px to Max width 991px */
+@media only screen and (min-width : 768px) and (max-width : 991px) {
+
+    .main-banner-area {
+        padding: {
+            top: 180px;
+            bottom: 80px;
+        };
+    }
+    .main-banner-content {
+        h1 {
+            font-size: 45px;
+            margin-bottom: 20px;
+        }
+        p {
+            max-width: 500px;
+        }
+        .btn-box {
+            margin-top: 30px;
+    
+            .default-btn {
+                margin: {
+                    left: 10px;
+                    right: 10px;
+                };
+            }
+        }
+    }
+    .main-banner-image {
+        margin-top: 30px;
+    }
+
+}
+
+/* Min width 992px to Max width 1199px */
+@media only screen and (min-width : 992px) and (max-width : 1199px) {
+
+    .main-banner-area {
+        padding-top: 190px;
+    }
+    .main-banner-content {
+        h1 {
+            font-size: 60px;
+            margin-bottom: 30px;
+        }
+        .btn-box {
+            margin-top: 35px;
+    
+            .default-btn {
+                margin: {
+                    left: 13px;
+                    right: 13px;
+                };
+            }
+        }
+    }
+
+}
+
+/* Min width 1200px to Max width 1399px */
+@media only screen and (min-width: 1200px) and (max-width: 1399px) {}
+
+/* Min width 1600px */
+@media only screen and (min-width: 1600px) {}

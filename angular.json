@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "E-Learning-Client": {
+    "lanklub": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,12 +17,10 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/e-learning-client",
+            "outputPath": "dist/lanklub",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -32,30 +30,60 @@
               }
             ],
             "styles": [
+              "node_modules/bootstrap/scss/bootstrap.scss",
+              "node_modules/bootstrap-icons/font/bootstrap-icons.css",
+
+              "node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.carousel.min.css",
+              "node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.theme.default.min.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "node_modules/magnific-popup/dist/magnific-popup.css",
+              "node_modules/datatables.net-dt/css/dataTables.dataTables.min.css",
+
+              
               "src/styles.scss"
+              
             ],
-            "scripts": [],
+            "scripts": [
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "node_modules/jquery/dist/jquery.min.js",
+"node_modules/datatables.net/js/dataTables.min.js"
+
+            ],
             "server": "src/main.server.ts",
-            "outputMode": "server",
+            "prerender": true,
             "ssr": {
-              "entry": "src/server.ts"
+              "entry": "server.ts"
             }
           },
           "configurations": {
             "production": {
+              "fileReplacements": [
+      {
+        "replace": "src/environments/environment.development.ts",
+        "with": "src/environments/environment.prod.ts"
+      }
+    ],
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "5MB",
+                  "maximumError": "10MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
+                  "maximumWarning": "1MB",
+                  "maximumError": "2MB"
                 }
               ],
               "outputHashing": "all"
+            },
+            "staging": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.development.ts",
+                  "with": "src/environments/environment.staging.ts"
+                }
+              ]
             },
             "development": {
               "optimization": false,
@@ -69,10 +97,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "E-Learning-Client:build:production"
+              "buildTarget": "lanklub:build:production"
             },
             "development": {
-              "buildTarget": "E-Learning-Client:build:development"
+              "buildTarget": "lanklub:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -83,10 +111,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -95,13 +120,22 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/styles.scss"
-            ],
+            "styles": ["src/styles.scss"],
             "scripts": []
           }
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "87bfb8bc-fb9d-42ce-995b-0442b9f2b263"
+  }
+}
+      }
+      }
+    }
+  },
+  "cli": {
+    "analytics": "87bfb8bc-fb9d-42ce-995b-0442b9f2b263"
   }
 }

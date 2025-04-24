@@ -1,0 +1,209 @@
+<div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <div class="bg-dark border-right" id="sidebar-wrapper">
+        <div class="sidebar-heading text-white p-3">
+            <h5 class="mb-0" style="color: white !important">E-Learning</h5>
+        </div>
+        <div class="list-group list-group-flush">
+            <a
+                routerLink="/admin/dashboard"
+                class="nav-link"
+                routerLinkActive="active"
+                class="list-group-item list-group-item-action bg-dark text-white"
+            >
+                <i class="bi bi-speedometer2 me-2"></i>Dashboard
+            </a>
+
+            <a
+                routerLink="/admin/configuration/users"
+                class="list-group-item list-group-item-action bg-dark text-white"
+            >
+                <i class="bi bi-people me-2"></i>Users
+            </a>
+
+            <!-- Configuration Dropdown -->
+            <a
+                class="list-group-item list-group-item-action bg-dark text-white d-flex justify-content-between align-items-center"
+                data-bs-toggle="collapse"
+                href="#configSubmenu"
+                role="button"
+                aria-expanded="false"
+                aria-controls="configSubmenu"
+            >
+                <span><i class="bi bi-gear me-2"></i>Configuration</span>
+                <i class="bi bi-chevron-down"></i>
+            </a>
+            <div class="collapse" id="configSubmenu">
+                <a
+                    routerLink="/admin/configuration/course-category"
+                    class="nav-link"
+                    routerLinkActive="active"
+                    class="list-group-item list-group-item-action bg-secondary text-white ps-5"
+                >
+                    Course Category
+                </a>
+
+                <a
+                    routerLink="/admin/configuration/course"
+                    class="nav-link"
+                    routerLinkActive="active"
+                    class="list-group-item list-group-item-action bg-secondary text-white ps-5"
+                >
+                    Course
+                </a>
+
+                <a
+                    routerLink="/admin/configuration/assign-course"
+                    class="nav-link"
+                    routerLinkActive="active"
+                    class="list-group-item list-group-item-action bg-secondary text-white ps-5"
+                >
+                    Assign Course
+                </a>
+
+                <a
+                    routerLink="/admin/configuration/instructor"
+                    class="list-group-item list-group-item-action bg-secondary text-white ps-5"
+                >
+                    Instructor
+                </a>
+            </div>
+
+            <a
+                routerLink="/admin/configuration/roles"
+                class="nav-link"
+                routerLinkActive="active"
+                class="list-group-item list-group-item-action bg-dark text-white"
+            >
+                <i class="bi bi-graph-up me-2"></i>Role
+            </a>
+
+            <a
+                routerLink="/admin/configuration/permissions"
+                class="nav-link"
+                routerLinkActive="active"
+                class="list-group-item list-group-item-action bg-dark text-white"
+            >
+                <i class="bi bi-gear me-2"></i>Permissions
+            </a>
+
+            <a
+                routerLink="/admin/configuration/app-module"
+                class="nav-link"
+                routerLinkActive="active"
+                class="list-group-item list-group-item-action bg-dark text-white"
+            >
+                <i class="bi bi-gear me-2"></i>App Module
+            </a>
+        </div>
+    </div>
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <!-- Top Navigation -->
+        <nav
+            class="navbar navbar-expand-lg navbar-light bg-light border-bottom"
+        >
+            <div class="container-fluid">
+                <button
+                    class="btn btn-sm btn-outline-secondary me-2"
+                    id="menu-toggle"
+                >
+                    <i class="bi bi-layout-text-sidebar"></i>
+                </button>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div
+                    class="collapse navbar-collapse"
+                    id="navbarSupportedContent"
+                >
+                    <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+                        <li class="nav-item dropdown">
+                            <a
+                                class="nav-link dropdown-toggle"
+                                href="#"
+                                id="navbarDropdown"
+                                role="button"
+                                data-bs-toggle="dropdown"
+                            >
+                                <i class="bi bi-bell"></i>
+                                <span class="badge bg-danger rounded-pill"
+                                    >3</span
+                                >
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <a class="dropdown-item" href="#"
+                                        >New message</a
+                                    >
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#"
+                                        >New enrollment</a
+                                    >
+                                </li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li>
+                                    <a class="dropdown-item" href="#"
+                                        >View all</a
+                                    >
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a
+                                class="nav-link dropdown-toggle"
+                                href="#"
+                                id="userDropdown"
+                                role="button"
+                                data-bs-toggle="dropdown"
+                            >
+                                <i class="bi bi-person-circle me-1"></i>Admin
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <a class="dropdown-item" href="#"
+                                        >Profile</a
+                                    >
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#"
+                                        >Settings</a
+                                    >
+                                </li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li>
+                                    <a class="dropdown-item" (click)="logout()"
+                                        >Logout</a
+                                    >
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="container-fluid p-4">
+            <router-outlet></router-outlet>
+        </div>
+        <!-- Footer -->
+        <div class="container-fluid p-4">
+            <hr />
+            <div class="text-center">
+                <p class="text-muted mb-0">
+                    © 2023 E-Learning. All rights reserved.
+                </p>
+            </div>
+        </div>
+        <!-- End Footer -->
+    </div>
+</div>

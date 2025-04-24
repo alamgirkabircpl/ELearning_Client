@@ -1,0 +1,554 @@
+<app-navbar />
+
+<app-page-banner />
+
+<div class="pb-120 border-bottom"></div>
+
+<!-- Courses -->
+<div class="courses-area bg-f3f3f3 pt-120 pb-95">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-4 col-md-6" *ngFor="let course of courses">
+                <div class="single-course-box mb-25 position-relative">
+                    <h3 class="fw-semibold">
+                        <a routerLink="/course-details">
+                            {{ course.courseCategoryName }}
+                        </a>
+                    </h3>
+                    <p>{{ course.courseDescription }}</p>
+                    <div class="instructor d-flex align-items-center">
+                        <img
+                            [src]="imagePrivew(course.instructorProfilePic)"
+                            class="rounded-circle"
+                            alt="user-image"
+                        />
+                        <div>
+                            <h4 class="fw-medium">
+                                {{ course.instructorName }}
+                            </h4>
+                            <span class="d-block"> Instructor </span>
+                        </div>
+                    </div>
+                    <button
+                        class="btn btn-primary"
+                        type="button"
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#courseDetails"
+                        (click)="
+                            handleOpenCourseDetails(
+                                course.courseUid,
+                                course.instructorRegId
+                            )
+                        "
+                    >
+                        View Details
+                    </button>
+                    <!-- <a
+                        [routerLink]="['/course-details']"
+                        [queryParams]="{
+                            courseUId: course.courseUid,
+                            instructorRegId: course.instructorRegId,
+                        }"
+                        class="default-btn"
+                    >
+                        Enroll Now
+                    </a> -->
+                </div>
+            </div>
+            <!-- <div class="col-xl-4 col-md-6">
+                <div class="single-course-box mb-25 position-relative">
+                    <h3 class="fw-semibold">
+                        <a routerLink="/course-details">
+                            Hindi Speaking
+                        </a>
+                    </h3>
+                    <p>
+                        Learn the Beauty of Hindi
+                    </p>
+                    <div class="instructor d-flex align-items-center">
+                        <img src="images/users/user2.jpg" class="rounded-circle" alt="user-image">
+                        <div>
+                            <h4 class="fw-medium">
+                                Michael Eller
+                            </h4>
+                            <span class="d-block">
+                                Instructor
+                            </span>
+                        </div>
+                    </div>
+                    <a routerLink="/course-details" class="default-btn">
+                        Enroll Now
+                    </a>
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-6">
+                <div class="single-course-box mb-25 position-relative">
+                    <h3 class="fw-semibold">
+                        <a routerLink="/course-details">
+                            Urdu Speaking
+                        </a>
+                    </h3>
+                    <p>
+                        Learn the Beauty of Urdu
+                    </p>
+                    <div class="instructor d-flex align-items-center">
+                        <img src="images/users/user3.jpg" class="rounded-circle" alt="user-image">
+                        <div>
+                            <h4 class="fw-medium">
+                                Charles Ferrell
+                            </h4>
+                            <span class="d-block">
+                                Instructor
+                            </span>
+                        </div>
+                    </div>
+                    <a routerLink="/course-details" class="default-btn">
+                        Enroll Now
+                    </a>
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-6">
+                <div class="single-course-box mb-25 position-relative">
+                    <h3 class="fw-semibold">
+                        <a routerLink="/course-details">
+                            English Speaking
+                        </a>
+                    </h3>
+                    <p>
+                        Learn the Beauty of English
+                    </p>
+                    <div class="instructor d-flex align-items-center">
+                        <img src="images/users/user1.jpg" class="rounded-circle" alt="user-image">
+                        <div>
+                            <h4 class="fw-medium">
+                                Steven James
+                            </h4>
+                            <span class="d-block">
+                                Instructor
+                            </span>
+                        </div>
+                    </div>
+                    <a routerLink="/course-details" class="default-btn">
+                        Enroll Now
+                    </a>
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-6">
+                <div class="single-course-box mb-25 position-relative">
+                    <h3 class="fw-semibold">
+                        <a routerLink="/course-details">
+                            Hindi Speaking
+                        </a>
+                    </h3>
+                    <p>
+                        Learn the Beauty of Hindi
+                    </p>
+                    <div class="instructor d-flex align-items-center">
+                        <img src="images/users/user2.jpg" class="rounded-circle" alt="user-image">
+                        <div>
+                            <h4 class="fw-medium">
+                                Michael Eller
+                            </h4>
+                            <span class="d-block">
+                                Instructor
+                            </span>
+                        </div>
+                    </div>
+                    <a routerLink="/course-details" class="default-btn">
+                        Enroll Now
+                    </a>
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-6">
+                <div class="single-course-box mb-25 position-relative">
+                    <h3 class="fw-semibold">
+                        <a routerLink="/course-details">
+                            Urdu Speaking
+                        </a>
+                    </h3>
+                    <p>
+                        Learn the Beauty of Urdu
+                    </p>
+                    <div class="instructor d-flex align-items-center">
+                        <img src="images/users/user3.jpg" class="rounded-circle" alt="user-image">
+                        <div>
+                            <h4 class="fw-medium">
+                                Charles Ferrell
+                            </h4>
+                            <span class="d-block">
+                                Instructor
+                            </span>
+                        </div>
+                    </div>
+                    <a routerLink="/course-details" class="default-btn">
+                        Enroll Now
+                    </a>
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-6">
+                <div class="single-course-box mb-25 position-relative">
+                    <h3 class="fw-semibold">
+                        <a routerLink="/course-details">
+                            English Speaking
+                        </a>
+                    </h3>
+                    <p>
+                        Learn the Beauty of English
+                    </p>
+                    <div class="instructor d-flex align-items-center">
+                        <img src="images/users/user1.jpg" class="rounded-circle" alt="user-image">
+                        <div>
+                            <h4 class="fw-medium">
+                                Steven James
+                            </h4>
+                            <span class="d-block">
+                                Instructor
+                            </span>
+                        </div>
+                    </div>
+                    <a routerLink="/course-details" class="default-btn">
+                        Enroll Now
+                    </a>
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-6">
+                <div class="single-course-box mb-25 position-relative">
+                    <h3 class="fw-semibold">
+                        <a routerLink="/course-details">
+                            Hindi Speaking
+                        </a>
+                    </h3>
+                    <p>
+                        Learn the Beauty of Hindi
+                    </p>
+                    <div class="instructor d-flex align-items-center">
+                        <img src="images/users/user2.jpg" class="rounded-circle" alt="user-image">
+                        <div>
+                            <h4 class="fw-medium">
+                                Michael Eller
+                            </h4>
+                            <span class="d-block">
+                                Instructor
+                            </span>
+                        </div>
+                    </div>
+                    <a routerLink="/course-details" class="default-btn">
+                        Enroll Now
+                    </a>
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-6">
+                <div class="single-course-box mb-25 position-relative">
+                    <h3 class="fw-semibold">
+                        <a routerLink="/course-details">
+                            Urdu Speaking
+                        </a>
+                    </h3>
+                    <p>
+                        Learn the Beauty of Urdu
+                    </p>
+                    <div class="instructor d-flex align-items-center">
+                        <img src="images/users/user3.jpg" class="rounded-circle" alt="user-image">
+                        <div>
+                            <h4 class="fw-medium">
+                                Charles Ferrell
+                            </h4>
+                            <span class="d-block">
+                                Instructor
+                            </span>
+                        </div>
+                    </div>
+                    <a routerLink="/course-details" class="default-btn">
+                        Enroll Now
+                    </a>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</div>
+<!-- End Courses -->
+<!-- Offcanvas -->
+<!-- Offcanvas -->
+<div
+    class="offcanvas offcanvas-end"
+    tabindex="-1"
+    id="courseDetails"
+    aria-labelledby="courseDetailsLabel"
+    style="width: 50%; top: 0; right: 0"
+>
+    <div class="offcanvas-header border-bottom">
+        <div>
+            <h2 class="offcanvas-title fw-bold mb-1" id="courseDetailsLabel">
+                Course Details
+            </h2>
+            <div class="d-flex align-items-center text-muted small">
+                <i class="bi bi-star-fill text-warning me-1"></i>
+                <span class="me-2">4.8 (120 reviews)</span>
+                <i class="bi bi-people-fill text-primary me-1"></i>
+                <span>245 students</span>
+            </div>
+        </div>
+        <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+        ></button>
+    </div>
+
+    <div class="offcanvas-body p-0">
+        <!-- Course Image -->
+        <div class="course-image-container">
+            <img
+                [src]="'assets/images/course-placeholder.jpg'"
+                class="img-fluid w-100"
+                alt="Course image"
+                style="max-height: 200px; object-fit: cover"
+            />
+            <div
+                class="course-price-badge bg-primary text-white px-3 py-2 rounded"
+            >
+                546546
+            </div>
+        </div>
+
+        <!-- Course Content -->
+        <div class="p-4">
+            <!-- Basic Info -->
+            <div class="mb-4">
+                <h3 class="fw-bold mb-3">{{ course?.courseTitle }}</h3>
+                <p class="text-muted">{{ course?.description }}</p>
+
+                <div class="d-flex flex-wrap gap-3 mb-3">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-clock text-primary me-2"></i>
+                        <span>Duration: {{ course?.endDate }} hours</span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-calendar text-primary me-2"></i>
+                        <span>Starts: {{ course?.startDate | date }}</span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-book text-primary me-2"></i>
+                        <span>{{ course?.startDate || 12 }} lessons</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Instructor -->
+            <div class="card instructor-card mb-4 border-0 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title fw-semibold mb-3">Instructor</h5>
+                    <div class="d-flex align-items-center">
+                        <img
+                            [src]="'assets/images/user-placeholder.jpg'"
+                            class="rounded-circle me-3"
+                            width="60"
+                            height="60"
+                            alt="Instructor"
+                        />
+                        <div>
+                            <h6 class="mb-1 fw-semibold">
+                                {{ instructor?.firstName }}
+                            </h6>
+                            <p class="small text-muted mb-1">
+                                Language Specialist
+                            </p>
+                            <div class="d-flex small text-warning">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-half"></i>
+                                <span class="text-muted ms-2">4.5</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course Curriculum -->
+            <div class="mb-4">
+                <h5 class="fw-semibold mb-3">What You'll Learn</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2 d-flex">
+                        <i
+                            class="bi bi-check-circle-fill text-success me-2 mt-1"
+                        ></i>
+                        <span
+                            >Develop fluency in spoken
+                            {{ course?.courseTitle }}</span
+                        >
+                    </li>
+                    <li class="mb-2 d-flex">
+                        <i
+                            class="bi bi-check-circle-fill text-success me-2 mt-1"
+                        ></i>
+                        <span>Enhance pronunciation and articulation</span>
+                    </li>
+                    <li class="mb-2 d-flex">
+                        <i
+                            class="bi bi-check-circle-fill text-success me-2 mt-1"
+                        ></i>
+                        <span
+                            >Build a strong foundation in grammar and
+                            vocabulary</span
+                        >
+                    </li>
+                    <li class="mb-2 d-flex">
+                        <i
+                            class="bi bi-check-circle-fill text-success me-2 mt-1"
+                        ></i>
+                        <span>Improve listening and comprehension skills</span>
+                    </li>
+                    <li class="mb-2 d-flex">
+                        <i
+                            class="bi bi-check-circle-fill text-success me-2 mt-1"
+                        ></i>
+                        <span
+                            >Gain confidence in diverse communication
+                            scenarios</span
+                        >
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Enroll Form -->
+            <div class="enroll-form">
+                <h5 class="fw-semibold mb-3">Enroll Now</h5>
+                <form
+                    #registerForm="ngForm"
+                    (ngSubmit)="onSubmit(registerForm)"
+                    class="needs-validation"
+                    novalidate
+                >
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="firstName"
+                                    [(ngModel)]="user.firstName"
+                                    name="firstName"
+                                    placeholder="First Name"
+                                    required
+                                />
+                                <label for="firstName">First Name</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="lastName"
+                                    [(ngModel)]="user.lastName"
+                                    name="lastName"
+                                    placeholder="Last Name"
+                                    required
+                                />
+                                <label for="lastName">Last Name</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-floating">
+                                <input
+                                    type="email"
+                                    class="form-control"
+                                    id="email"
+                                    [(ngModel)]="user.email"
+                                    name="email"
+                                    placeholder="Email"
+                                    required
+                                />
+                                <label for="email">Email</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-floating">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="userName"
+                                    [(ngModel)]="user.userName"
+                                    name="userName"
+                                    placeholder="Username"
+                                    required
+                                />
+                                <label for="userName">Username</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-floating position-relative">
+                                <input
+                                    [type]="showPassword ? 'text' : 'password'"
+                                    class="form-control"
+                                    id="password"
+                                    [(ngModel)]="user.password"
+                                    name="password"
+                                    placeholder="Password"
+                                    required
+                                />
+                                <label for="password">Password</label>
+                                <button
+                                    type="button"
+                                    class="btn btn-link position-absolute end-0 top-0 mt-3 me-2"
+                                    (click)="togglePasswordVisibility()"
+                                >
+                                    <i
+                                        [class]="
+                                            showPassword
+                                                ? 'bi bi-eye-fill'
+                                                : 'bi bi-eye-slash-fill'
+                                        "
+                                    ></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-floating">
+                                <input
+                                    [type]="showPassword ? 'text' : 'password'"
+                                    class="form-control"
+                                    id="confirmPassword"
+                                    [(ngModel)]="user.confirmPassword"
+                                    name="confirmPassword"
+                                    placeholder="Confirm Password"
+                                    required
+                                />
+                                <label for="confirmPassword"
+                                    >Confirm Password</label
+                                >
+                            </div>
+                        </div>
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary w-100 py-3 mt-4 fw-semibold"
+                    >
+                        Enroll Now for {{ course?.courseId }}
+                    </button>
+                </form>
+
+                <div class="text-center mt-3">
+                    <p class="small text-muted">
+                        By enrolling, you agree to our
+                        <a href="#">Terms of Service</a>
+                    </p>
+                </div>
+
+                <div class="mt-4">
+                    <app-payment></app-payment>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-contact />
+
+<app-footer />
+
+<app-back-to-top />

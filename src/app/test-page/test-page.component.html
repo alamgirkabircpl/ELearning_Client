@@ -1,0 +1,241 @@
+<div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <div class="bg-dark border-right" id="sidebar-wrapper">
+        <div class="sidebar-heading text-white p-3">
+            <h5 class="mb-0">Dashboard</h5>
+        </div>
+        <div class="list-group list-group-flush">
+            <a
+                href="#"
+                class="list-group-item list-group-item-action bg-dark text-white"
+            >
+                <i class="bi bi-speedometer2 me-2"></i>Dashboard
+            </a>
+            <a
+                href="#"
+                class="list-group-item list-group-item-action bg-dark text-white"
+            >
+                <i class="bi bi-people me-2"></i>Users
+            </a>
+            <a
+                href="#"
+                class="list-group-item list-group-item-action bg-dark text-white"
+            >
+                <i class="bi bi-book me-2"></i>Courses
+            </a>
+            <a
+                href="#"
+                class="list-group-item list-group-item-action bg-dark text-white"
+            >
+                <i class="bi bi-graph-up me-2"></i>Analytics
+            </a>
+            <a
+                href="#"
+                class="list-group-item list-group-item-action bg-dark text-white"
+            >
+                <i class="bi bi-gear me-2"></i>Settings
+            </a>
+        </div>
+    </div>
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <!-- Top Navigation -->
+        <nav
+            class="navbar navbar-expand-lg navbar-light bg-light border-bottom"
+        >
+            <div class="container-fluid">
+                <button
+                    class="btn btn-sm btn-outline-secondary me-2"
+                    id="menu-toggle"
+                >
+                    <i class="bi bi-list"></i>
+                </button>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div
+                    class="collapse navbar-collapse"
+                    id="navbarSupportedContent"
+                >
+                    <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+                        <li class="nav-item dropdown">
+                            <a
+                                class="nav-link dropdown-toggle"
+                                href="#"
+                                id="navbarDropdown"
+                                role="button"
+                                data-bs-toggle="dropdown"
+                            >
+                                <i class="bi bi-bell"></i>
+                                <span class="badge bg-danger rounded-pill"
+                                    >3</span
+                                >
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <a class="dropdown-item" href="#"
+                                        >New message</a
+                                    >
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#"
+                                        >New enrollment</a
+                                    >
+                                </li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li>
+                                    <a class="dropdown-item" href="#"
+                                        >View all</a
+                                    >
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a
+                                class="nav-link dropdown-toggle"
+                                href="#"
+                                id="userDropdown"
+                                role="button"
+                                data-bs-toggle="dropdown"
+                            >
+                                <i class="bi bi-person-circle me-1"></i>Admin
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <a class="dropdown-item" href="#"
+                                        >Profile</a
+                                    >
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#"
+                                        >Settings</a
+                                    >
+                                </li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li>
+                                    <a class="dropdown-item" href="#">Logout</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="container-fluid p-4">
+            <div class="row">
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="card bg-primary text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Users</h5>
+                            <h2 class="mb-0">1,254</h2>
+                            <p class="card-text">
+                                <small>+12% from last month</small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="card bg-success text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">Enrollments</h5>
+                            <h2 class="mb-0">568</h2>
+                            <p class="card-text">
+                                <small>+8% from last month</small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="card bg-info text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">Courses</h5>
+                            <h2 class="mb-0">42</h2>
+                            <p class="card-text">
+                                <small>+3 new this month</small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="card bg-warning text-dark">
+                        <div class="card-body">
+                            <h5 class="card-title">Revenue</h5>
+                            <h2 class="mb-0">$12,345</h2>
+                            <p class="card-text">
+                                <small>+15% from last month</small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-8 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Enrollment Trends</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-container" style="height: 300px">
+                                <!-- Chart will be rendered here -->
+                                <canvas #enrollmentChart></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Recent Enrollments</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                <li
+                                    class="list-group-item d-flex justify-content-between align-items-center"
+                                >
+                                    John Doe
+                                    <span class="badge bg-primary rounded-pill"
+                                        >Course 101</span
+                                    >
+                                </li>
+                                <li
+                                    class="list-group-item d-flex justify-content-between align-items-center"
+                                >
+                                    Jane Smith
+                                    <span class="badge bg-success rounded-pill"
+                                        >Course 205</span
+                                    >
+                                </li>
+                                <li
+                                    class="list-group-item d-flex justify-content-between align-items-center"
+                                >
+                                    Bob Johnson
+                                    <span class="badge bg-info rounded-pill"
+                                        >Course 310</span
+                                    >
+                                </li>
+                                <li
+                                    class="list-group-item d-flex justify-content-between align-items-center"
+                                >
+                                    Alice Brown
+                                    <span class="badge bg-warning rounded-pill"
+                                        >Course 102</span
+                                    >
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

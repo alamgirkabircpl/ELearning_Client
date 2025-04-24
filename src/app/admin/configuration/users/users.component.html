@@ -1,0 +1,149 @@
+<div class="container py-4">
+    <h2 class="mb-3">User Management</h2>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="mb-4 row g-3">
+        <div class="col-md-6">
+            <input
+                formControlName="firstName"
+                placeholder="First Name"
+                class="form-control"
+            />
+        </div>
+        <div class="col-md-6">
+            <input
+                formControlName="lastName"
+                placeholder="Last Name"
+                class="form-control"
+            />
+        </div>
+        <div class="col-md-6">
+            <input
+                formControlName="email"
+                placeholder="Email"
+                type="email"
+                class="form-control"
+            />
+        </div>
+        <div class="col-md-6">
+            <input
+                formControlName="userName"
+                placeholder="Username"
+                class="form-control"
+            />
+        </div>
+
+        <div class="col-md-6" *ngIf="!editingUserId()">
+            <input
+                formControlName="password"
+                placeholder="Password"
+                type="password"
+                class="form-control"
+            />
+        </div>
+        <div class="col-md-6" *ngIf="!editingUserId()">
+            <input
+                formControlName="confirmPassword"
+                placeholder="Confirm Password"
+                type="password"
+                class="form-control"
+            />
+        </div>
+
+        <div class="col-12">
+            <label>
+                <input type="checkbox" formControlName="isActive" />
+                Active
+            </label>
+        </div>
+
+        <div class="col-12">
+            <button class="btn btn-primary" type="submit">
+                {{ editingUserId() ? "Update" : "Create" }} User
+            </button>
+            <button
+                type="button"
+                class="btn btn-secondary ms-2"
+                (click)="resetForm()"
+            >
+                Reset
+            </button>
+        </div>
+    </form>
+
+    <!-- User Table -->
+    <table class="table table-bordered">
+        <thead class="table-light">
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Username</th>
+                <th>Status</th>
+                <th style="width: 160px">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of paginatedUsers">
+                <td>{{ user.firstName }} {{ user.lastName }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.userName }}</td>
+                <td>
+                    <span
+                        class="badge"
+                        [class.bg-success]="user.isActive"
+                        [class.bg-danger]="!user.isActive"
+                    >
+                        {{ user.isActive ? "Active" : "Inactive" }}
+                    </span>
+                </td>
+                <td>
+                    <button
+                        class="btn btn-sm btn-warning me-2"
+                        (click)="edit(user)"
+                    >
+                        <i class="fa fa-edit"></i>
+                    </button>
+                    <button
+                        class="btn btn-sm btn-primary me-2"
+                        (click)="ManagePermission(user)"
+                    >
+                        <i class="fa fa-wrench"></i>
+                    </button>
+                    <button
+                        class="btn btn-sm btn-danger"
+                        (click)="delete(user)"
+                    >
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <nav *ngIf="totalPages() > 1">
+        <ul class="pagination">
+            <li class="page-item" [class.disabled]="currentPage() === 1">
+                <a class="page-link" (click)="changePage(currentPage() - 1)"
+                    >Prev</a
+                >
+            </li>
+
+            <li
+                class="page-item"
+                *ngFor="let page of pageArray()"
+                [class.active]="currentPage() === page"
+            >
+                <a class="page-link" (click)="changePage(page)">{{ page }}</a>
+            </li>
+
+            <li
+                class="page-item"
+                [class.disabled]="currentPage() === totalPages()"
+            >
+                <a class="page-link" (click)="changePage(currentPage() + 1)"
+                    >Next</a
+                >
+            </li>
+        </ul>
+    </nav>
+</div>

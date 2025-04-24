@@ -1,0 +1,62 @@
+<div class="upcoming-courses-area border-top border-bottom bg-f3f3f3 ptb-120">
+    <div class="container">
+        <div class="section-title text-center">
+            <h2 class="fw-semibold mx-auto mb-0 text-uppercase">
+                Upcoming Courses These will be started soon
+            </h2>
+        </div>
+        <div class="upcoming-courses-slides mx-auto">
+            <owl-carousel-o [options]="upcomingCoursesSlides">
+                <ng-template carouselSlide *ngFor="let course of assignCourse">
+                    <div class="single-upcoming-course-box position-relative">
+                        <div class="image position-relative">
+                            <img
+                                src="images/shapes/bg-shape1.png"
+                                class="bg-image"
+                                alt="bg-image"
+                            />
+                            <img
+                                src="images/shapes/bg-shape2.png"
+                                class="bg-image"
+                                alt="bg-image"
+                            />
+                        </div>
+                        <div class="content">
+                            <h3 class="fw-semibold">{{ course.courseName }}</h3>
+                            <ul class="p-0 list-unstyled">
+                                <li class="fw-medium">
+                                    Price :
+                                    <span class="fw-normal">{{
+                                        course.price || "Advanced"
+                                    }}</span>
+                                </li>
+                                <li class="fw-medium">
+                                    Starting Date :
+                                    <span class="fw-normal"
+                                        >Comming Soon......</span
+                                    >
+                                </li>
+                            </ul>
+                            <div class="instructor d-flex align-items-center">
+                                <img
+                                    src="images/users/user5.jpg"
+                                    class="rounded-circle"
+                                    alt="user-image"
+                                />
+                                <div>
+                                    <h4 class="fw-medium">
+                                        {{ course.instructorName }}
+                                    </h4>
+                                    <span class="d-block"> Instructor </span>
+                                </div>
+                            </div>
+                        </div>
+                        <a routerLink="/course-details" class="default-btn"
+                            >Enroll Now</a
+                        >
+                    </div>
+                </ng-template>
+            </owl-carousel-o>
+        </div>
+    </div>
+</div>

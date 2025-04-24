@@ -1,0 +1,152 @@
+<div class="container mt-4">
+    <h2>Module Management</h2>
+
+    <!-- Module Form -->
+    <div class="card mb-4">
+        <div class="card-header">
+            {{ isEditing ? "Edit Module" : "Add New Module" }}
+        </div>
+        <div class="card-body">
+            <form #moduleForm="ngForm" (ngSubmit)="onSubmit()">
+                <div class="mb-3">
+                    <label for="moduleName" class="form-label"
+                        >Module Name</label
+                    >
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="moduleName"
+                        name="moduleName"
+                        [(ngModel)]="moduleName"
+                        required
+                        #nameInput="ngModel"
+                    />
+                    <div
+                        *ngIf="
+                            nameInput.invalid &&
+                            (nameInput.dirty || nameInput.touched)
+                        "
+                        class="text-danger"
+                    >
+                        Module name is required
+                    </div>
+                </div>
+                <button
+                    type="submit"
+                    class="btn btn-primary me-2"
+                    [disabled]="!moduleName.trim()"
+                >
+                    {{ isEditing ? "Update" : "Save" }}
+                </button>
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    (click)="resetForm()"
+                    *ngIf="isEditing"
+                >
+                    Cancel
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Loading Indicator -->
+    <div *ngIf="loading" class="text-center my-3">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <!-- Modules Table -->
+    <div class="card">
+        <div class="card-header">
+            Modules List
+            <span class="badge bg-secondary ms-2">Total: {{ totalItems }}</span>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>UID</th>
+                            <th>Module ID</th>
+                            <th>Name</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let module of modules">
+                            <td>{{ module.uid }}</td>
+                            <td>{{ module.moduleId }}</td>
+                            <td>{{ module.name }}</td>
+                            <td>
+                                <button
+                                    class="btn btn-sm btn-warning me-2"
+                                    (click)="editModule(module)"
+                                >
+                                    Edit
+                                </button>
+                                <button
+                                    class="btn btn-sm btn-danger"
+                                    (click)="deleteModule(module.uid)"
+                                >
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                        <tr *ngIf="modules.length === 0 && !loading">
+                            <td colspan="4" class="text-center">
+                                No modules found
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <div class="text-muted">
+                    Showing {{ getDisplayRange().start }} to
+                    {{ getDisplayRange().end }} of {{ totalItems }} entries
+                </div>
+                <nav *ngIf="totalItems > pageSize">
+                    <ul class="pagination mb-0">
+                        <li
+                            class="page-item"
+                            [class.disabled]="currentPage === 1"
+                        >
+                            <a
+                                class="page-link"
+                                (click)="onPageChange(currentPage - 1)"
+                            >
+                                &laquo; Previous
+                            </a>
+                        </li>
+                        <li
+                            class="page-item"
+                            *ngFor="let page of getPageNumbers()"
+                            [class.active]="page === currentPage"
+                        >
+                            <a class="page-link" (click)="onPageChange(page)">{{
+                                page
+                            }}</a>
+                        </li>
+                        <li
+                            class="page-item"
+                            [class.disabled]="
+                                currentPage === getPageNumbers().slice(-1)[0]
+                            "
+                        >
+                            <a
+                                class="page-link"
+                                (click)="onPageChange(currentPage + 1)"
+                            >
+                                Next &raquo;
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>

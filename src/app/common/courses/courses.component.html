@@ -1,0 +1,44 @@
+<!-- Default -->
+<div
+    class="courses-area border-bottom border-top bg-f3f3f3 pt-120 pb-95"
+    [ngClass]="{
+        'd-none': router.url === '/index-2' || router.url === '/index-3'
+    }"
+>
+    <div class="container">
+        <div class="section-title position-relative">
+            <h2 class="mb-0 fw-semibold text-uppercase">Our Popular Courses</h2>
+            <a routerLink="/courses" class="default-btn">
+                Explore All Courses
+            </a>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-xl-4 col-md-6" *ngFor="let course of assignCourse">
+                <div class="single-course-box mb-25 position-relative">
+                    <h3 class="fw-semibold">
+                        <a routerLink="/course-details">
+                            {{ course.courseName }}
+                        </a>
+                    </h3>
+                    <p>{{ course.description }}</p>
+                    <div class="instructor d-flex align-items-center">
+                        <img
+                            src="images/users/user1.jpg"
+                            class="rounded-circle"
+                            alt="user-image"
+                        />
+                        <div>
+                            <h4 class="fw-medium">
+                                {{ course.instructorName }}
+                            </h4>
+                            <span class="d-block"> Instructor </span>
+                        </div>
+                    </div>
+                    <a routerLink="/course-details" class="default-btn">
+                        Enroll Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

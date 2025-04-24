@@ -1,0 +1,406 @@
+<!-- Default -->
+<div
+    class="team-area pt-120 pb-95"
+    [ngClass]="{
+        'd-none': router.url === '/index-2' || router.url === '/index-3'
+    }"
+>
+    <div class="container">
+        <div class="section-title text-center">
+            <h2 class="fw-semibold mx-auto mb-0 text-uppercase">
+                Meet the Passionate Team Driving Excellence at
+            </h2>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-3 col-sm-6" *ngFor="let team of instructors">
+                <div
+                    class="single-team-member text-center mb-25 position-relative"
+                >
+                    <img
+                        [src]="
+                            getImagePath(
+                                team.profilePicture || 'images/teams/team1.jpg'
+                            )
+                        "
+                        alt="team-image"
+                    />
+                    <div class="content">
+                        <h3 class="fw-semibold">
+                            <a routerLink="/team-details">
+                                {{ team.fullName }}
+                            </a>
+                        </h3>
+                        <span class="d-block"> Instructor </span>
+                        <ul class="socials p-0 mb-0 list-unstyled">
+                            <li class="d-inline-block">
+                                <a
+                                    href="#"
+                                    target="_blank"
+                                    class="d-block rounded-circle"
+                                >
+                                    <i class="fa-brands fa-facebook-f"></i>
+                                </a>
+                            </li>
+                            <li class="d-inline-block">
+                                <a
+                                    href="#"
+                                    target="_blank"
+                                    class="d-block rounded-circle"
+                                >
+                                    <i class="fa-brands fa-x-twitter"></i>
+                                </a>
+                            </li>
+                            <li class="d-inline-block">
+                                <a
+                                    href="#"
+                                    target="_blank"
+                                    class="d-block rounded-circle"
+                                >
+                                    <i class="fa-brands fa-linkedin-in"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Only for Home Demo - 2 -->
+<div class="team-area pt-120 pb-95" *ngIf="router.url === '/index-2'">
+    <div class="container">
+        <div
+            class="section-title d-md-flex align-items-center justify-content-between"
+        >
+            <div class="title">
+                <h2 class="fs-32 mb-0 fw-semibold text-uppercase">
+                    Meet the Passionate Team Driving Excellence
+                </h2>
+            </div>
+            <a
+                routerLink="/team"
+                class="link-btn d-inline-block text-center rounded-circle fw-medium"
+            >
+                <span class="d-block"> View All Members </span>
+                <img
+                    src="images/icons/diagonal-arrow-right-up.svg"
+                    alt="diagonal-arrow-right-up"
+                />
+            </a>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-4 col-sm-6">
+                <div class="single-team-box mb-25">
+                    <div class="image position-relative text-center">
+                        <img src="images/teams/team5.jpg" alt="team-image" />
+                        <ul class="socials p-0 mb-0 list-unstyled">
+                            <li class="d-inline-block">
+                                <a
+                                    href="#"
+                                    target="_blank"
+                                    class="d-block rounded-circle"
+                                >
+                                    <i class="fa-brands fa-facebook-f"></i>
+                                </a>
+                            </li>
+                            <li class="d-inline-block">
+                                <a
+                                    href="#"
+                                    target="_blank"
+                                    class="d-block rounded-circle"
+                                >
+                                    <i class="fa-brands fa-x-twitter"></i>
+                                </a>
+                            </li>
+                            <li class="d-inline-block">
+                                <a
+                                    href="#"
+                                    target="_blank"
+                                    class="d-block rounded-circle"
+                                >
+                                    <i class="fa-brands fa-linkedin-in"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <h3 class="fw-semibold">
+                        <a routerLink="/team-details"> Juan Lawrence </a>
+                    </h3>
+                    <span class="designation d-block"> Instructor </span>
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-6">
+                <div class="single-team-box mb-25">
+                    <div class="image position-relative text-center">
+                        <img src="images/teams/team6.jpg" alt="team-image" />
+                        <ul class="socials p-0 mb-0 list-unstyled">
+                            <li class="d-inline-block">
+                                <a
+                                    href="#"
+                                    target="_blank"
+                                    class="d-block rounded-circle"
+                                >
+                                    <i class="fa-brands fa-facebook-f"></i>
+                                </a>
+                            </li>
+                            <li class="d-inline-block">
+                                <a
+                                    href="#"
+                                    target="_blank"
+                                    class="d-block rounded-circle"
+                                >
+                                    <i class="fa-brands fa-x-twitter"></i>
+                                </a>
+                            </li>
+                            <li class="d-inline-block">
+                                <a
+                                    href="#"
+                                    target="_blank"
+                                    class="d-block rounded-circle"
+                                >
+                                    <i class="fa-brands fa-linkedin-in"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <h3 class="fw-semibold">
+                        <a routerLink="/team-details"> Sidney Ray </a>
+                    </h3>
+                    <span class="designation d-block"> Instructor </span>
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-6">
+                <div class="single-team-box mb-25">
+                    <div class="image position-relative text-center">
+                        <img src="images/teams/team7.jpg" alt="team-image" />
+                        <ul class="socials p-0 mb-0 list-unstyled">
+                            <li class="d-inline-block">
+                                <a
+                                    href="#"
+                                    target="_blank"
+                                    class="d-block rounded-circle"
+                                >
+                                    <i class="fa-brands fa-facebook-f"></i>
+                                </a>
+                            </li>
+                            <li class="d-inline-block">
+                                <a
+                                    href="#"
+                                    target="_blank"
+                                    class="d-block rounded-circle"
+                                >
+                                    <i class="fa-brands fa-x-twitter"></i>
+                                </a>
+                            </li>
+                            <li class="d-inline-block">
+                                <a
+                                    href="#"
+                                    target="_blank"
+                                    class="d-block rounded-circle"
+                                >
+                                    <i class="fa-brands fa-linkedin-in"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <h3 class="fw-semibold">
+                        <a routerLink="/team-details"> Suzanne Clanton </a>
+                    </h3>
+                    <span class="designation d-block"> Instructor </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Only for Home Demo - 3 -->
+<div class="team-area pt-120 pb-95" *ngIf="router.url === '/index-3'">
+    <div class="container">
+        <div class="section-title mb-40 text-center">
+            <h2 class="fw-semibold fs-32 mx-auto mb-0 text-uppercase">
+                Meet the Passionate Team Driving Excellence
+            </h2>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-4 col-sm-6">
+                <div class="team-box position-relative mb-25">
+                    <img src="images/teams/team17.jpg" alt="team-image" />
+                    <div
+                        class="content d-flex align-items-center justify-content-between"
+                    >
+                        <div>
+                            <h3 class="fw-semibold">
+                                <a routerLink="/team-details">
+                                    Juan Lawrence
+                                </a>
+                            </h3>
+                            <span class="d-block"> Instructor </span>
+                        </div>
+                        <button
+                            type="button"
+                            class="link-btn d-inline-block p-0 border-0 position-relative rounded-circle"
+                        >
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                    <ul class="socials mb-0 list-unstyled">
+                        <li>
+                            <a
+                                href="#"
+                                class="d-inline-block rounded-circle"
+                                target="_blank"
+                            >
+                                <i class="fa-brands fa-linkedin-in"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                href="#"
+                                class="d-inline-block rounded-circle"
+                                target="_blank"
+                            >
+                                <i class="fa-brands fa-x-twitter"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                href="#"
+                                class="d-inline-block rounded-circle"
+                                target="_blank"
+                            >
+                                <i class="fa-brands fa-facebook-f"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <button
+                                type="button"
+                                class="link-btn d-inline-block p-0 border-0 position-relative rounded-circle"
+                            >
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-6">
+                <div class="team-box position-relative mb-25">
+                    <img src="images/teams/team18.jpg" alt="team-image" />
+                    <div
+                        class="content d-flex align-items-center justify-content-between"
+                    >
+                        <div>
+                            <h3 class="fw-semibold">
+                                <a routerLink="/team-details"> Sidney Ray </a>
+                            </h3>
+                            <span class="d-block"> Instructor </span>
+                        </div>
+                        <button
+                            type="button"
+                            class="link-btn d-inline-block p-0 border-0 position-relative rounded-circle"
+                        >
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                    <ul class="socials mb-0 list-unstyled">
+                        <li>
+                            <a
+                                href="#"
+                                class="d-inline-block rounded-circle"
+                                target="_blank"
+                            >
+                                <i class="fa-brands fa-linkedin-in"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                href="#"
+                                class="d-inline-block rounded-circle"
+                                target="_blank"
+                            >
+                                <i class="fa-brands fa-x-twitter"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                href="#"
+                                class="d-inline-block rounded-circle"
+                                target="_blank"
+                            >
+                                <i class="fa-brands fa-facebook-f"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <button
+                                type="button"
+                                class="link-btn d-inline-block p-0 border-0 position-relative rounded-circle"
+                            >
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-6">
+                <div class="team-box position-relative mb-25">
+                    <img src="images/teams/team19.jpg" alt="team-image" />
+                    <div
+                        class="content d-flex align-items-center justify-content-between"
+                    >
+                        <div>
+                            <h3 class="fw-semibold">
+                                <a routerLink="/team-details">
+                                    Suzanne Clanton
+                                </a>
+                            </h3>
+                            <span class="d-block"> Instructor </span>
+                        </div>
+                        <button
+                            type="button"
+                            class="link-btn d-inline-block p-0 border-0 position-relative rounded-circle"
+                        >
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                    <ul class="socials mb-0 list-unstyled">
+                        <li>
+                            <a
+                                href="#"
+                                class="d-inline-block rounded-circle"
+                                target="_blank"
+                            >
+                                <i class="fa-brands fa-linkedin-in"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                href="#"
+                                class="d-inline-block rounded-circle"
+                                target="_blank"
+                            >
+                                <i class="fa-brands fa-x-twitter"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                href="#"
+                                class="d-inline-block rounded-circle"
+                                target="_blank"
+                            >
+                                <i class="fa-brands fa-facebook-f"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <button
+                                type="button"
+                                class="link-btn d-inline-block p-0 border-0 position-relative rounded-circle"
+                            >
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

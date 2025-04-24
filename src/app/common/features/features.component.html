@@ -1,0 +1,30 @@
+<!-- Default -->
+<div
+    class="features-area pt-120 pb-95 position-relative z-1 border-top border-bottom bg-f6ffeb"
+    [ngClass]="{ 'd-none': router.url === '/index-2' }"
+>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-3 col-sm-6" *ngFor="let course of courses">
+                <div
+                    class="single-feature-box text-center mb-25 position-relative z-1"
+                >
+                    <h3 class="fw-semibold">{{ course.courseTitle }}</h3>
+                    <p class="mx-auto">{{ course.description }}</p>
+                    <a
+                        routerLink="/courses"
+                        class="link-btn position-relative z-1 d-inline-block rounded-circle text-center"
+                    >
+                        <img
+                            src="images/icons/diagonal-arrow-right-up.svg"
+                            alt="diagonal-arrow-right-up"
+                        />
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="shape3">
+        <img src="images/shapes/shape3.svg" alt="shape3" />
+    </div>
+</div>

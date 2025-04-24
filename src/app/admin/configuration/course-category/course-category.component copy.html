@@ -1,0 +1,169 @@
+<div class="container mt-4">
+    <h3>{{ isEditMode ? "Edit" : "Add" }} Course Category</h3>
+
+    <!-- Loading Spinner -->
+    <div *ngIf="isLoading" class="text-center my-4">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-2">Processing request...</p>
+    </div>
+
+    <form (ngSubmit)="saveCategory(form)" #form="ngForm" class="mb-4">
+        <div class="mb-3">
+            <label class="form-label">Title*</label>
+            <input
+                class="form-control"
+                [(ngModel)]="model.title"
+                name="title"
+                required
+                #title="ngModel"
+                [class.is-invalid]="
+                    title.invalid &&
+                    (title.dirty || title.touched || formSubmitted)
+                "
+            />
+            <div
+                *ngIf="
+                    title.invalid &&
+                    (title.dirty || title.touched || formSubmitted)
+                "
+                class="invalid-feedback"
+            >
+                Title is required
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Description*</label>
+            <textarea
+                class="form-control"
+                [(ngModel)]="model.description"
+                name="description"
+                required
+                #description="ngModel"
+                [class.is-invalid]="
+                    description.invalid &&
+                    (description.dirty || description.touched || formSubmitted)
+                "
+                rows="3"
+            ></textarea>
+            <div
+                *ngIf="
+                    description.invalid &&
+                    (description.dirty || description.touched || formSubmitted)
+                "
+                class="invalid-feedback"
+            >
+                Description is required
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+            <span
+                *ngIf="isLoading"
+                class="spinner-border spinner-border-sm me-1"
+            ></span>
+            {{ isEditMode ? "Update" : "Create" }}
+        </button>
+
+        <button
+            type="button"
+            class="btn btn-secondary ms-2"
+            (click)="resetForm()"
+            [disabled]="isLoading"
+        >
+            Reset
+        </button>
+    </form>
+
+    <h4>Course Categories</h4>
+
+    <div *ngIf="categories.length === 0 && !isLoading" class="alert alert-info">
+        No categories found. Create one to get started!
+    </div>
+
+    <div *ngIf="isLoading && categories.length === 0" class="text-center my-4">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading categories...</span>
+        </div>
+    </div>
+
+    <table
+        *ngIf="categories.length > 0"
+        class="table table-bordered table-striped"
+    >
+        <thead class="table-dark">
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th style="width: 150px">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let cat of categories">
+                <td>{{ cat.title }}</td>
+                <td>{{ cat.description }}</td>
+                <td>
+                    <button
+                        class="btn btn-sm btn-warning me-2"
+                        (click)="editCategory(cat)"
+                        [disabled]="isLoading"
+                    >
+                        Edit
+                    </button>
+                    <button
+                        class="btn btn-sm btn-danger"
+                        (click)="deleteCategory(cat)"
+                        [disabled]="isLoading"
+                    >
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <nav *ngIf="categories.length > 0 && totalItems > pageSize" class="mt-3">
+        <ul class="pagination justify-content-end">
+            <li class="page-item" [class.disabled]="pageNumber === 1">
+                <button
+                    class="page-link"
+                    (click)="onPageChange(pageNumber - 1)"
+                    [disabled]="isLoading"
+                >
+                    Previous
+                </button>
+            </li>
+            <li class="page-item">
+                <span class="page-link">
+                    Page {{ pageNumber }} of
+                    {{ totalItems / pageSize }}
+                </span>
+            </li>
+            <li
+                class="page-item"
+                [class.disabled]="pageNumber >= totalItems / pageSize"
+            >
+                <button
+                    class="page-link"
+                    (click)="onPageChange(pageNumber + 1)"
+                    [disabled]="isLoading"
+                >
+                    Next
+                </button>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="p-2">
+        <app-enhanced-data-table
+            [title]="'Employee Data'"
+            [columns]="columns"
+            [data]="data"
+            [options]="tableOptions"
+            [exportOptions]="exportOptions"
+        ></app-enhanced-data-table>
+    </div>
+</div>

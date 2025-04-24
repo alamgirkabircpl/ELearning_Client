@@ -1,0 +1,301 @@
+.banner-area {
+    padding: {
+        top: 205px;
+        bottom: 120px;
+    };
+    &::before {
+        top: 0;
+        width: 1px;
+        z-index: -1;
+        content: '';
+        right: 22.7%;
+        height: 59.1%;
+        position: absolute;
+        background: var(--paragraphColor);
+    }
+    &::after {
+        left: 0;
+        top: 59%;
+        z-index: -1;
+        height: 1px;
+        content: '';
+        width: 77.3%;
+        position: absolute;
+        background: var(--paragraphColor);
+    }
+}
+.banner-text {
+    text-align: end;
+    max-width: 935px;
+
+    h1 {
+        line-height: 1.24;
+        font-size: 72px;
+
+        span {
+            &:nth-child(2) {
+                text-align: start;
+                margin-left: -10px;
+            }
+            &:nth-child(3) {
+                margin-right: 5px;
+            }
+        }
+    }
+}
+.banner-image {
+    margin: {
+        top: 50px;
+        bottom: 50px;
+    };    
+    img {
+        border-radius: 50px;
+    }
+}
+.banner-content {
+    .btn-box {
+        margin-top: 40px;
+
+        .video-btn {
+            margin-left: 40px;
+            
+            span {
+                width: 60px;
+                height: 60px;
+                line-height: 56px;
+                margin-right: 8px;
+                transition: var(--transition);
+                border: 1px solid var(--blackColor);
+            }
+            &:hover {
+                span {
+                    background-color: var(--primaryColor);
+                    border-color: var(--primaryColor);
+                }
+            }
+        }
+    }
+    .link-btn {
+        width: 160px;
+        height: 160px;
+        padding-top: 34px;
+        background-color: var(--primaryColor);
+
+        span {
+            margin-bottom: 5px;
+        }
+        img {
+            transition: var(--transition);
+        }
+        &:hover {
+            img {
+                transform: translateY(5px);
+            }
+        }
+    }
+}
+
+/* Max width 767px */
+@media only screen and (max-width : 767px) {
+
+    .banner-area {
+        padding: {
+            top: 150px;
+            bottom: 60px;
+        };
+        &::before, &::after {
+            display: none;
+        }
+    }
+    .banner-text {
+        text-align: start;
+        max-width: 100%;
+    
+        h1 {
+            font-size: 30px;
+    
+            span {
+                display: inline !important;
+
+                &:nth-child(2) {
+                    margin-left: 0;
+                }
+                &:nth-child(3) {
+                    margin-right: 0;
+                }
+            }
+        }
+    }
+    .banner-image {
+        margin: {
+            top: 22px;
+            bottom: 22px;
+        };    
+        img {
+            border-radius: 30px;
+        }
+    }
+    .banner-content {
+        .btn-box {
+            margin-top: 22px;
+    
+            .video-btn {
+                margin-left: 15px;
+                
+                span {
+                    width: 47px;
+                    height: 47px;
+                    line-height: 44px;
+                }
+            }
+        }
+        .link-btn {
+            width: 120px;
+            height: 120px;
+            margin-top: 22px;
+            padding-top: 24px;
+    
+            span {
+                margin-bottom: 10px;
+                max-width: 130px;
+                margin: {
+                    left: auto;
+                    right: auto;
+                };
+            }
+        }
+    }
+
+}
+
+/* Min width 576px to Max width 767px */
+@media only screen and (min-width : 576px) and (max-width : 767px) {}
+
+/* Min width 768px to Max width 991px */
+@media only screen and (min-width : 768px) and (max-width : 991px) {
+
+    .banner-area {
+        padding: {
+            top: 180px;
+            bottom: 80px;
+        };
+        &::before, &::after {
+            display: none;
+        }
+    }
+    .banner-text {
+        max-width: 620px;
+    
+        h1 {
+            font-size: 45px;
+    
+            span {
+                &:nth-child(2) {
+                    margin-left: 0;
+                }
+            }
+        }
+    }
+    .banner-image {
+        margin: {
+            top: 40px;
+            bottom: 40px;
+        };
+    }
+    .banner-content {
+        .btn-box {
+            margin-top: 25px;
+    
+            .video-btn {
+                margin-left: 30px;
+                
+                span {
+                    width: 50px;
+                    height: 50px;
+                    line-height: 48px;
+                }
+            }
+        }
+        .link-btn {
+            width: 140px;
+            height: 140px;
+        }
+    }
+    
+}
+
+/* Min width 992px to Max width 1199px */
+@media only screen and (min-width : 992px) and (max-width : 1199px) {
+
+    .banner-area {
+        padding: {
+            top: 190px;
+            bottom: 100px;
+        };
+        &::before, &::after {
+            display: none;
+        }
+    }
+    .banner-text {
+        max-width: 800px;
+    
+        h1 {
+            font-size: 60px;
+    
+            span {
+                &:nth-child(2) {
+                    margin-left: 0;
+                }
+            }
+        }
+    }
+    .banner-content {
+        .btn-box {
+            margin-top: 30px;
+    
+            .video-btn {
+                margin-left: 30px;
+                
+                span {
+                    width: 55px;
+                    height: 55px;
+                    line-height: 50px;
+                }
+            }
+        }
+        .link-btn {
+            width: 150px;
+            height: 150px;
+            padding-top: 34px;
+        }
+    }
+
+}
+
+/* Min width 1200px to Max width 1399px */
+@media only screen and (min-width: 1200px) and (max-width: 1399px) {
+
+    .banner-area {
+        &::before {
+            right: 12.87%;
+        }
+        &::after {
+            width: 87.2%;
+        }
+    }
+
+}
+
+/* Min width 1600px */
+@media only screen and (min-width: 1600px) {
+
+    .banner-area {
+        &::before {
+            right: 30.7%;
+        }
+        &::after {
+            width: 69.3%;
+        }
+    }
+
+}

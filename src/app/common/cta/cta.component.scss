@@ -1,0 +1,368 @@
+.cta-area {
+    &.bg-color {
+        background-color: var(--secondaryColor);
+    }
+}
+.cta-content {
+    background-color: #1c1c1c;
+    margin-right: -103px;
+    padding: {
+        top: 100px;
+        right: 60px;
+        bottom: 100px;
+    }
+    .content {
+        margin-left: auto;
+        max-width: 696px;
+
+        h2 {
+            color: var(--whiteColor);
+            margin-bottom: 28px;
+            line-height: 1.25;
+            font-size: 48px;
+        }
+        p {
+            color: #f3f3f3;
+        }
+        .btn-box {
+            margin-top: 40px;
+
+            .default-btn {
+                &:nth-child(2) {
+                    z-index: 1;
+                    margin-left: 40px;
+                    position: relative;
+                    color: var(--whiteColor);
+                    background-color: transparent;
+
+                    &::before {
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        content: "";
+                        border-radius: 5px;
+                        position: absolute;
+                        transition: var(--transition);
+                        border: 1px solid var(--whiteColor);
+                    }
+                    &:hover {
+                        background-color: var(--secondaryColor);
+
+                        &::before {
+                            border-color: var(--secondaryColor);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+.cta-image {
+    height: 100%;
+    margin-left: 103px;
+    background: {
+        image: url(../../../../public/images/staticImage/cta.jpg);
+        position: center center;
+        repeat: no-repeat;
+        size: cover;
+    }
+    img {
+        display: none;
+    }
+}
+.cta-content-two {
+    max-width: 695px;
+    padding: {
+        top: 100px;
+        right: 45px;
+        bottom: 180px;
+    }
+    margin: {
+        left: auto;
+        right: -45px;
+    }
+    h2 {
+        font-size: 32px;
+        line-height: 1.5;
+    }
+    .link-btn {
+        bottom: 30px;
+        width: 160px;
+        height: 160px;
+        right: -80px;
+        padding-top: 50px;
+        position: absolute;
+        color: var(--blackColor);
+        background-color: var(--primaryColor);
+
+        span {
+            margin-bottom: 5px;
+        }
+        img {
+            transition: var(--transition);
+        }
+        &:hover {
+            color: var(--blackColor);
+
+            img {
+                transform: translateY(5px);
+            }
+        }
+    }
+}
+.cta-image-two {
+    height: 100%;
+    margin-left: 45px;
+    background: {
+        image: url(../../../../public/images/cta2.jpg);
+        position: center center;
+        repeat: no-repeat;
+        size: cover;
+    }
+    img {
+        display: none;
+    }
+}
+
+/* Max width 767px */
+@media only screen and (max-width: 767px) {
+    .cta-area {
+        .container-fluid {
+            padding: {
+                left: calc(var(--bs-gutter-x) * 0.5) !important;
+                right: calc(var(--bs-gutter-x) * 0.5) !important;
+            }
+        }
+    }
+    .cta-content {
+        margin-right: 0;
+        padding: 60px 15px;
+
+        .content {
+            margin-left: 0;
+            max-width: 100%;
+
+            h2 {
+                margin-bottom: 18px;
+                font-size: 25px;
+            }
+            .btn-box {
+                margin-top: 25px;
+
+                .default-btn {
+                    &:nth-child(2) {
+                        margin-left: 15px;
+                    }
+                }
+            }
+        }
+    }
+    .cta-image {
+        height: auto;
+        margin-left: 0;
+        background: unset !important;
+
+        img {
+            display: inline;
+        }
+    }
+    .cta-content-two {
+        max-width: 100%;
+        padding: {
+            right: 0;
+            top: 60px;
+            bottom: 30px;
+        }
+        margin: {
+            left: 0;
+            right: 0;
+        }
+        h2 {
+            font-size: 25px;
+            line-height: 1.4;
+        }
+        .link-btn {
+            right: 0;
+            bottom: 0;
+            width: 110px;
+            height: 110px;
+            margin-top: 20px;
+            padding-top: 35px;
+            position: relative;
+        }
+    }
+    .cta-image-two {
+        height: auto;
+        margin-left: 0;
+        padding-bottom: 60px;
+        background-image: unset !important;
+
+        img {
+            display: inline;
+        }
+    }
+}
+
+/* Min width 576px to Max width 767px */
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+    .cta-area {
+        .container-fluid {
+            max-width: 540px;
+        }
+    }
+    .cta-content {
+        .content {
+            max-width: 540px;
+            margin: {
+                left: auto;
+                right: auto;
+            }
+        }
+    }
+}
+
+/* Min width 768px to Max width 991px */
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    .cta-area {
+        .container-fluid {
+            max-width: 720px;
+            padding: {
+                left: calc(var(--bs-gutter-x) * 0.5) !important;
+                right: calc(var(--bs-gutter-x) * 0.5) !important;
+            }
+        }
+    }
+    .cta-content {
+        margin-right: 0;
+        padding: 80px 15px;
+
+        .content {
+            max-width: 720px;
+            margin: {
+                left: auto;
+                right: auto;
+            }
+            h2 {
+                margin-bottom: 22px;
+                font-size: 36px;
+            }
+            .btn-box {
+                margin-top: 30px;
+
+                .default-btn {
+                    &:nth-child(2) {
+                        margin-left: 20px;
+                    }
+                }
+            }
+        }
+    }
+    .cta-image {
+        height: auto;
+        margin-left: 0;
+        background: unset !important;
+
+        img {
+            display: inline;
+        }
+    }
+    .cta-content-two {
+        max-width: 100%;
+        padding: {
+            right: 0;
+            top: 80px;
+            bottom: 30px;
+        }
+        margin: {
+            left: 0;
+            right: 0;
+        }
+        h2 {
+            line-height: 1.4;
+        }
+        .link-btn {
+            right: 0;
+            bottom: 0;
+            width: 130px;
+            height: 130px;
+            margin-top: 25px;
+            padding-top: 40px;
+            position: relative;
+        }
+    }
+    .cta-image-two {
+        height: auto;
+        margin-left: 0;
+        padding-bottom: 80px;
+        background-image: unset !important;
+
+        img {
+            display: inline;
+        }
+    }
+}
+
+/* Min width 992px to Max width 1199px */
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+    .cta-content {
+        margin-right: -80px;
+        padding: 80px 25px;
+
+        .content {
+            margin-left: 0;
+            max-width: 100%;
+
+            h2 {
+                margin-bottom: 20px;
+                font-size: 42px;
+            }
+            .btn-box {
+                margin-top: 30px;
+
+                .default-btn {
+                    &:nth-child(2) {
+                        margin-left: 25px;
+                    }
+                }
+            }
+        }
+    }
+    .cta-image {
+        margin-left: 80px;
+    }
+    .cta-content-two {
+        max-width: 512px;
+        padding: {
+            top: 100px;
+            right: 25px;
+            bottom: 150px;
+        }
+        h2 {
+            line-height: 1.4;
+        }
+    }
+}
+
+/* Min width 1200px to Max width 1399px */
+@media only screen and (min-width: 1200px) and (max-width: 1399px) {
+    .cta-content {
+        padding-right: 25px;
+
+        .content {
+            max-width: 635px;
+        }
+    }
+    .cta-content-two {
+        max-width: 602px;
+    }
+}
+
+/* Min width 1600px */
+@media only screen and (min-width: 1600px) {
+    .cta-area {
+        .container-fluid {
+            max-width: 1920px;
+        }
+    }
+}

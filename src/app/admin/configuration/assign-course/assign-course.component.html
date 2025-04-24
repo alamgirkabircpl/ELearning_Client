@@ -1,0 +1,222 @@
+<div class="container mt-4">
+    <h2>Assign Course Management</h2>
+
+    <!-- Form -->
+    <div class="card mb-4">
+        <div class="card-header">
+            {{ isEditing ? "Edit Assign Course" : "Add New Assign Course" }}
+        </div>
+        <div class="card-body">
+            <form [formGroup]="assignCourseForm" (ngSubmit)="onSubmit()">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="courseId" class="form-label">Course</label>
+                        <select
+                            class="form-select"
+                            id="courseId"
+                            formControlName="courseId"
+                        >
+                            <option value="">Select Course</option>
+                            <option
+                                *ngFor="let course of courses"
+                                [value]="course.courseId"
+                            >
+                                {{ course.courseTitle }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="instructorDetailsId" class="form-label"
+                            >Instructor</label
+                        >
+                        <select
+                            class="form-select"
+                            id="instructorDetailsId"
+                            formControlName="instructorDetailsId"
+                        >
+                            <option value="">Select Instructor</option>
+                            <option
+                                *ngFor="let instructor of instructors"
+                                [value]="instructor.instructorDetailsId"
+                            >
+                                {{ instructor.fullName }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="price" class="form-label">Price</label>
+                        <input
+                            type="number"
+                            class="form-control"
+                            id="price"
+                            formControlName="price"
+                        />
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="status" class="form-label">Status</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="status"
+                            formControlName="status"
+                        />
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label"
+                        >Description</label
+                    >
+                    <textarea
+                        class="form-control"
+                        id="description"
+                        rows="3"
+                        formControlName="description"
+                    ></textarea>
+                </div>
+                <!-- 
+                <div class="mb-3">
+                    <label class="form-label">Course URLs</label>
+                    <div
+                        *ngFor="let url of courseUrlControls; let i = index"
+                        class="input-group mb-2"
+                    >
+                        <input
+                            type="text"
+                            class="form-control"
+                            [value]="url"
+                            (input)="updateUrl(i, $any($event.target).value)"
+                        />
+                        <button
+                            type="button"
+                            class="btn btn-danger"
+                            (click)="removeUrl(i)"
+                        >
+                            Remove
+                        </button>
+                    </div>
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        (click)="addUrl()"
+                    >
+                        Add URL
+                    </button>
+                </div> -->
+
+                <div class="d-flex justify-content-end">
+                    <button
+                        type="submit"
+                        class="btn btn-primary me-2"
+                        [disabled]="assignCourseForm.invalid"
+                    >
+                        {{ isEditing ? "Update" : "Save" }}
+                    </button>
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        (click)="resetForm()"
+                    >
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="card">
+        <div class="card-header">Assign Course List</div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Course</th>
+                            <th>Instructor</th>
+                            <th>Price</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let assignCourse of assignCourses">
+                            <td>{{ assignCourse.courseAssignId }}</td>
+                            <td>{{ getCourseName(assignCourse.courseId) }}</td>
+                            <td>
+                                {{
+                                    getInstructorName(
+                                        assignCourse.instructorDetailsId
+                                    )
+                                }}
+                            </td>
+                            <td>{{ assignCourse.price | currency }}</td>
+                            <td>
+                                {{ assignCourse.description | truncate : 50 }}
+                            </td>
+                            <td>
+                                <button
+                                    class="btn btn-sm btn-primary me-2"
+                                    (click)="editAssignCourse(assignCourse)"
+                                >
+                                    Edit
+                                </button>
+                                <button
+                                    class="btn btn-sm btn-danger"
+                                    (click)="
+                                        deleteAssignCourse(
+                                            assignCourse.courseAssignId
+                                        )
+                                    "
+                                >
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <nav *ngIf="totalPages > 1">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" [class.disabled]="currentPage === 1">
+                        <a
+                            class="page-link"
+                            (click)="onPageChange(currentPage - 1)"
+                            >Previous</a
+                        >
+                    </li>
+                    <li
+                        class="page-item"
+                        *ngFor="
+                            let page of [].constructor(totalPages);
+                            let i = index
+                        "
+                        [class.active]="currentPage === i + 1"
+                    >
+                        <a class="page-link" (click)="onPageChange(i + 1)">{{
+                            i + 1
+                        }}</a>
+                    </li>
+                    <li
+                        class="page-item"
+                        [class.disabled]="currentPage === totalPages"
+                    >
+                        <a
+                            class="page-link"
+                            (click)="onPageChange(currentPage + 1)"
+                            >Next</a
+                        >
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>

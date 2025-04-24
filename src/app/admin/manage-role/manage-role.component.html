@@ -1,0 +1,55 @@
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h3>User Role Management</h3>
+        </div>
+        <div class="card-body">
+            <!-- User Selection Dropdown -->
+            <!-- User Selection Dropdown -->
+            <div class="mb-4">
+                <label class="form-label">Select User</label>
+                <select
+                    class="form-select"
+                    [(ngModel)]="selectedUser"
+                    (ngModelChange)="onUserSelect($event)"
+                >
+                    <option [ngValue]="null" disabled>Select a user</option>
+                    <option *ngFor="let user of users" [ngValue]="user">
+                        {{ user.name }} ({{ user.email }})
+                    </option>
+                </select>
+            </div>
+            <!-- Roles Checkbox List -->
+            <div *ngIf="selectedUser" class="mb-4">
+                <h5>Roles for {{ selectedUser.name }}</h5>
+                <div class="row">
+                    <div class="col-md-3" *ngFor="let role of allRoles">
+                        <div class="form-check mb-2">
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                [id]="'role-' + role.roleId"
+                                [(ngModel)]="role.selected"
+                                (ngModelChange)="onRoleChange(role)"
+                                [disabled]="isLoading"
+                            />
+                            <label
+                                class="form-check-label"
+                                [for]="'role-' + role.roleId"
+                            >
+                                {{ role.roleName }}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading Indicator -->
+            <div *ngIf="isLoading" class="text-center mt-4">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

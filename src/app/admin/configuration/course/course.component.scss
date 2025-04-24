@@ -1,0 +1,59 @@
+/* Add this to your component's SCSS file or a global stylesheet */
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.dropzone {
+    border: 2px dashed #dee2e6;
+    border-radius: 5px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    background-color: #f8f9fa;
+
+    &.active {
+        border-color: #0d6efd;
+        background-color: rgba(13, 110, 253, 0.05);
+    }
+
+    .dropzone-content {
+        pointer-events: none; /* Allows clicks to pass through to the file input */
+    }
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.img-thumbnail {
+    object-fit: cover;
+    background-color: #f8f9fa;
+}
+
+.badge {
+    padding: 0.35em 0.65em;
+    font-weight: 500;
+}
+
+/* Ensure the table actions are properly aligned */
+.table td:last-child,
+.table th:last-child {
+    white-space: nowrap;
+}
+
+/* Pagination styling */
+.pagination {
+    .page-item {
+        margin: 0 2px;
+
+        &.active .page-link {
+            font-weight: 500;
+        }
+    }
+
+    .page-link {
+        min-width: 38px;
+        text-align: center;
+    }
+}

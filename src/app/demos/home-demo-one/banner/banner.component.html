@@ -1,0 +1,91 @@
+<div class="banner-area position-relative z-1">
+    <div class="container">
+        <div class="banner-text">
+            <h1 class="text-uppercase">
+                <span class="d-block"> Empower Your </span>
+                <span class="d-block">Future Through </span>
+                <span class="d-block"> Learning </span>
+            </h1>
+        </div>
+        <div class="banner-image text-center">
+            <img src="images/banners/banner_home.jpg" alt="banner-image" />
+        </div>
+        <div class="banner-content">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-8">
+                    <p>
+                        Unlock the world by mastering languages. We offers an
+                        immersive, interactive, and personalized language
+                        learning.
+                    </p>
+                    <div class="btn-box d-flex align-items-center">
+                        <a routerLink="/contact" class="default-btn">
+                            Get In Touch
+                        </a>
+                        <button
+                            class="video-btn p-0 border-0 bg-transparent popup-youtube fw-medium d-flex align-items-center"
+                            (click)="openPopup()"
+                            type="button"
+                        >
+                            <span class="d-block text-center rounded-circle">
+                                <img src="images/icons/play.svg" alt="play" />
+                            </span>
+                            Watch Video
+                        </button>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-4">
+                    <div class="text-md-end">
+                        <a
+                            routerLink="/courses"
+                            class="link-btn d-inline-block text-center rounded-circle fw-medium"
+                        >
+                            <span class="d-block"> Explore All Courses </span>
+                            <img
+                                src="images/icons/diagonal-arrow-right-up.svg"
+                                alt="diagonal-arrow-right-up"
+                            />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="shape1">
+        <img src="images/shapes/shape1.svg" alt="shape1" />
+    </div>
+    <div class="shape2">
+        <img src="images/shapes/shape2.svg" alt="shape2" />
+    </div>
+</div>
+
+<!-- Video Popup -->
+<div class="mfp-bg mfp-fade mfp-ready" *ngIf="isOpen"></div>
+<div
+    class="mfp-wrap mfp-close-btn-in mfp-auto-cursor mfp-fade mfp-ready"
+    *ngIf="isOpen"
+    tabindex="-1"
+>
+    <div class="mfp-container mfp-iframe-holder">
+        <div class="mfp-content">
+            <div class="mfp-iframe-scaler">
+                <button
+                    (click)="closePopup()"
+                    title="Close (Esc)"
+                    type="button"
+                    class="mfp-close"
+                >
+                    ×
+                </button>
+                <iframe
+                    src="https://www.youtube.com/embed/YDXQ_nociO4"
+                    title="Web Design Trends 2024"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allowfullscreen
+                ></iframe>
+            </div>
+        </div>
+    </div>
+</div>

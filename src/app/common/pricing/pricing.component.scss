@@ -1,0 +1,243 @@
+.pricing-area {
+    .section-title {
+        margin-bottom: 40px;
+
+        .title {
+            max-width: 630px;
+        }
+    }
+}
+.single-pricing-box {
+    padding: 30px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    background-color: #c3c3c3;
+
+    h3 {
+        font: {
+            size: 24px;
+            family: var(--fontFamily);
+        };
+    }
+    .title {
+        max-width: 120px;
+        line-height: 1.5;
+        margin-left: 22px;
+    }
+    .features-list {
+        display: flex;
+        flex-wrap: wrap;
+        margin: {
+            top: -20px;
+            left: -5px;
+            right: -30px;
+        };
+        li {
+            flex: 0 0 auto;
+            width: 50%;
+
+            span {
+                font-size: 16px;
+                margin-top: 20px;
+                padding-left: 20px;
+
+                &::before {
+                    left: 0;
+                    top: 50%;
+                    width: 10px;
+                    content: '';
+                    height: 10px;
+                    border-radius: 50%;
+                    position: absolute;
+                    background: #1c1c1c;
+                    transform: translateY(-50%);
+                }
+            }
+        }
+    }
+    .link-btn {
+        width: 160px;
+        height: 160px;
+        padding-top: 50px;
+        background-color: #f3f3f3;
+
+        span {
+            margin-bottom: 5px;
+        }
+        img {
+            transition: var(--transition);
+        }
+        &:hover {
+            img {
+                transform: translateY(5px);
+            }
+        }
+    }
+    &:last-child {
+        margin-bottom: 0;
+    }
+    &:hover {
+        .link-btn {
+            color: var(--blackColor);
+            background-color: var(--primaryColor);
+        }
+    }
+}
+
+/* Max width 767px */
+@media only screen and (max-width : 767px) {
+
+    .pricing-area {
+        .section-title {
+            margin-bottom: 30px;
+            
+            .title {
+                max-width: 100%;
+            }
+        }
+    }
+    .single-pricing-box {
+        padding: 20px;
+        margin-bottom: 25px;
+    
+        h3 {
+            font-size: 20px;
+        }
+        .title {
+            max-width: 100%;
+            line-height: 1.3;
+            margin: {
+                left: 0;
+                top: 10px;
+            };
+        }
+        .features-list {
+            margin: {
+                left: 0;
+                right: 0;
+                top: 5px;
+            };
+            li {
+                width: 100%;
+    
+                span {
+                    font-size: 15px;
+                    margin-top: 10px;
+                    padding-left: 17px;
+    
+                    &::before {
+                        width: 8px;
+                        height: 8px;
+                    }
+                }
+            }
+        }
+        .link-btn {
+            width: 110px;
+            height: 110px;
+            margin-top: 15px;
+            padding-top: 30px;
+        }
+    }
+
+}
+
+/* Min width 576px to Max width 767px */
+@media only screen and (min-width : 576px) and (max-width : 767px) {}
+
+/* Min width 768px to Max width 991px */
+@media only screen and (min-width : 768px) and (max-width : 991px) {
+
+    .pricing-area {
+        .section-title {
+            margin-bottom: 35px;
+            
+            .title {
+                max-width: 100%;
+            }
+        }
+    }
+    .single-pricing-box {
+        padding: 25px;
+        margin-bottom: 25px;
+    
+        h3 {
+            font: {
+                size: 24px;
+                family: var(--fontFamily);
+            };
+        }
+        .title {
+            max-width: 100%;
+            line-height: 1.3;
+            margin: {
+                left: 0;
+                top: 12px;
+            };
+        }
+        .features-list {
+            margin: {
+                left: 0;
+                right: 0;
+                top: 15px;
+            };
+            li {
+                span {
+                    margin-top: 15px;
+                }
+            }
+        }
+        .link-btn {
+            width: 130px;
+            height: 130px;
+            padding-top: 40px;
+        }
+    }
+
+}
+
+/* Min width 992px to Max width 1199px */
+@media only screen and (min-width : 992px) and (max-width : 1199px) {
+
+    .single-pricing-box {
+        .title {
+            line-height: 1.4;
+            margin-left: 0;
+        }
+        .features-list {
+            margin: {
+                top: -15px;
+                left: -70px;
+                right: -80px;
+            };
+            li {
+                span {
+                    margin-top: 15px;
+                }
+            }
+        }
+        .link-btn {
+            width: 140px;
+            height: 140px;
+            padding-top: 40px;
+        }
+    }
+
+}
+
+/* Min width 1200px to Max width 1399px */
+@media only screen and (min-width: 1200px) and (max-width: 1399px) {
+
+    .single-pricing-box {
+        .title {
+            margin-left: 0;
+        }
+        .features-list {
+            margin-left: -60px;
+        }
+    }
+
+}
+
+/* Min width 1600px */
+@media only screen and (min-width: 1600px) {}

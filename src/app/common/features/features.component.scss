@@ -1,0 +1,330 @@
+.single-feature-box {
+    border-radius: 15px;
+    padding: 25px 25px 0;
+
+    h3 {
+        margin-bottom: 15px;
+        color: var(--whiteColor);
+        transition: var(--transition);
+        font: {
+            size: 24px;
+            family: var(--fontFamily);
+        };
+    }
+    p {
+        color: #fbfbfb;
+        max-width: 170px;
+        transition: var(--transition);
+    }
+    .link-btn {
+        width: 60px;
+        height: 60px;
+        margin-top: 25px;
+        background-color: #fbfbfb;
+
+        img {
+            left: 0;
+            right: 0;
+            top: 50%;
+            position: absolute;
+            transform: translateY(-50%);
+            transition: var(--transition);
+            margin: {
+                left: auto;
+                right: auto;
+            };
+        }
+        &::before {
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            content: '';
+            z-index: -1;
+            margin: 5px;
+            border-radius: 50%;
+            position: absolute;
+            transition: var(--transition);
+            background: var(--primaryColor);
+        }
+    }
+    &::before {
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: -1;
+        content: '';
+        position: absolute;
+        margin-bottom: 40px;
+        border-radius: 15px;
+        background: #1c1c1c;
+        transition: var(--transition);
+    }
+    &:hover {
+        h3 {
+            color: var(--blackColor);
+        }
+        p {
+            color: var(--paragraphColor);
+        }
+        .link-btn {
+            img {
+                filter: invert(1);
+            }
+            &::before {
+                background: #1c1c1c;
+            }
+        }
+        &::before {
+            background-color: var(--primaryColor);
+        }
+    }
+}
+.features-slides {
+    .slide {
+        flex: 1.5;
+        height: 577px;
+        cursor: pointer;
+        margin-right: 30px;
+        border-radius: 15px;
+        transition: var(--transition);
+        background: {
+            position: center center;
+            repeat: no-repeat;
+            size: cover;
+        };
+        .features-content {
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0;
+            padding: 30px;
+            visibility: hidden;
+            position: absolute;
+            transition: var(--transition);
+
+            .content {
+                padding: 30px;
+                max-width: 420px;
+                border-radius: 15px;
+                backdrop-filter: blur(20px);
+                background: linear-gradient(180deg, rgba(138, 138, 138, 0.70) 0%, rgba(83, 83, 83, 0.50) 100%);
+
+                h3 {
+                    color: var(--whiteColor);
+                    margin-bottom: 12px;
+                    max-width: 300px;
+                    line-height: 1.4;
+                    font: {
+                        size: 24px;
+                        family: var(--fontFamily);
+                    };
+                }
+                p {
+                    font-size: 16px;
+                    line-height: 1.8;
+                    color: #f3f3f3;
+                }
+            }
+            .link-btn {
+                width: 160px;
+                height: 160px;
+                padding-top: 50px;
+                background-color: var(--primaryColor);
+        
+                span {
+                    margin-bottom: 5px;
+                }
+                img {
+                    transition: var(--transition);
+                }
+                &:hover {
+                    img {
+                        transform: translateY(5px);
+                    }
+                }
+            }
+        }
+        &.active {
+            flex: 7.5;
+            cursor: unset;
+            
+            .features-content {
+                opacity: 1;
+                visibility: visible;
+            }
+        }
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+}
+
+/* Max width 767px */
+@media only screen and (max-width : 767px) {
+
+    .single-feature-box {
+        padding: 20px 20px 0;
+    
+        h3 {
+            margin-bottom: 14px;
+            font-size: 20px;
+        }
+        p {
+            max-width: 170px;
+        }
+        .link-btn {
+            margin-top: 8px;
+    
+            &::before {
+                margin: 4px;
+            }
+        }
+    }
+    .features-slides {
+        .slide {
+            flex: unset;
+            height: auto;
+            cursor: unset;
+            margin: {
+                right: 0;
+                bottom: 25px;
+            };
+            .features-content {
+                opacity: 1;
+                position: relative;
+                visibility: visible;
+                padding: 100px 20px 20px;
+    
+                .content {
+                    padding: 20px;
+                    max-width: 100%;
+    
+                    h3 {
+                        margin-bottom: 10px;
+                        max-width: 100%;
+                        font-size: 20px;
+                    }
+                    p {
+                        font-size: 14px;
+                        line-height: 1.6;
+                    }
+                }
+                .link-btn {
+                    width: 120px;
+                    height: 120px;
+                    margin-top: 18px;
+                    padding-top: 35px;
+            
+                    span {
+                        margin-bottom: 10px;
+                        max-width: 130px;
+                        margin: {
+                            left: auto;
+                            right: auto;
+                        };
+                    }
+                }
+            }
+            &.active {
+                flex: unset;
+            }
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+}
+
+/* Min width 576px to Max width 767px */
+@media only screen and (min-width : 576px) and (max-width : 767px) {}
+
+/* Min width 768px to Max width 991px */
+@media only screen and (min-width : 768px) and (max-width : 991px) {
+
+    .single-feature-box {
+        h3 {
+            font-size: 22px;
+        }
+        .link-btn {
+            margin-top: 15px;
+        }
+    }
+    .features-slides {
+        .slide {
+            .features-content {
+                padding: 25px;
+    
+                .content {
+                    padding: 25px;
+                    max-width: 100%;
+    
+                    h3 {
+                        max-width: 100%;
+                        font-size: 22px;
+                        margin-bottom: 10px;
+                    }
+                    p {
+                        font-size: 15px;
+                        line-height: 1.7;
+                    }
+                }
+                .link-btn {
+                    width: 135px;
+                    height: 135px;
+                    padding-top: 42px;
+                    margin-bottom: 20px;
+                }
+            }
+        }
+    }
+
+}
+
+/* Min width 992px to Max width 1199px */
+@media only screen and (min-width : 992px) and (max-width : 1199px) {
+
+    .single-feature-box {
+        padding: {
+            left: 20px;
+            right: 20px;
+        };
+        .link-btn {
+            margin-top: 10px;
+        }
+    }
+    .features-slides {
+        .slide {
+            .features-content {
+                padding: 25px;
+    
+                .content {
+                    padding: 25px;
+                    max-width: 400px;
+    
+                    h3 {
+                        max-width: 100%;
+                        font-size: 22px;
+                    }
+                    p {
+                        line-height: 1.7;
+                    }
+                }
+                .link-btn {
+                    width: 150px;
+                    height: 150px;
+                    padding-top: 45px;
+                }
+            }
+        }
+    }
+
+}
+
+/* Min width 1200px to Max width 1399px */
+@media only screen and (min-width: 1200px) and (max-width: 1399px) {}
+
+/* Min width 1600px */
+@media only screen and (min-width: 1600px) {}

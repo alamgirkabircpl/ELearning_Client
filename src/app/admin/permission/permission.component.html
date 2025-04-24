@@ -1,0 +1,152 @@
+<div class="container mt-4">
+    <h2>Permission Management</h2>
+
+    <!-- Permission Form -->
+    <div class="card mb-4">
+        <div class="card-header">
+            {{ isEditing ? "Edit Permission" : "Add New Permission" }}
+        </div>
+        <div class="card-body">
+            <form #permissionForm="ngForm" (ngSubmit)="onSubmit()">
+                <div class="mb-3">
+                    <label for="permissionName" class="form-label"
+                        >Permission Name</label
+                    >
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="permissionName"
+                        name="permissionName"
+                        [(ngModel)]="permissionName"
+                        required
+                        #nameInput="ngModel"
+                    />
+                    <div
+                        *ngIf="
+                            nameInput.invalid &&
+                            (nameInput.dirty || nameInput.touched)
+                        "
+                        class="text-danger"
+                    >
+                        Permission name is required
+                    </div>
+                </div>
+                <button
+                    type="submit"
+                    class="btn btn-primary me-2"
+                    [disabled]="!permissionName.trim()"
+                >
+                    {{ isEditing ? "Update" : "Save" }}
+                </button>
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    (click)="resetForm()"
+                    *ngIf="isEditing"
+                >
+                    Cancel
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Loading Indicator -->
+    <div *ngIf="loading" class="text-center my-3">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <!-- Permissions Table -->
+    <div class="card">
+        <div class="card-header">
+            Permissions List
+            <span class="badge bg-secondary ms-2">Total: {{ totalItems }}</span>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>UID</th>
+                            <th>Permission ID</th>
+                            <th>Name</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let permission of permissions">
+                            <td>{{ permission.uid }}</td>
+                            <td>{{ permission.permissionId }}</td>
+                            <td>{{ permission.name }}</td>
+                            <td>
+                                <button
+                                    class="btn btn-sm btn-warning me-2"
+                                    (click)="editPermission(permission)"
+                                >
+                                    Edit
+                                </button>
+                                <button
+                                    class="btn btn-sm btn-danger"
+                                    (click)="deletePermission(permission.uid)"
+                                >
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                        <tr *ngIf="permissions.length === 0 && !loading">
+                            <td colspan="4" class="text-center">
+                                No permissions found
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <div class="text-muted">
+                    Showing {{ getDisplayRange().start }} to
+                    {{ getDisplayRange().end }} of {{ totalItems }} entries
+                </div>
+                <nav *ngIf="totalItems > pageSize">
+                    <ul class="pagination mb-0">
+                        <li
+                            class="page-item"
+                            [class.disabled]="currentPage === 1"
+                        >
+                            <a
+                                class="page-link"
+                                (click)="onPageChange(currentPage - 1)"
+                            >
+                                &laquo; Previous
+                            </a>
+                        </li>
+                        <li
+                            class="page-item"
+                            *ngFor="let page of getPageNumbers()"
+                            [class.active]="page === currentPage"
+                        >
+                            <a class="page-link" (click)="onPageChange(page)">{{
+                                page
+                            }}</a>
+                        </li>
+                        <li
+                            class="page-item"
+                            [class.disabled]="
+                                currentPage === getPageNumbers().slice(-1)[0]
+                            "
+                        >
+                            <a
+                                class="page-link"
+                                (click)="onPageChange(currentPage + 1)"
+                            >
+                                Next &raquo;
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>

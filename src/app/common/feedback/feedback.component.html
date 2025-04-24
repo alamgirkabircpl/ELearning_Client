@@ -1,0 +1,178 @@
+<!-- Default -->
+<div
+    class="feedback-area ptb-120 position-relative z-1"
+    [ngClass]="{'d-none': router.url === '/index-3'}"
+>
+    <div class="container">
+        <div class="section-title text-center">
+            <h2 class="fw-semibold mx-auto mb-0 text-uppercase">
+                What our students say
+            </h2>
+        </div>
+        <div class="feedback-slides mx-auto">
+            <owl-carousel-o [options]="feedbackSlides">
+                <ng-template carouselSlide>
+                    <div class="single-feedback-item text-center">
+                        <p class="fw-medium">
+                            "Learning at LOGO has been an enriching experience. The instructors are not only skilled but incredibly passionate about teaching. The immersive approach has significantly boosted my confidence in speaking the language."
+                        </p>
+                        <div class="info">
+                            <img src="images/users/user4.jpg" class="rounded-circle" alt="user-image">
+                            <h3 class="fw-semibold">
+                                Linda B. Ackerman
+                            </h3>
+                            <span class="d-block">
+                                Marketing Manager, ABC Company
+                            </span>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template carouselSlide>
+                    <div class="single-feedback-item text-center">
+                        <p class="fw-medium">
+                            "Learning at LOGO has been an enriching experience. The instructors are not only skilled but incredibly passionate about teaching. The immersive approach has significantly boosted my confidence in speaking the language."
+                        </p>
+                        <div class="info">
+                            <img src="images/users/user1.jpg" class="rounded-circle" alt="user-image">
+                            <h3 class="fw-semibold">
+                                James T. Warner
+                            </h3>
+                            <span class="d-block">
+                                Web Developer, XYZ Company
+                            </span>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template carouselSlide>
+                    <div class="single-feedback-item text-center">
+                        <p class="fw-medium">
+                            "Learning at LOGO has been an enriching experience. The instructors are not only skilled but incredibly passionate about teaching. The immersive approach has significantly boosted my confidence in speaking the language."
+                        </p>
+                        <div class="info">
+                            <img src="images/users/user2.jpg" class="rounded-circle" alt="user-image">
+                            <h3 class="fw-semibold">
+                                Macky Q. Anderson
+                            </h3>
+                            <span class="d-block">
+                                Web Desginer, Web Company
+                            </span>
+                        </div>
+                    </div>
+                </ng-template>
+            </owl-carousel-o>
+        </div>
+    </div>
+    <div class="scroll-down-text left text-uppercase d-flex align-items-center">
+        <div>
+            <img src="images/icons/bx-mouse.svg" alt="bx-mouse">
+            Scroll Down
+        </div>
+    </div>
+</div>
+
+<!-- Only for Home Demo - 3 -->
+<div
+    class="feedback-area ptb-120 position-relative z-1 bg-282828"
+    *ngIf="router.url === '/index-3'"
+>
+    <div class="container">
+        <div class="section-title mb-40 text-center">
+            <h2 class="fw-semibold fs-32 mx-auto mb-0 text-uppercase">
+                In Their Own Words: Student Testimonials
+            </h2>
+        </div>
+        <div class="feedback-slides2 mx-auto">
+            <owl-carousel-o [options]="feedbackSlides2">
+                <ng-template carouselSlide>
+                    <div class="single-feedback-box">
+                        <div class="row align-items-center">
+                            <div class="col-lg-5 col-md-5">
+                                <div class="image text-center">
+                                    <img src="images/subtract.png" alt="subtract-image">
+                                </div>
+                            </div>
+                            <div class="col-lg-7 col-md-7">
+                                <div class="content">
+                                    <h3 class="fw-semibold">
+                                        Caryn Zoeller
+                                    </h3>
+                                    <span class="d-block designation">
+                                        Ex-Student
+                                    </span>
+                                    <div class="ratings">
+                                        <img src="images/icons/stars-5-1.svg" alt="stars-5-1">
+                                    </div>
+                                    <p>
+                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template carouselSlide>
+                    <div class="single-feedback-box">
+                        <div class="row align-items-center">
+                            <div class="col-lg-5 col-md-5">
+                                <div class="image text-center">
+                                    <img src="images/subtract.png" alt="subtract-image">
+                                </div>
+                            </div>
+                            <div class="col-lg-7 col-md-7">
+                                <div class="content">
+                                    <h3 class="fw-semibold">
+                                        Caryn Zoeller
+                                    </h3>
+                                    <span class="d-block designation">
+                                        Ex-Student
+                                    </span>
+                                    <div class="ratings">
+                                        <img src="images/icons/stars-5-1.svg" alt="stars-5-1">
+                                    </div>
+                                    <p>
+                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template carouselSlide>
+                    <div class="single-feedback-box">
+                        <div class="row align-items-center">
+                            <div class="col-lg-5 col-md-5">
+                                <div class="image text-center">
+                                    <img src="images/subtract.png" alt="subtract-image">
+                                </div>
+                            </div>
+                            <div class="col-lg-7 col-md-7">
+                                <div class="content">
+                                    <h3 class="fw-semibold">
+                                        Caryn Zoeller
+                                    </h3>
+                                    <span class="d-block designation">
+                                        Ex-Student
+                                    </span>
+                                    <div class="ratings">
+                                        <img src="images/icons/stars-5-1.svg" alt="stars-5-1">
+                                    </div>
+                                    <p>
+                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </owl-carousel-o>
+        </div>
+        <div class="feedback-users-list">
+            <img src="images/users/user10.jpg" class="rounded-circle" alt="user10">
+            <img src="images/users/user11.jpg" class="rounded-circle" alt="user11">
+            <img src="images/users/user15.jpg" class="rounded-circle" alt="user15">
+            <img src="images/users/user13.jpg" class="rounded-circle" alt="user13">
+            <img src="images/users/user6.jpg" class="rounded-circle" alt="user6">
+            <img src="images/users/user12.jpg" class="rounded-circle" alt="user12">
+        </div>
+    </div>
+</div>

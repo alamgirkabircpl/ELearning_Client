@@ -1,0 +1,234 @@
+<div class="sidebar-brand py-4 px-6 border-b border-gray-800">
+    <a href="./index.html" class="brand-link flex items-center">
+        <img
+            src="/assets/img/AdminLTELogo.png"
+            alt="AdminLTE Logo"
+            class="brand-image opacity-75 shadow-md mr-2 h-8"
+        />
+        <span class="brand-text font-semibold text-xl">AdminLTE 4</span>
+    </a>
+</div>
+<div class="sidebar-wrapper overflow-y-auto">
+    <div class="p-4 space-y-4">
+        <button
+            (click)="logout()"
+            class="btn btn-danger btn-sm btn-block text-white hover:bg-red-700 transition duration-300 ease-in-out"
+        >
+            <i class="bi bi-box-arrow-left mr-2"></i> Logout
+        </button>
+        <button
+            [routerLink]="['/change-password']"
+            routerLinkActive="router-link-active"
+            class="btn btn-primary btn-sm btn-block text-white hover:bg-blue-700 transition duration-300 ease-in-out"
+        >
+            <i class="bi bi-key mr-2"></i> Change Password
+        </button>
+
+        <nav class="mt-6">
+            <ul
+                class="nav sidebar-menu flex-column"
+                data-lte-toggle="treeview"
+                role="menu"
+                data-accordion="false"
+            >
+                <li class="nav-item menu-open">
+                    <a
+                        routerLink="dashboard"
+                        routerLinkActive="active"
+                        class="nav-link flex items-center p-3 hover:bg-gray-800 rounded-md transition duration-200 ease-in-out"
+                    >
+                        <i class="nav-icon bi bi-speedometer mr-2 text-lg"></i>
+                        <p class="flex-1">
+                            Configuration
+                            <i
+                                class="nav-arrow bi bi-chevron-right ml-auto"
+                            ></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview ml-4">
+                        <li class="nav-item">
+                            <a
+                                routerLink="configuration/course-category"
+                                routerLinkActive="active"
+                                class="nav-link flex items-center p-3 hover:bg-gray-800 rounded-md transition duration-200 ease-in-out"
+                            >
+                                <i
+                                    class="nav-icon bi bi-circle mr-2 text-sm"
+                                ></i>
+                                <p class="flex-1">Course Category</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a
+                                routerLink="configuration/course"
+                                routerLinkActive="active"
+                                class="nav-link flex items-center p-3 hover:bg-gray-800 rounded-md transition duration-200 ease-in-out"
+                            >
+                                <i
+                                    class="nav-icon bi bi-circle mr-2 text-sm"
+                                ></i>
+                                <p class="flex-1">Course</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a
+                                routerLink="configuration/instructor"
+                                routerLinkActive="active"
+                                class="nav-link flex items-center p-3 hover:bg-gray-800 rounded-md transition duration-200 ease-in-out"
+                            >
+                                <i
+                                    class="nav-icon bi bi-circle mr-2 text-sm"
+                                ></i>
+                                <p class="flex-1">Instructor</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a
+                                routerLink="configuration/assign-course"
+                                routerLinkActive="active"
+                                class="nav-link flex items-center p-3 hover:bg-gray-800 rounded-md transition duration-200 ease-in-out"
+                            >
+                                <i
+                                    class="nav-icon bi bi-circle mr-2 text-sm"
+                                ></i>
+                                <p class="flex-1">Assign Course</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a
+                        href="./generate/theme.html"
+                        class="nav-link flex items-center p-3 hover:bg-gray-800 rounded-md transition duration-200 ease-in-out"
+                    >
+                        <i class="nav-icon bi bi-palette mr-2 text-lg"></i>
+                        <p class="flex-1">Theme Generate</p>
+                    </a>
+                </li>
+
+                <li
+                    class="nav-header px-4 py-2 text-gray-400 font-semibold uppercase text-sm"
+                >
+                    User Settings
+                </li>
+
+                <li class="nav-item">
+                    <a
+                        href="#"
+                        class="nav-link flex items-center p-3 hover:bg-gray-800 rounded-md transition duration-200 ease-in-out"
+                    >
+                        <i class="nav-icon bi bi-people mr-2 text-lg"></i>
+                        <p class="flex-1">
+                            Manage Users
+                            <i
+                                class="nav-arrow bi bi-chevron-right ml-auto"
+                            ></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview ml-4">
+                        <li class="nav-item">
+                            <a
+                                routerLink="configuration/users"
+                                routerLinkActive="active"
+                                class="nav-link flex items-center p-3 hover:bg-gray-800 rounded-md transition duration-200 ease-in-out"
+                            >
+                                <i
+                                    class="nav-icon bi bi-circle mr-2 text-sm"
+                                ></i>
+                                <p class="flex-1">Users</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a
+                                routerLink="configuration/manage-role-module"
+                                routerLinkActive="active"
+                                class="nav-link flex items-center p-3 hover:bg-gray-800 rounded-md transition duration-200 ease-in-out"
+                            >
+                                <i
+                                    class="nav-icon bi bi-circle mr-2 text-sm"
+                                ></i>
+                                <p class="flex-1">Manage Module Role</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a
+                                routerLink="configuration/manage-role"
+                                routerLinkActive="active"
+                                class="nav-link flex items-center p-3 hover:bg-gray-800 rounded-md transition duration-200 ease-in-out"
+                            >
+                                <i
+                                    class="nav-icon bi bi-circle mr-2 text-sm"
+                                ></i>
+                                <p class="flex-1">Manage Role</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a
+                                routerLink="configuration/manage-permission"
+                                routerLinkActive="active"
+                                class="nav-link flex items-center p-3 hover:bg-gray-800 rounded-md transition duration-200 ease-in-out"
+                            >
+                                <i
+                                    class="nav-icon bi bi-circle mr-2 text-sm"
+                                ></i>
+                                <p class="flex-1">Manage Permissions</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a
+                        href="#"
+                        class="nav-link flex items-center p-3 hover:bg-gray-800 rounded-md transition duration-200 ease-in-out"
+                    >
+                        <i class="nav-icon bi bi-shield-lock mr-2 text-lg"></i>
+                        <p class="flex-1">
+                            Manage Roles
+                            <i
+                                class="nav-arrow bi bi-chevron-right ml-auto"
+                            ></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview ml-4">
+                        <li class="nav-item">
+                            <a
+                                routerLink="configuration/roles"
+                                routerLinkActive="active"
+                                class="nav-link flex items-center p-3 hover:bg-gray-800 rounded-md transition duration-200 ease-in-out"
+                            >
+                                <i
+                                    class="nav-icon bi bi-circle mr-2 text-sm"
+                                ></i>
+                                <p class="flex-1">Role</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a
+                                routerLink="configuration/permissions"
+                                routerLinkActive="active"
+                                class="nav-link flex items-center p-3 hover:bg-gray-800 rounded-md transition duration-200 ease-in-out"
+                            >
+                                <i
+                                    class="nav-icon bi bi-circle mr-2 text-sm"
+                                ></i>
+                                <p class="flex-1">Permissions</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a
+                                routerLink="configuration/app-module"
+                                routerLinkActive="active"
+                                class="nav-link flex items-center p-3 hover:bg-gray-800 rounded-md transition duration-200 ease-in-out"
+                            >
+                                <i
+                                    class="nav-icon bi bi-circle mr-2 text-sm"
+                                ></i>
+                                <p class="flex-1">App Module</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>

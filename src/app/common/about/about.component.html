@@ -1,0 +1,92 @@
+<div class="about-us-area position-relative z-1 ptb-120">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 col-md-12">
+                <div class="about-us-image text-center">
+                    <img
+                        src="images/staticImage/about1.jpg"
+                        alt="about-image"
+                    />
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12">
+                <div class="about-us-content">
+                    <div class="video-box position-relative">
+                        <img
+                            src="images/staticImage/about2.jpg"
+                            alt="about-image"
+                        />
+                        <div class="content">
+                            <div>
+                                <span class="d-block fw-medium">
+                                    Play Video
+                                </span>
+                                <p>How We Teach Our Students</p>
+                            </div>
+                            <button
+                                type="button"
+                                (click)="openPopup()"
+                                class="video-btn bg-transparent p-0 border-0 popup-youtube rounded-circle d-flex align-items-center justify-content-center"
+                            >
+                                <img src="images/icons/play2.svg" alt="play" />
+                            </button>
+                        </div>
+                    </div>
+                    <h2 class="fw-semibold text-uppercase">
+                        Delving into Our Linguistic Odysse
+                    </h2>
+                    <p>
+                        We are dedicated to fostering a vibrant community of
+                        language learners committed to linguistic proficiency
+                        and cultural appreciation. Established in 2002.
+                    </p>
+                    <p>
+                        Our journey began with a vision to provide an immersive
+                        and comprehensive language education experience guided
+                        by.
+                    </p>
+                    <a routerLink="/courses" class="default-btn">
+                        Enroll Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="scroll-down-text text-uppercase d-flex align-items-center">
+        <div>
+            <img src="images/icons/bx-mouse.svg" alt="bx-mouse" />
+            Scroll Down
+        </div>
+    </div>
+</div>
+
+<!-- Video Popup -->
+<div class="mfp-bg mfp-fade mfp-ready" *ngIf="isOpen"></div>
+<div
+    class="mfp-wrap mfp-close-btn-in mfp-auto-cursor mfp-fade mfp-ready"
+    *ngIf="isOpen"
+    tabindex="-1"
+>
+    <div class="mfp-container mfp-iframe-holder">
+        <div class="mfp-content">
+            <div class="mfp-iframe-scaler">
+                <button
+                    (click)="closePopup()"
+                    title="Close (Esc)"
+                    type="button"
+                    class="mfp-close"
+                >
+                    ×
+                </button>
+                <iframe
+                    src="https://www.youtube.com/embed/YDXQ_nociO4"
+                    title="Web Design Trends 2024"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allowfullscreen
+                ></iframe>
+            </div>
+        </div>
+    </div>
+</div>
