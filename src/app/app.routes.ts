@@ -54,7 +54,9 @@ export const routes: Routes = [
     }, // Disable SSR for this route if needed
     { path: 'course-details', component: CourseDetailsPageComponent },
     { path: 'team', component: TeamPageComponent },
-    { path: 'team-details', component: TeamDetailsPageComponent },
+    // { path: 'team-details', component: TeamDetailsPageComponent },
+    { path: 'team-details/:id', component: TeamDetailsPageComponent },
+
     { path: 'blog', component: BlogPageComponent },
     { path: 'blog-details', component: BlogDetailsPageComponent },
     { path: 'login', component: LoginPageComponent },
