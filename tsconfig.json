@@ -3,7 +3,7 @@
 {
     "compileOnSave": false,
     "compilerOptions": {
-        "types": ["jquery", "datatables.net"],
+        "types": ["jquery", "datatables.net", "datatables.net-buttons"],
 
         "outDir": "./dist/out-tsc",
         "strict": true,

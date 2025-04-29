@@ -1,263 +1,284 @@
-<!-- course.component.html -->
-
 <div class="container mt-4">
-    <h3>{{ isEditMode ? "Edit" : "Add" }} Course</h3>
-
-    <div *ngIf="isLoading" class="text-center my-4">
-        <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h5 class="mb-0">{{ isEditMode ? "Edit" : "Add" }} Course</h5>
         </div>
-    </div>
-
-    <form
-        #courseForm="ngForm"
-        (ngSubmit)="saveCourse(courseForm)"
-        class="mb-4"
-        enctype="multipart/form-data"
-    >
-        <div class="row">
-            <div class="col-md-6">
-                <div class="mb-3">
-                    <label class="form-label">Title*</label>
-                    <input
-                        type="text"
-                        class="form-control"
-                        [(ngModel)]="model.courseTitle"
-                        name="courseTitle"
-                        required
-                        [class.is-invalid]="formSubmitted && !model.courseTitle"
-                    />
-                    <div
-                        *ngIf="formSubmitted && !model.courseTitle"
-                        class="invalid-feedback"
-                    >
-                        Title is required
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Category*</label>
-                    <select
-                        class="form-select"
-                        [(ngModel)]="model.courseCategoryId"
-                        name="courseCategoryId"
-                        required
-                        [class.is-invalid]="
-                            formSubmitted && !model.courseCategoryId
-                        "
-                    >
-                        <option [ngValue]="0" disabled>
-                            Select a category
-                        </option>
-                        <option
-                            *ngFor="let cat of categories"
-                            [ngValue]="cat.courseCategoryId"
-                        >
-                            {{ cat.title }}
-                        </option>
-                    </select>
-                    <div
-                        *ngIf="formSubmitted && !model.courseCategoryId"
-                        class="invalid-feedback"
-                    >
-                        Category is required
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Start Date</label>
-                    <input
-                        type="datetime-local"
-                        class="form-control"
-                        [(ngModel)]="model.startDate"
-                        name="startDate"
-                    />
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">End Date</label>
-                    <input
-                        type="datetime-local"
-                        class="form-control"
-                        [(ngModel)]="model.endDate"
-                        name="endDate"
-                    />
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <div class="mb-3">
-                    <label class="form-label">Description*</label>
-                    <textarea
-                        class="form-control"
-                        rows="5"
-                        [(ngModel)]="model.description"
-                        name="description"
-                        required
-                        [class.is-invalid]="formSubmitted && !model.description"
-                    ></textarea>
-                    <div
-                        *ngIf="formSubmitted && !model.description"
-                        class="invalid-feedback"
-                    >
-                        Description is required
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Logo</label>
-                    <input
-                        type="file"
-                        class="form-control"
-                        (change)="onFileSelected($event)"
-                        accept="image/*"
-                        #fileInput
-                    />
-                    <small *ngIf="selectedFile" class="text-muted d-block mt-1">
-                        Selected: {{ selectedFile.name }}
-                    </small>
-                    <div *ngIf="isEditMode && model.logo" class="mt-2">
-                        <p class="mb-1">Current logo:</p>
-                        <img
-                            [src]="getImageUrl(model.logo)"
-                            alt="Current logo"
-                            style="max-height: 100px"
-                            class="img-thumbnail"
-                        />
-                    </div>
-                </div>
-
-                <div class="mb-3 form-check">
-                    <input
-                        type="checkbox"
-                        class="form-check-input"
-                        [(ngModel)]="model.isVisible"
-                        name="isVisible"
-                    />
-                    <label class="form-check-label">Visible</label>
-                </div>
-            </div>
-        </div>
-
-        <button
-            type="submit"
-            class="btn btn-primary me-2"
-            [disabled]="isLoading"
-        >
-            <span
-                *ngIf="isLoading"
-                class="spinner-border spinner-border-sm me-1"
-            ></span>
-            {{ isEditMode ? "Update" : "Create" }}
-        </button>
-        <button
-            type="button"
-            class="btn btn-secondary"
-            (click)="resetForm()"
-            [disabled]="isLoading"
-        >
-            Cancel
-        </button>
-    </form>
-
-    <!-- Course List -->
-    <h4>Course List</h4>
-    <div *ngIf="courses.length === 0 && !isLoading" class="alert alert-info">
-        No courses found
-    </div>
-
-    <div *ngIf="isLoading && courses.length === 0" class="text-center my-4">
-        <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Loading courses...</span>
-        </div>
-    </div>
-
-    <div class="table-responsive" *ngIf="courses.length > 0">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Category</th>
-                    <th>Dates</th>
-                    <th>Visible</th>
-                    <th>Logo</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let course of courses">
-                    <td>{{ course.courseTitle }}</td>
-                    <td>{{ getCategoryName(course.courseCategoryId) }}</td>
-                    <td>
-                        {{ course.startDate | date : "shortDate" }} -
-                        {{ course.endDate | date : "shortDate" }}
-                    </td>
-                    <td>
-                        <span
-                            class="badge"
-                            [ngClass]="
-                                course.isVisible ? 'bg-success' : 'bg-secondary'
+        <div class="card-body">
+            <form
+                #courseForm="ngForm"
+                (ngSubmit)="saveCourse(courseForm)"
+                enctype="multipart/form-data"
+            >
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Category*</label>
+                        <select
+                            class="form-select"
+                            [(ngModel)]="model.courseCategoryId"
+                            name="courseCategoryId"
+                            required
+                            [class.is-invalid]="
+                                formSubmitted && !model.courseCategoryId
                             "
                         >
-                            {{ course.isVisible ? "Yes" : "No" }}
-                        </span>
-                    </td>
-                    <td>
-                        <img
-                            *ngIf="course.logo"
-                            [src]="getImageUrl(course.logo)"
-                            alt="Course logo"
-                            style="max-height: 50px"
+                            <option [ngValue]="0" disabled>
+                                Select a category
+                            </option>
+                            <option
+                                *ngFor="let cat of categories"
+                                [ngValue]="cat.courseCategoryId"
+                            >
+                                {{ cat.title }}
+                            </option>
+                        </select>
+                        <div
+                            *ngIf="formSubmitted && !model.courseCategoryId"
+                            class="invalid-feedback"
+                        >
+                            Category is required
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Title*</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            [(ngModel)]="model.courseTitle"
+                            name="courseTitle"
+                            required
+                            [class.is-invalid]="
+                                formSubmitted && !model.courseTitle
+                            "
                         />
-                    </td>
-                    <td>
-                        <button
-                            class="btn btn-sm btn-warning me-2"
-                            (click)="editCourse(course)"
-                            [disabled]="isLoading"
+                        <div
+                            *ngIf="formSubmitted && !model.courseTitle"
+                            class="invalid-feedback"
                         >
-                            Edit
-                        </button>
-                        <button
-                            class="btn btn-sm btn-danger"
-                            (click)="deleteCourse(course.uid!)"
-                            [disabled]="isLoading"
+                            Title is required
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Start Date</label>
+                        <input
+                            type="datetime-local"
+                            class="form-control"
+                            [(ngModel)]="model.startDate"
+                            name="startDate"
+                        />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">End Date</label>
+                        <input
+                            type="datetime-local"
+                            class="form-control"
+                            [(ngModel)]="model.endDate"
+                            name="endDate"
+                        />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Logo</label>
+                        <input
+                            type="file"
+                            class="form-control"
+                            (change)="onFileSelected($event)"
+                            accept="image/*"
+                            #fileInput
+                        />
+                        <small
+                            *ngIf="selectedFile"
+                            class="text-muted d-block mt-1"
                         >
-                            Delete
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                            Selected: {{ selectedFile.name }}
+                        </small>
+                        <div *ngIf="isEditMode && model.logo" class="mt-2">
+                            <p class="mb-1">Current logo:</p>
+                            <img
+                                [src]="getImageUrl(model.logo)"
+                                alt="Current logo"
+                                style="max-height: 100px"
+                                class="img-thumbnail"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 d-flex align-items-center pt-4">
+                        <div class="form-check">
+                            <input
+                                type="checkbox"
+                                class="form-check-input"
+                                [(ngModel)]="model.isVisible"
+                                name="isVisible"
+                            />
+                            <label class="form-check-label">Visible</label>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label">Description*</label>
+                        <ckeditor
+                            *ngIf="Editor"
+                            [editor]="Editor"
+                            [config]="config"
+                            [(ngModel)]="model.description"
+                            name="description"
+                            [data]="initialData"
+                            #description="ngModel"
+                            [class.is-invalid]="
+                                description?.invalid &&
+                                (description?.dirty ||
+                                    description?.touched ||
+                                    formSubmitted)
+                            "
+                        ></ckeditor>
+                    </div>
+                </div>
+
+                <div class="mt-4 d-flex justify-content-end">
+                    <button
+                        type="submit"
+                        class="btn btn-primary me-2"
+                        [disabled]="isLoading"
+                    >
+                        <span
+                            *ngIf="isLoading"
+                            class="spinner-border spinner-border-sm me-1"
+                        ></span>
+                        {{ isEditMode ? "Update" : "Create" }}
+                    </button>
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        (click)="resetForm()"
+                        [disabled]="isLoading"
+                    >
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 
-    <!-- Pagination -->
-    <nav *ngIf="courses.length > 0 && totalItems > pageSize" class="mt-3">
-        <ul class="pagination justify-content-center">
-            <li class="page-item" [class.disabled]="pageNumber === 1">
-                <button
-                    class="page-link"
-                    (click)="onPageChange(pageNumber - 1)"
-                    [disabled]="isLoading"
-                >
-                    Previous
-                </button>
-            </li>
-            <li class="page-item">
-                <span class="page-link">Page {{ pageNumber }}</span>
-            </li>
-            <li
-                class="page-item"
-                [class.disabled]="pageNumber * pageSize >= totalItems"
+    <!-- Course List -->
+    <div class="card shadow-sm mt-5">
+        <div class="card-header bg-light">
+            <h5 class="mb-0">Course List</h5>
+        </div>
+        <div class="card-body p-0">
+            <div
+                *ngIf="courses.length === 0 && !isLoading"
+                class="alert alert-info m-3"
             >
-                <button
-                    class="page-link"
-                    (click)="onPageChange(pageNumber + 1)"
-                    [disabled]="isLoading"
+                No courses found
+            </div>
+
+            <div
+                *ngIf="isLoading && courses.length === 0"
+                class="text-center my-4"
+            >
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading courses...</span>
+                </div>
+            </div>
+
+            <div class="table-responsive" *ngIf="courses.length > 0">
+                <table class="table table-striped align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Dates</th>
+                            <th>Visible</th>
+                            <th>Logo</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let course of courses">
+                            <td>{{ course.courseTitle }}</td>
+                            <td>
+                                {{ getCategoryName(course.courseCategoryId) }}
+                            </td>
+                            <td>
+                                {{ course.startDate | date : "shortDate" }} -
+                                {{ course.endDate | date : "shortDate" }}
+                            </td>
+                            <td>
+                                <span
+                                    class="badge"
+                                    [ngClass]="
+                                        course.isVisible
+                                            ? 'bg-success'
+                                            : 'bg-secondary'
+                                    "
+                                >
+                                    {{ course.isVisible ? "Yes" : "No" }}
+                                </span>
+                            </td>
+                            <td>
+                                <img
+                                    *ngIf="course.logo"
+                                    [src]="getImageUrl(course.logo)"
+                                    alt="Course logo"
+                                    style="max-height: 50px"
+                                />
+                            </td>
+                            <td>
+                                <button
+                                    class="btn btn-sm btn-warning me-2"
+                                    (click)="editCourse(course)"
+                                    [disabled]="isLoading"
+                                >
+                                    Edit
+                                </button>
+                                <button
+                                    class="btn btn-sm btn-danger"
+                                    (click)="deleteCourse(course.uid!)"
+                                    [disabled]="isLoading"
+                                >
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div
+            class="card-footer text-center"
+            *ngIf="courses.length > 0 && totalItems > pageSize"
+        >
+            <ul class="pagination justify-content-center mb-0">
+                <li class="page-item" [class.disabled]="pageNumber === 1">
+                    <button
+                        class="page-link"
+                        (click)="onPageChange(pageNumber - 1)"
+                        [disabled]="isLoading"
+                    >
+                        Previous
+                    </button>
+                </li>
+                <li class="page-item">
+                    <span class="page-link">Page {{ pageNumber }}</span>
+                </li>
+                <li
+                    class="page-item"
+                    [class.disabled]="pageNumber * pageSize >= totalItems"
                 >
-                    Next
-                </button>
-            </li>
-        </ul>
-    </nav>
+                    <button
+                        class="page-link"
+                        (click)="onPageChange(pageNumber + 1)"
+                        [disabled]="isLoading"
+                    >
+                        Next
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>

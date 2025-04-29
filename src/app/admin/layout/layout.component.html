@@ -2,11 +2,25 @@
     <nav class="app-header navbar navbar-expand bg-body">
         <app-navbar></app-navbar>
     </nav>
-    <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="light">
+    <aside
+        class="app-sidebar bg-body-secondary shadow"
+        data-bs-theme="light"
+        style="background: #f8f9fa !important"
+    >
         <app-sidebar></app-sidebar>
     </aside>
     <main class="app-main">
-        <router-outlet></router-outlet>
-        <app-footer></app-footer>
+        <div class="app-content-wrapper" style="margin-bottom: 60px">
+            <div class="app-content">
+                <div class="app-content-inner">
+                    <div class="app-content-body">
+                        <router-outlet></router-outlet>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="app-content-footer">
+            <app-footer></app-footer>
+        </div>
     </main>
 </div>

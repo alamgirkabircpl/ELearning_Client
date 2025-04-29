@@ -11,7 +11,8 @@
             padding: 30px;
             border-radius: 15px;
             margin-bottom: 25px;
-            background-color: #1c1c1c;
+            background-color: var(--secondaryColor);
+            // background-color: #1c1c1c;
 
             h3 {
                 margin-bottom: 22px;
@@ -56,7 +57,7 @@
     height: 100%;
     margin-left: -55px;
     background: {
-        image: url(../../../../public/images/staticImage/contact.jpg);
+        image: url(../../../../public/images/collection/contact/contact_1.jpg);
         position: center center;
         repeat: no-repeat;
         size: cover;

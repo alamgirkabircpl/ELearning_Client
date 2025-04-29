@@ -1,36 +1,79 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import {
+    Component,
+    inject,
+    Inject,
+    OnDestroy,
+    OnInit,
+    PLATFORM_ID,
+} from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { DataTablesModule } from 'angular-datatables';
-import { Config } from 'datatables.net';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { ToastNotificationService } from '../../../toast-notification.service';
 import { CourseCategory } from '../../models/course-category';
 import { CourseCategoryService } from '../../services/course-category.service';
+
 @Component({
     selector: 'app-course-category',
     standalone: true,
-    imports: [CommonModule, FormsModule, DataTablesModule],
     templateUrl: './course-category.component.html',
     styleUrls: ['./course-category.component.scss'],
+    imports: [CommonModule, FormsModule, CKEditorModule],
 })
-export class CourseCategoryComponent implements OnInit {
+export class CourseCategoryComponent implements OnInit, OnDestroy {
     categories: CourseCategory[] = [];
+    filteredCategories: CourseCategory[] = [];
     model: CourseCategory = { title: '', description: '' };
     isEditMode = false;
     formSubmitted = false;
     isLoading = false;
 
-    dtOptions: Config = {};
+    searchText = '';
+
+    public Editor: any;
+    public config: any;
+    public initialData = '<p>Write description here...</p>';
+
+    // Pagination
+    currentPage = 1;
+    pageSize = 5;
+    totalPages = 0;
 
     private toastService = inject(ToastNotificationService);
     private categoryService = inject(CourseCategoryService);
 
-    ngOnInit(): void {
-        console.log('Initializing CourseCategoryComponent');
+    constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+
+    async ngOnInit(): Promise<void> {
+        if (isPlatformBrowser(this.platformId)) {
+            try {
+                const ClassicEditor = (
+                    await import('@ckeditor/ckeditor5-build-classic')
+                ).default;
+                this.Editor = ClassicEditor;
+                this.config = {
+                    toolbar: [
+                        'heading',
+                        '|',
+                        'bold',
+                        'italic',
+                        'link',
+                        'bulletedList',
+                        'numberedList',
+                        '|',
+                        'indent',
+                        'outdent',
+                        '|',
+                        'undo',
+                        'redo',
+                    ],
+                };
+            } catch (error) {
+                console.error('Error loading CKEditor:', error);
+            }
+        }
+
         this.loadCategories();
-        this.dtOptions = {
-            pagingType: 'full_numbers',
-        };
     }
 
     loadCategories(): void {
@@ -38,26 +81,33 @@ export class CourseCategoryComponent implements OnInit {
         this.categoryService.getAll().subscribe({
             next: (res) => {
                 this.categories = res.data;
-
+                this.applyFilter();
                 this.isLoading = false;
-                console.log('Categories loaded:', this.categories);
             },
             error: (err) => {
                 this.toastService.showError('Failed to load categories');
-                console.error('Error loading categories:', err);
                 this.isLoading = false;
             },
         });
     }
 
+    applyFilter(): void {
+        const search = this.searchText.toLowerCase();
+        this.filteredCategories = this.categories.filter(
+            (cat) =>
+                cat.title.toLowerCase().includes(search) ||
+                cat.description.toLowerCase().includes(search)
+        );
+        this.totalPages = Math.ceil(
+            this.filteredCategories.length / this.pageSize
+        );
+        if (this.currentPage > this.totalPages) {
+            this.currentPage = this.totalPages || 1;
+        }
+    }
+
     saveCategory(form: NgForm): void {
         this.formSubmitted = true;
-        console.log('Form submission data:', {
-            formValid: form.valid,
-            formValue: form.value,
-            model: this.model,
-            isEditMode: this.isEditMode,
-        });
 
         if (form.invalid) {
             this.toastService.showError(
@@ -67,60 +117,46 @@ export class CourseCategoryComponent implements OnInit {
         }
 
         this.isLoading = true;
-        const operation = this.isEditMode ? 'update' : 'create';
-        console.log(`Attempting to ${operation} category`);
-
         const observable = this.isEditMode
             ? this.categoryService.update(this.model)
             : this.categoryService.create(this.model);
 
         observable.subscribe({
             next: () => {
-                console.log(`${operation} successful`);
                 this.toastService.showSuccess(
-                    `Category ${operation}d successfully`
+                    `Category ${
+                        this.isEditMode ? 'updated' : 'created'
+                    } successfully`
                 );
                 this.loadCategories();
                 this.resetForm();
                 this.isLoading = false;
             },
             error: (err) => {
-                console.error(`${operation} failed:`, err);
-                this.toastService.showError(`Failed to ${operation} category`);
+                this.toastService.showError('Failed to save category');
                 this.isLoading = false;
             },
         });
     }
 
     editCategory(category: CourseCategory): void {
-        console.log('Editing category:', category);
         this.model = { ...category };
         this.isEditMode = true;
         this.formSubmitted = false;
     }
 
     deleteCategory(category: CourseCategory): void {
-        if (!category.uid) {
-            console.error('Cannot delete - category UID missing');
-            return;
-        }
+        if (!category.uid) return;
+        if (!confirm('Are you sure you want to delete this category?')) return;
 
-        if (!confirm('Are you sure you want to delete this category?')) {
-            return;
-        }
-
-        console.log('Deleting category:', category);
         this.isLoading = true;
-
         this.categoryService.delete(category.uid).subscribe({
             next: () => {
-                console.log('Delete successful');
                 this.toastService.showSuccess('Category deleted successfully');
                 this.loadCategories();
                 this.isLoading = false;
             },
             error: (err) => {
-                console.error('Delete failed:', err);
                 this.toastService.showError('Failed to delete category');
                 this.isLoading = false;
             },
@@ -128,9 +164,16 @@ export class CourseCategoryComponent implements OnInit {
     }
 
     resetForm(): void {
-        console.log('Resetting form');
         this.model = { title: '', description: '' };
         this.isEditMode = false;
         this.formSubmitted = false;
     }
+
+    changePage(page: number): void {
+        if (page >= 1 && page <= this.totalPages) {
+            this.currentPage = page;
+        }
+    }
+
+    ngOnDestroy(): void {}
 }

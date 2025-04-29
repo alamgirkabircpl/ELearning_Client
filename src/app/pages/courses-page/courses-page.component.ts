@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Course } from '../../admin/models/course';
 import { Enroll } from '../../admin/models/enroll';
 import { Instructor } from '../../admin/models/trainer';
@@ -13,8 +13,8 @@ import { EnrollService } from '../../admin/services/enroll.service';
 import { InstructorService } from '../../admin/services/instructor.service';
 import { UserService } from '../../admin/services/users.service';
 import { ApiService } from '../../api.service';
+import { AuthService } from '../../auth.service';
 import { BackToTopComponent } from '../../common/back-to-top/back-to-top.component';
-import { ContactComponent } from '../../common/contact/contact.component';
 import { FooterComponent } from '../../common/footer/footer.component';
 import { NavbarComponent } from '../../common/navbar/navbar.component';
 import { PlatformService } from '../../platform.service';
@@ -57,7 +57,6 @@ interface CourseData {
         RouterLink,
         NavbarComponent,
         PageBannerComponent,
-        ContactComponent,
         FooterComponent,
         BackToTopComponent,
         CommonModule,
@@ -72,6 +71,7 @@ export class CoursesPageComponent implements OnInit {
     selectedCourse: CourseData | null = null;
     isLoading = false;
     error: string | null = null;
+    coursePrice: number | null = null;
 
     instructor: Instructor | null = null;
     course: Course | null = null;
@@ -95,6 +95,8 @@ export class CoursesPageComponent implements OnInit {
     private toastService = inject(ToastNotificationService);
     private commonService = inject(CommonService);
     private platFormService = inject(PlatformService);
+    private authService = inject(AuthService);
+    private router = inject(Router);
 
     private userService = inject(UserService);
     courseUId: string | null = null;
@@ -142,7 +144,11 @@ export class CoursesPageComponent implements OnInit {
         this.apiService.getImageUrl(src);
     }
 
-    handleOpenCourseDetails(courseUid: string, instructorRegId: string) {
+    handleOpenCourseDetails(
+        courseUid: string,
+        instructorRegId: string,
+        courseId: number
+    ) {
         // Instead of alert, you would typically:
         // 1. Fetch course details based on these IDs
         // 2. Update the offcanvas content dynamically
@@ -154,6 +160,7 @@ export class CoursesPageComponent implements OnInit {
         // this.loadCourseDetails(courseUid, instructorRegId);
         this.loadInstructorDetails(instructorRegId);
         this.loadCourseDetails(courseUid);
+        this.loadCoursePrice(courseId);
     }
 
     loadInstructorDetails(instructorRegId: any) {
@@ -196,123 +203,56 @@ export class CoursesPageComponent implements OnInit {
         }
     }
 
-    onSubmit(form: NgForm): void {
-        if (form.invalid) {
-            this.toastService.showError(
-                'Please fill all required fields correctly'
-            );
-            return;
-        }
-        this.isLoading = true;
-
-        if (this.user.password !== this.user.confirmPassword) {
-            this.toastService.showError('Passwords do not match');
-            return;
-        }
-        console.log(this.user);
-        this.commonService
-            .GetUserByEmail(this.user.email)
-            .subscribe((response) => {
-                if (response) {
-                    this.user.id = response.id;
-                    if (this.course && this.instructor && this.user.id) {
-                        const enrollData = {
-                            id: this.user.id,
-                            courseId: this.course.courseId,
-                            isApproved: true,
-                            isCompleted: false,
-                            isPaid: true,
-                            isRefunded: false,
-                            isFree: false,
-                            enrollDate: new Date().toISOString(),
-                            isTrial: false,
-                            isActive: true,
-                            isReject: false,
-                            instructorDetailsId:
-                                this.instructor.instructorDetailsId,
-                        };
-                        console.log('Enroll Data:', enrollData);
-                        this.enrollService.create(enrollData).subscribe(
-                            (response) => {
-                                this.toastService.showSuccess(
-                                    'Enrollment successful'
-                                );
-                                console.log('Enrollment successful:', response);
-                                // Handle success, e.g., show a success message or redirect
-                                this.loadEnrollDetails(response.enrollId);
-                            },
-                            (error) => {
-                                this.toastService.showError(
-                                    'Enrollment failed'
-                                );
-                                console.error('Enrollment failed:', error);
-                                // Handle error, e.g., show an error message
-                            }
-                        );
-                    }
-                } else {
-                    this.userService.createUser(this.user).subscribe({
-                        next: (response) => {
-                            this.toastService.showSuccess(
-                                'Registration successful!'
-                            );
-                            const userId = response.data.id;
-                            console.log('User ID:', userId);
-
-                            if (this.course && this.instructor) {
-                                const enrollData = {
-                                    id: userId,
-                                    courseId: this.course.courseId,
-                                    isApproved: true,
-                                    isCompleted: false,
-                                    isPaid: true,
-                                    isRefunded: false,
-                                    isFree: false,
-                                    enrollDate: new Date().toISOString(),
-                                    isTrial: false,
-                                    isActive: true,
-                                    isReject: false,
-                                    instructorDetailsId:
-                                        this.instructor.instructorDetailsId,
-                                };
-                                console.log('Enroll Data:', enrollData);
-                                this.enrollService.create(enrollData).subscribe(
-                                    (response) => {
-                                        this.toastService.showSuccess(
-                                            'Enrollment successful'
-                                        );
-                                        console.log(
-                                            'Enrollment successful:',
-                                            response
-                                        );
-                                        // Handle success, e.g., show a success message or redirect
-                                    },
-                                    (error) => {
-                                        this.toastService.showError(
-                                            'Enrollment failed'
-                                        );
-                                        console.error(
-                                            'Enrollment failed:',
-                                            error
-                                        );
-                                        // Handle error, e.g., show an error message
-                                    }
-                                );
-                            }
-                        },
-                        error: (err) => {
-                            console.error('Registration failed:', err);
-                            this.toastService.showError(
-                                'Registration failed. Please try again.'
-                            );
-                            this.isLoading = false;
-                        },
-                        complete: () => {
-                            this.isLoading = false;
-                        },
-                    });
+    loadCoursePrice(courseUId: any) {
+        if (courseUId) {
+            this.commonService.GetCoursePrice(courseUId).subscribe(
+                (course) => {
+                    this.coursePrice = course.price;
+                    console.log('Course Details:', course.price);
+                },
+                (error) => {
+                    console.error('Error fetching course details:', error);
                 }
-            });
+            );
+        }
+    }
+
+    onSubmit(form: NgForm): void {
+        if (this.authService.isLoggedIn()) {
+            console.log(this.authService.getCurrentUser());
+            if (this.course && this.instructor && this.user.id) {
+                const enrollData = {
+                    id: this.user.id,
+                    courseId: this.course.courseId,
+                    isApproved: true,
+                    isCompleted: false,
+                    isPaid: true,
+                    isRefunded: false,
+                    isFree: false,
+                    enrollDate: new Date().toISOString(),
+                    isTrial: false,
+                    isActive: true,
+                    isReject: false,
+                    instructorDetailsId: this.instructor.instructorDetailsId,
+                };
+                console.log('Enroll Data:', enrollData);
+                this.enrollService.create(enrollData).subscribe(
+                    (response) => {
+                        this.toastService.showSuccess('Enrollment successful');
+                        console.log('Enrollment successful:', response);
+                        // Handle success, e.g., show a success message or redirect
+                        this.loadEnrollDetails(response.enrollId);
+                    },
+                    (error) => {
+                        this.toastService.showError('Enrollment failed');
+                        console.error('Enrollment failed:', error);
+                        // Handle error, e.g., show an error message
+                    }
+                );
+            }
+        } else {
+            this.router.navigate(['/register']);
+        }
     }
 
     togglePasswordVisibility(): void {
@@ -341,5 +281,9 @@ export class CoursesPageComponent implements OnInit {
                 console.error('Error fetching enroll details:', error);
             }
         );
+    }
+
+    getImagePath(imageName: string): string {
+        return this.apiService.getImageUrl(imageName);
     }
 }

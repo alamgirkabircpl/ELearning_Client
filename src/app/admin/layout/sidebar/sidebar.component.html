@@ -1,28 +1,43 @@
 <div class="sidebar-brand py-4 px-6 border-b border-gray-800">
     <a href="./index.html" class="brand-link flex items-center">
         <img
-            src="/assets/img/AdminLTELogo.png"
+            src="images/newlogo.webp"
             alt="AdminLTE Logo"
             class="brand-image opacity-75 shadow-md mr-2 h-8"
         />
-        <span class="brand-text font-semibold text-xl">AdminLTE 4</span>
+        <!-- <span class="brand-text font-semibold text-xl">CorpoLearn</span> -->
     </a>
 </div>
 <div class="sidebar-wrapper overflow-y-auto">
-    <div class="p-4 space-y-4">
+    <!-- <span class="text-gray-400 font-semibold text-sm" *ngIf="user?.firstName">{{
+        user?.firstName + " " + user?.lastName
+    }}</span> -->
+    <div class="p-2 space-y-2">
         <button
+            [routerLink]="['/profile']"
+            routerLinkActive="router-link-active"
+            class="btn btn-primary btn-sm text-white mb-2"
+        >
+            <i class="bi bi-person-circle me-2"></i>
+            <span class="d-none d-md-inline">
+                {{ user?.firstName + " " + user?.lastName }}
+            </span>
+        </button>
+
+        <!-- <button
             (click)="logout()"
             class="btn btn-danger btn-sm btn-block text-white hover:bg-red-700 transition duration-300 ease-in-out"
         >
-            <i class="bi bi-box-arrow-left mr-2"></i> Logout
-        </button>
-        <button
+            <i class="bi bi-box-arrow-left mr-2"></i>
+            {{ user?.firstName + " " + user?.lastName }}
+        </button> -->
+        <!-- <button
             [routerLink]="['/change-password']"
             routerLinkActive="router-link-active"
             class="btn btn-primary btn-sm btn-block text-white hover:bg-blue-700 transition duration-300 ease-in-out"
         >
             <i class="bi bi-key mr-2"></i> Change Password
-        </button>
+        </button> -->
 
         <nav class="mt-6">
             <ul
@@ -96,13 +111,15 @@
                         </li>
                     </ul>
                 </li>
+
                 <li class="nav-item">
                     <a
-                        href="./generate/theme.html"
+                        routerLink="configuration/subscribe"
+                        routerLinkActive="active"
                         class="nav-link flex items-center p-3 hover:bg-gray-800 rounded-md transition duration-200 ease-in-out"
                     >
-                        <i class="nav-icon bi bi-palette mr-2 text-lg"></i>
-                        <p class="flex-1">Theme Generate</p>
+                        <i class="nav-icon bi bi-messenger mr-2 text-lg"></i>
+                        <p class="flex-1">Subscribe</p>
                     </a>
                 </li>
 
@@ -114,11 +131,10 @@
 
                 <li class="nav-item">
                     <a
-                        href="#"
                         class="nav-link flex items-center p-3 hover:bg-gray-800 rounded-md transition duration-200 ease-in-out"
                     >
                         <i class="nav-icon bi bi-people mr-2 text-lg"></i>
-                        <p class="flex-1">
+                        <p class="flex-1" style="cursor: pointer">
                             Manage Users
                             <i
                                 class="nav-arrow bi bi-chevron-right ml-auto"
@@ -147,7 +163,9 @@
                                 <i
                                     class="nav-icon bi bi-circle mr-2 text-sm"
                                 ></i>
-                                <p class="flex-1">Manage Module Role</p>
+                                <p class="flex-1" style="cursor: pointer">
+                                    Manage Module Role
+                                </p>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -178,7 +196,6 @@
                 </li>
                 <li class="nav-item">
                     <a
-                        href="#"
                         class="nav-link flex items-center p-3 hover:bg-gray-800 rounded-md transition duration-200 ease-in-out"
                     >
                         <i class="nav-icon bi bi-shield-lock mr-2 text-lg"></i>
@@ -227,6 +244,29 @@
                             </a>
                         </li>
                     </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a
+                        routerLink="configuration/enrolls"
+                        routerLinkActive="active"
+                        class="nav-link flex items-center p-3 hover:bg-gray-800 rounded-md transition duration-200 ease-in-out"
+                    >
+                        <i class="nav-icon bi bi-cart-plus mr-2 text-lg"></i>
+                        <p class="flex-1">Enroll</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a
+                        routerLink="configuration/contact-admin"
+                        routerLinkActive="active"
+                        class="nav-link flex items-center p-3 hover:bg-gray-800 rounded-md transition duration-200 ease-in-out"
+                    >
+                        <i
+                            class="nav-icon bi bi-chevron-contract mr-2 text-lg"
+                        ></i>
+                        <p class="flex-1">Contact</p>
+                    </a>
                 </li>
             </ul>
         </nav>

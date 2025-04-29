@@ -46,6 +46,7 @@ export class RegisterPageComponent {
     ) {}
 
     onSubmit(form: NgForm): void {
+        this.user.userName = this.user.email;
         if (form.invalid) {
             this.toastService.showError(
                 'Please fill all required fields correctly'

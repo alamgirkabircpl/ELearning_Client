@@ -160,4 +160,11 @@ export class AuthService {
                 })
             );
     }
+
+    initializeUserFromToken(): void {
+        const token = this.getToken();
+        if (token) {
+            this.decodeAndStoreUser(token);
+        }
+    }
 }

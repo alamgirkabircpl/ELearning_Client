@@ -37,7 +37,13 @@ export class UserService {
             )}/${id}`
         );
     }
-
+    getUserByEmail(email: string): Observable<User> {
+        return this.http.get<User>(
+            `${this.apiService.getFullUrl(
+                'api/ApplicationUser/GetUserByEmail'
+            )}/${email}`
+        );
+    }
     getAllUser(): Observable<User> {
         return this.http.get<User>(
             `${this.apiService.getFullUrl('api/ApplicationUser')}`

@@ -1,54 +1,23 @@
-.container-fluid {
-    padding: 20px;
-
-    .row {
-        margin-bottom: 1.5rem;
-    }
+.custom-offcanvas {
+    width: 75%;
+    height: 100vh; /* Full viewport height */
+    overflow-y: auto;
+    position: fixed; /* To help positioning */
 }
 
-.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    transition: all 0.2s ease;
-
-    i {
-        font-size: 0.9em;
-    }
+.close-arrow {
+    position: fixed; /* Fixed to viewport, not inside offcanvas */
+    top: 50%;
+    right: 73%; /* Exactly matching offcanvas width */
+    transform: translateY(-50%);
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-size: 26px;
+    padding: 8px;
+    z-index: 1060;
+    background: white;
 }
 
-.btn-sm {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.875rem;
-    line-height: 1.5;
-    border-radius: 0.2rem;
-}
-
-.btn-group-sm > .btn {
-    padding: 0.25rem 0.5rem;
-}
-
-.text-success {
-    color: #28a745 !important;
-}
-
-.text-danger {
-    color: #dc3545 !important;
-}
-
-.text-warning {
-    color: #ffc107 !important;
-}
-
-/* Responsive adjustments */
-@media (max-width: 767.98px) {
-    .container-fluid {
-        padding: 15px;
-    }
-
-    .btn-group-sm > .btn {
-        padding: 0.2rem 0.4rem;
-        font-size: 0.8125rem;
-    }
+.close-arrow:hover {
+    background: #f8f9fa;
 }

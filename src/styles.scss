@@ -4,6 +4,7 @@
 :root {
     --fontFamily: "Poppins", sans-serif;
     --headingFontFamily: "Unbounded", sans-serif;
+    // --primaryColor: #fab758;
     --primaryColor: #a7ff37;
     --secondaryColor: #586cec;
     --paragraphColor: #555555;
@@ -145,7 +146,8 @@ p {
         color: #f3f3f3;
     }
     .default-btn {
-        color: var(--blackColor);
+        color: var(--whiteColor);
+        // color: var(--blackColor);
 
         &:hover {
             color: var(--whiteColor);
@@ -168,7 +170,8 @@ p {
     padding: 15px 30px;
     border-radius: 5px;
     display: inline-block;
-    color: var(--blackColor);
+    color: var(--whiteColor);
+    // color: var(--blackColor);
     transition: var(--transition);
     background-color: var(--primaryColor);
     font: {

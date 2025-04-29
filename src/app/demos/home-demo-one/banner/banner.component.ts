@@ -7,10 +7,9 @@ import { RouterLink } from '@angular/router';
     standalone: true,
     imports: [RouterLink, NgIf],
     templateUrl: './banner.component.html',
-    styleUrl: './banner.component.scss'
+    styleUrl: './banner.component.scss',
 })
 export class BannerComponent {
-
     // Video Popup
     isOpen = false;
     openPopup(): void {
@@ -19,5 +18,4 @@ export class BannerComponent {
     closePopup(): void {
         this.isOpen = false;
     }
-
 }

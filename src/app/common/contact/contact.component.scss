@@ -1,7 +1,7 @@
 .contact-area {
     .section-title {
         margin-bottom: 60px;
-        
+
         h2 {
             max-width: 785px;
         }
@@ -12,7 +12,7 @@
 
     .form-group {
         margin-bottom: 80px;
-        
+
         .form-control {
             border: 0;
             padding: 0 0 18px;
@@ -23,7 +23,7 @@
             border: {
                 radius: 0;
                 bottom: 2px solid #1c1c1c;
-            };
+            }
             &::placeholder {
                 color: var(--paragraphColor);
                 transition: var(--transition);
@@ -43,11 +43,12 @@
     .default-btn {
         margin-top: 40px;
         color: var(--whiteColor);
-        background-color: var(--blackColor);
+        background-color: var(--primaryColor);
+        // background-color: var(--blackColor);
 
         &:hover {
-            color: var(--blackColor);
-            background-color: var(--primaryColor);
+            color: var(--whiteColor);
+            background-color: var(--secondaryColor);
         }
     }
 }
@@ -70,7 +71,7 @@
             font: {
                 size: 24px;
                 family: var(--fontFamily);
-            };
+            }
         }
         .icon {
             width: 89px;
@@ -110,7 +111,7 @@
             font: {
                 size: 20px;
                 family: var(--fontFamily);
-            };
+            }
         }
         .phone-number {
             font-size: 24px;
@@ -135,12 +136,12 @@
             font-size: 16px;
             border-radius: 5px;
             color: var(--blackColor);
-            border: 1px solid #E2E2E2;
-            background-color: #F3F3F3;
+            border: 1px solid #e2e2e2;
+            background-color: #f3f3f3;
             padding: {
                 left: 30px;
                 right: 30px;
-            };
+            }
             &::placeholder {
                 color: var(--paragraphColor);
                 transition: var(--transition);
@@ -159,12 +160,11 @@
 }
 
 /* Max width 767px */
-@media only screen and (max-width : 767px) {
-
+@media only screen and (max-width: 767px) {
     .contact-area {
         .section-title {
             margin-bottom: 30px;
-            
+
             h2 {
                 max-width: 100%;
             }
@@ -172,10 +172,10 @@
     }
     .contact-form {
         max-width: 100%;
-    
+
         .form-group {
             margin-bottom: 30px;
-            
+
             .form-control {
                 border-bottom-width: 1px;
                 padding: 0 0 15px;
@@ -193,7 +193,7 @@
     }
     .contact-content {
         max-width: 100%;
-    
+
         h2 {
             font-size: 25px;
             line-height: 1.3;
@@ -203,7 +203,7 @@
             max-width: 100%;
             padding-left: 20px;
             margin-bottom: 25px;
-    
+
             h3 {
                 font-size: 20px;
             }
@@ -221,7 +221,7 @@
         margin: {
             right: 0;
             bottom: 30px;
-        };
+        }
         h2 {
             margin-bottom: 25px;
             line-height: 1.4;
@@ -231,12 +231,12 @@
         .box {
             padding: 20px;
             margin-bottom: 20px;
-    
+
             .icon {
                 margin: {
                     right: 0;
                     bottom: 20px;
-                };
+                }
             }
             h3 {
                 margin-bottom: 10px;
@@ -254,36 +254,35 @@
     .contact-form-box {
         margin-left: 0;
         padding: 30px 20px;
-    
+
         .form-group {
             margin-bottom: 15px;
-    
+
             .form-control {
                 height: 50px;
                 font-size: 14px;
                 padding: {
                     left: 15px;
                     right: 15px;
-                };
+                }
             }
             textarea.form-control {
                 padding-top: 15px;
             }
         }
     }
-
 }
 
 /* Min width 576px to Max width 767px */
-@media only screen and (min-width : 576px) and (max-width : 767px) {}
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+}
 
 /* Min width 768px to Max width 991px */
-@media only screen and (min-width : 768px) and (max-width : 991px) {
-
+@media only screen and (min-width: 768px) and (max-width: 991px) {
     .contact-area {
         .section-title {
             margin-bottom: 40px;
-            
+
             h2 {
                 max-width: 100%;
             }
@@ -291,10 +290,10 @@
     }
     .contact-form {
         max-width: 100%;
-    
+
         .form-group {
             margin-bottom: 30px;
-            
+
             .form-control {
                 font-size: 16px;
             }
@@ -305,14 +304,14 @@
     }
     .contact-content {
         max-width: 100%;
-    
+
         h2 {
             line-height: 1.4;
             margin-bottom: 35px;
         }
         .info {
             margin-bottom: 35px;
-    
+
             h3 {
                 font-size: 22px;
             }
@@ -325,7 +324,7 @@
         margin: {
             right: 0;
             bottom: 30px;
-        };
+        }
         h2 {
             margin-bottom: 30px;
             line-height: 1.4;
@@ -333,7 +332,7 @@
         .box {
             padding: 25px;
             margin-bottom: 25px;
-    
+
             .icon {
                 margin-right: 15px;
             }
@@ -351,33 +350,31 @@
     .contact-form-box {
         margin-left: 0;
         padding: 40px 25px;
-    
+
         .form-group {
             margin-bottom: 20px;
-    
+
             .form-control {
                 height: 55px;
                 font-size: 15px;
                 padding: {
                     left: 20px;
                     right: 20px;
-                };
+                }
             }
             textarea.form-control {
                 padding-top: 20px;
             }
         }
     }
-
 }
 
 /* Min width 992px to Max width 1199px */
-@media only screen and (min-width : 992px) and (max-width : 1199px) {
-
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
     .contact-form {
         .form-group {
             margin-bottom: 50px;
-            
+
             .form-control {
                 font-size: 18px;
             }
@@ -386,11 +383,12 @@
             margin-top: 50px;
         }
     }
-
 }
 
 /* Min width 1200px to Max width 1399px */
-@media only screen and (min-width: 1200px) and (max-width: 1399px) {}
+@media only screen and (min-width: 1200px) and (max-width: 1399px) {
+}
 
 /* Min width 1600px */
-@media only screen and (min-width: 1600px) {}
+@media only screen and (min-width: 1600px) {
+}

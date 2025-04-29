@@ -20,4 +20,16 @@ export class CommonService {
             'http://localhost:44449/api/Common/GetUserByEmail?email=' + email
         );
     }
+    GetCoursePrice(courseId: number): Observable<any> {
+        return this.http.get<any>(
+            'http://localhost:44449/api/Common/GetCoursePriceByCourseId' +
+                courseId
+        );
+    }
+    GetEnrolmentDetailsByUserId(userId: string): Observable<any> {
+        return this.http.get<any>(
+            'http://localhost:44449/api/Common/GetEnrolmentDetailsByUserId' +
+                userId
+        );
+    }
 }

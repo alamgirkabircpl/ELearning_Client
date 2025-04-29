@@ -2,7 +2,7 @@
 <!--begin::Container-->
 <div class="container-fluid">
     <!--begin::Start Navbar Links-->
-    <ul class="navbar-nav">
+    <ul class="navbar-nav gap-2">
         <li class="nav-item">
             <a
                 class="nav-link"
@@ -13,34 +13,41 @@
                 <i class="bi bi-list"></i>
             </a>
         </li>
-        <li class="nav-item d-none d-md-block">
-            <a href="#" class="nav-link">Home</a>
-        </li>
-        <li class="nav-item d-none d-md-block">
-            <a href="#" class="nav-link">Contact</a>
-        </li>
-        <!-- <li class="nav-item d-none d-md-block">
-            <button
-                (click)="logout()"
-                class="btn btn-warning btn-sm text-white"
-            >
-                Logout
+
+        <!-- Logout Button -->
+        <li class="nav-item">
+            <button (click)="logout()" class="btn btn-danger btn-sm text-white">
+                <i class="bi bi-box-arrow-left"></i>
+                <span class="d-none d-md-inline"> Logout</span>
             </button>
         </li>
-        <li class="nav-item d-none d-md-block">
+
+        <!-- Change Password Button -->
+        <li class="nav-item">
             <button
                 [routerLink]="['/change-password']"
                 routerLinkActive="router-link-active"
-                class="btn btn-warning btn-sm text-white"
+                class="btn btn-primary btn-sm text-white"
             >
-                Change Password
+                <i class="bi bi-key"></i>
+                <span class="d-none d-md-inline"> Change Password</span>
             </button>
-        </li> -->
+        </li>
+
+        <!-- Change Password Button -->
+        <li class="nav-item">
+            <button
+                [routerLink]="['/']"
+                target="_blank"
+                routerLinkActive="router-link-active"
+                class="btn btn-primary btn-sm text-white"
+            >
+                <i class="bi bi-globe"></i>
+                <span class="d-none d-md-inline"> View Website</span>
+            </button>
+        </li>
     </ul>
     <!--end::Start Navbar Links-->
-    <!--begin::End Navbar Links-->
-
-    <!--end::End Navbar Links-->
 </div>
 <!--end::Container-->
 <!--end::Header-->

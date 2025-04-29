@@ -16,7 +16,8 @@
                     class="navbar-brand"
                     routerLink="/"
                 >
-                    <img src="images/logo.svg" alt="logo" />
+                    <img src="images/newlogo.webp" alt="logo" />
+                    <!-- <img src="images/logo.svg" alt="logo" /> -->
                 </a>
                 <a
                     *ngIf="router.url === '/index-3'"
@@ -108,6 +109,19 @@
                                 Courses
                             </a>
                         </li>
+
+                        <li class="nav-item">
+                            <a
+                                routerLink="/team"
+                                class="nav-link"
+                                routerLinkActive="active"
+                                [routerLinkActiveOptions]="{
+                                    exact: true
+                                }"
+                            >
+                                Our Team
+                            </a>
+                        </li>
                         <!-- <li class="nav-item">
                             <a
                                 href="javascript:void(0);"
@@ -142,7 +156,8 @@
                                 </li>
                             </ul>
                         </li> -->
-                        <li class="nav-item">
+
+                        <!-- <li class="nav-item">
                             <a
                                 href="javascript:void(0);"
                                 class="dropdown-toggle nav-link"
@@ -269,7 +284,8 @@
                                     </a>
                                 </li>
                             </ul>
-                        </li>
+                        </li> -->
+
                         <li class="nav-item">
                             <a
                                 routerLink="/contact"
@@ -280,7 +296,8 @@
                                 Contact
                             </a>
                         </li>
-                        <li class="nav-item">
+
+                        <li class="nav-item" *ngIf="!isLoggedIn">
                             <a
                                 routerLink="/login"
                                 class="nav-link"
@@ -289,6 +306,38 @@
                             >
                                 Login
                             </a>
+                        </li>
+
+                        <li class="nav-item" *ngIf="isLoggedIn">
+                            <a
+                                href="javascript:void(0);"
+                                class="dropdown-toggle nav-link"
+                            >
+                                {{ userObject?.firstName }}
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="nav-item">
+                                    <a
+                                        (click)="logout()"
+                                        class="nav-link"
+                                        style="cursor: pointer"
+                                    >
+                                        Logout
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a
+                                        routerLink="/profile"
+                                        class="nav-link"
+                                        routerLinkActive="active"
+                                        [routerLinkActiveOptions]="{
+                                            exact: true
+                                        }"
+                                    >
+                                        Profile
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                     <div class="others-option">

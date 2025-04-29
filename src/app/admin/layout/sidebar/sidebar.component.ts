@@ -17,9 +17,11 @@ import {
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { filter } from 'rxjs/operators';
 import { AuthService } from '../../../auth.service';
+import { PlatformService } from '../../../platform.service';
 import { SharedModule } from '../../../shared.module';
 import { ToastNotificationService } from '../../../toast-notification.service';
 import { User } from '../../models/user';
+import { UserService } from '../../services/users.service';
 
 @Component({
     selector: 'app-sidebar',
@@ -43,6 +45,8 @@ export class SidebarComponent implements OnInit {
     isConfigurationOpen = false;
     private authService = inject(AuthService);
     private toastService = inject(ToastNotificationService);
+    private userService = inject(UserService);
+    private platformService = inject(PlatformService);
 
     constructor(private router: Router, private jwtHelper: JwtHelperService) {
         this.router.events
@@ -53,7 +57,9 @@ export class SidebarComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.getUserData();
+        if (this.platformService.isBrowser()) {
+            this.getUserData();
+        }
     }
 
     logout() {
@@ -107,7 +113,22 @@ export class SidebarComponent implements OnInit {
 
     getUserData() {
         var data = this.authService.getCurrentUser();
-        this.user = data;
-        console.log(this.user);
+        console.log('', data);
+
+        if (data && data.email) {
+            this.getUserByEmail(data.email);
+        }
+    }
+
+    getUserByEmail(email: string) {
+        this.userService.getUserByEmail(email).subscribe({
+            next: (user) => {
+                this.user = user;
+                console.log('User data:', user);
+            },
+            error: (error) => {
+                console.error('Error fetching user by email:', error);
+            },
+        });
     }
 }

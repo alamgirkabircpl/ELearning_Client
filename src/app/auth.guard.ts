@@ -23,12 +23,18 @@ export const authGuard: CanActivateFn = (route, state) => {
         authService.decodeAndStoreUser(token);
 
         if (state.url === '/dashboard' && authService.hasRole('BASIC')) {
+            console.log('User:', decoded.jti);
             return router.parseUrl('/admin/dashboard');
         }
 
         const requiredRoles = route.data?.['roles'] as string[];
         if (requiredRoles && !authService.hasAnyRole(requiredRoles)) {
-            return router.parseUrl('/unauthorized');
+            console.error(
+                'User does not have the required role(s)',
+                requiredRoles
+            );
+            return router.parseUrl('/');
+            // return router.parseUrl('/unauthorized');
         }
 
         const requiredPermissions = route.data?.['permissions'] as string[];
@@ -36,6 +42,7 @@ export const authGuard: CanActivateFn = (route, state) => {
             requiredPermissions &&
             !authService.hasAllPermissions(requiredPermissions)
         ) {
+            console.error('User does not have the required permission(s)');
             return router.parseUrl('/unauthorized');
         }
 
@@ -57,7 +64,8 @@ function handleExpiredToken(
             const roles = route.data?.['roles'] || [];
             const permissions = route.data?.['permissions'] || [];
             if (roles.length && !authService.hasAnyRole(roles))
-                return router.parseUrl('/unauthorized');
+                console.error('User does not have the required role(s)');
+            return router.parseUrl('/unauthorized');
             if (
                 permissions.length &&
                 !authService.hasAllPermissions(permissions)

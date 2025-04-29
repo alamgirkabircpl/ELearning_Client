@@ -1,10 +1,5 @@
 <!-- Default -->
-<div
-    class="courses-area border-bottom border-top bg-f3f3f3 pt-120 pb-95"
-    [ngClass]="{
-        'd-none': router.url === '/index-2' || router.url === '/index-3'
-    }"
->
+<div class="courses-area bg-f3f3f3 pt-120 pb-95">
     <div class="container">
         <div class="section-title position-relative">
             <h2 class="mb-0 fw-semibold text-uppercase">Our Popular Courses</h2>
@@ -23,7 +18,7 @@
                     <p>{{ course.description }}</p>
                     <div class="instructor d-flex align-items-center">
                         <img
-                            src="images/users/user1.jpg"
+                            [src]="getImageUrl(course?.instructorProfilePic)"
                             class="rounded-circle"
                             alt="user-image"
                         />

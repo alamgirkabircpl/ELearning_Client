@@ -1,1 +1,9 @@
-<p>designation works!</p>
+<div *ngIf="Editor">
+    <ckeditor
+        [editor]="Editor"
+        [config]="config"
+        [data]="initialData"
+    ></ckeditor>
+</div>
+
+<div *ngIf="!Editor">Loading editor...</div>

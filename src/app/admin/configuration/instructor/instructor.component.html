@@ -13,206 +13,207 @@
                 enctype="multipart/form-data"
             >
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            <label class="form-label">First Name</label>
-                            <input
-                                type="text"
-                                name="firstName"
-                                [(ngModel)]="instructor.firstName"
-                                class="form-control"
-                                placeholder="Enter first name"
-                                required
-                                [disabled]="isEditMode"
-                            />
-                        </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">First Name</label>
+                        <input
+                            type="text"
+                            name="firstName"
+                            [(ngModel)]="instructor.firstName"
+                            class="form-control"
+                            placeholder="Enter first name"
+                            required
+                            [disabled]="isEditMode"
+                        />
+                    </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Last Name</label>
-                            <input
-                                type="text"
-                                name="lastName"
-                                [(ngModel)]="instructor.lastName"
-                                class="form-control"
-                                placeholder="Enter last name"
-                                required
-                                [disabled]="isEditMode"
-                            />
-                        </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Last Name</label>
+                        <input
+                            type="text"
+                            name="lastName"
+                            [(ngModel)]="instructor.lastName"
+                            class="form-control"
+                            placeholder="Enter last name"
+                            required
+                            [disabled]="isEditMode"
+                        />
+                    </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Email</label>
-                            <input
-                                type="email"
-                                class="form-control"
-                                [(ngModel)]="instructor.email"
-                                name="email"
-                                placeholder="Email"
-                                required
-                                [disabled]="isEditMode"
-                            />
-                        </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Email</label>
+                        <input
+                            type="email"
+                            class="form-control"
+                            [(ngModel)]="instructor.email"
+                            name="email"
+                            placeholder="Email"
+                            required
+                            [disabled]="isEditMode"
+                        />
+                    </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Username</label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                [(ngModel)]="instructor.userName"
-                                name="userName"
-                                placeholder="Username"
-                                required
-                                [disabled]="isEditMode"
-                            />
-                        </div>
+                    <!-- <div class="mb-3">
+                        <label class="form-label">Username</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            [(ngModel)]="instructor.userName"
+                            name="userName"
+                            placeholder="Username"
+                            required
+                            [disabled]="isEditMode"
+                        />
+                    </div> -->
 
-                        <div class="mb-3" *ngIf="!isEditMode">
-                            <label class="form-label">Password</label>
-                            <div class="password-field">
-                                <input
-                                    [type]="showPassword ? 'text' : 'password'"
-                                    class="form-control"
-                                    [(ngModel)]="instructor.password"
-                                    name="password"
-                                    placeholder="Password"
-                                    required
-                                />
-                                <button
-                                    type="button"
-                                    class="password-toggle"
-                                    (click)="togglePasswordVisibility()"
-                                >
-                                    <i
-                                        [class]="
-                                            showPassword
-                                                ? 'fa-regular fa-eye'
-                                                : 'fa-regular fa-eye-slash'
-                                        "
-                                    ></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="mb-3" *ngIf="!isEditMode">
-                            <label class="form-label">Confirm Password</label>
+                    <div class="col-md-6 mb-3" *ngIf="!isEditMode">
+                        <label class="form-label">Password</label>
+                        <div class="password-field">
                             <input
                                 [type]="showPassword ? 'text' : 'password'"
                                 class="form-control"
-                                [(ngModel)]="instructor.confirmPassword"
-                                name="confirmPassword"
-                                placeholder="Confirm Password"
+                                [(ngModel)]="instructor.password"
+                                name="password"
+                                placeholder="Password"
                                 required
                             />
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                (click)="togglePasswordVisibility()"
+                            >
+                                <i
+                                    [class]="
+                                        showPassword
+                                            ? 'fa-regular fa-eye'
+                                            : 'fa-regular fa-eye-slash'
+                                    "
+                                ></i>
+                            </button>
                         </div>
                     </div>
 
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            <label class="form-label">Qualification</label>
-                            <input
-                                type="text"
-                                name="qualification"
-                                [(ngModel)]="instructor.qualification"
-                                class="form-control"
-                                placeholder="Enter qualification"
-                                required
-                            />
-                        </div>
+                    <div class="col-md-6 mb-3" *ngIf="!isEditMode">
+                        <label class="form-label">Confirm Password</label>
+                        <input
+                            [type]="showPassword ? 'text' : 'password'"
+                            class="form-control"
+                            [(ngModel)]="instructor.confirmPassword"
+                            name="confirmPassword"
+                            placeholder="Confirm Password"
+                            required
+                        />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Qualification</label>
+                        <input
+                            type="text"
+                            name="qualification"
+                            [(ngModel)]="instructor.qualification"
+                            class="form-control"
+                            placeholder="Enter qualification"
+                            required
+                        />
+                    </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Experience</label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                [(ngModel)]="instructor.experience"
-                                name="experience"
-                                placeholder="Experience"
-                                required
-                            />
-                        </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Experience</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            [(ngModel)]="instructor.experience"
+                            name="experience"
+                            placeholder="Experience"
+                            required
+                        />
+                    </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Certification</label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                [(ngModel)]="instructor.certification"
-                                name="certification"
-                                placeholder="Certification"
-                                required
-                            />
-                        </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Certification</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            [(ngModel)]="instructor.certification"
+                            name="certification"
+                            placeholder="Certification"
+                            required
+                        />
+                    </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">LinkedIn Profile</label>
-                            <input
-                                type="url"
-                                name="linkdinProfile"
-                                [(ngModel)]="instructor.linkdinProfile"
-                                class="form-control"
-                                placeholder="Enter LinkedIn URL"
-                            />
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Description</label>
-                            <textarea
-                                name="description"
-                                [(ngModel)]="instructor.description"
-                                class="form-control"
-                                placeholder="Enter Description"
-                                rows="3"
-                            ></textarea>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Profile Picture</label>
-                            <input
-                                type="file"
-                                class="form-control"
-                                (change)="onFileSelected($event)"
-                                accept="image/*"
-                                #fileInput
-                            />
-                            <div
-                                class="mt-2"
-                                *ngIf="
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">LinkedIn Profile</label>
+                        <input
+                            type="url"
+                            name="linkdinProfile"
+                            [(ngModel)]="instructor.linkdinProfile"
+                            class="form-control"
+                            placeholder="Enter LinkedIn URL"
+                        />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Profile Picture</label>
+                        <input
+                            type="file"
+                            class="form-control"
+                            (change)="onFileSelected($event)"
+                            accept="image/*"
+                            #fileInput
+                        />
+                        <div
+                            class="mt-2"
+                            *ngIf="
+                                profileImagePreview || instructor.profilePicture
+                            "
+                        >
+                            <img
+                                [src]="
                                     profileImagePreview ||
                                     instructor.profilePicture
                                 "
-                            >
-                                <img
-                                    [src]="
-                                        profileImagePreview ||
-                                        instructor.profilePicture
-                                    "
-                                    class="img-thumbnail"
-                                    width="150"
-                                    height="150"
-                                    style="object-fit: cover"
-                                />
-                                <button
-                                    type="button"
-                                    class="btn btn-sm btn-outline-danger ms-2"
-                                    (click)="removeImage()"
-                                >
-                                    <i class="fas fa-trash"></i> Remove
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="mb-3 form-check">
-                            <input
-                                type="checkbox"
-                                class="form-check-input"
-                                [(ngModel)]="instructor.isActive"
-                                name="isActive"
-                                id="isActive"
+                                class="img-thumbnail"
+                                width="150"
+                                height="150"
+                                style="object-fit: cover"
                             />
-                            <label class="form-check-label" for="isActive"
-                                >Is Active</label
+                            <button
+                                type="button"
+                                class="btn btn-sm btn-outline-danger ms-2"
+                                (click)="removeImage()"
                             >
+                                <i class="fas fa-trash"></i> Remove
+                            </button>
                         </div>
+                    </div>
+
+                    <div class="col-md-8 mb-3">
+                        <label class="form-label">Description</label>
+                        <ckeditor
+                            *ngIf="Editor"
+                            [editor]="Editor"
+                            [config]="config"
+                            [(ngModel)]="instructor.description"
+                            name="description"
+                            [data]="initialData"
+                            #description="ngModel"
+                            [class.is-invalid]="
+                                description?.invalid &&
+                                (description?.dirty ||
+                                    description?.touched ||
+                                    onSubmit)
+                            "
+                        ></ckeditor>
+                    </div>
+
+                    <div class="col-md-4 mb-3 form-check">
+                        <input
+                            type="checkbox"
+                            class="form-check-input"
+                            [(ngModel)]="instructor.isActive"
+                            name="isActive"
+                            id="isActive"
+                        />
+                        <label class="form-check-label" for="isActive"
+                            >Is Active</label
+                        >
                     </div>
                 </div>
 

@@ -1,0 +1,162 @@
+<div class="container mt-4">
+    <div class="row">
+        <!-- Form Section -->
+        <div class="col-lg-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    {{ isEditMode ? "Edit Subscriber" : "Add New Subscriber" }}
+                </div>
+                <div class="card-body">
+                    <form (ngSubmit)="saveSubscribe()" #subscribeForm="ngForm">
+                        <div class="mb-3">
+                            <label for="subscribeEmail" class="form-label"
+                                >Email</label
+                            >
+                            <input
+                                type="email"
+                                id="subscribeEmail"
+                                [(ngModel)]="currentSubscribe.subscribeEmail"
+                                name="subscribeEmail"
+                                required
+                                class="form-control"
+                                placeholder="Enter subscriber email"
+                            />
+                        </div>
+                        <div class="form-check form-switch mb-3">
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                id="isResponse"
+                                [(ngModel)]="currentSubscribe.isResponse"
+                                name="isResponse"
+                            />
+                            <label class="form-check-label" for="isResponse">
+                                Responded
+                            </label>
+                        </div>
+                        <button
+                            type="submit"
+                            class="btn btn-success w-100 mb-2"
+                        >
+                            {{ isEditMode ? "Update" : "Create" }}
+                        </button>
+                        <button
+                            *ngIf="isEditMode"
+                            type="button"
+                            class="btn btn-secondary w-100"
+                            (click)="cancelEdit()"
+                        >
+                            Cancel
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Subscriber List Section -->
+        <div class="col-lg-8">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4>Subscribers List</h4>
+                <input
+                    type="text"
+                    class="form-control w-50"
+                    placeholder="Search by email..."
+                    [(ngModel)]="searchTerm"
+                    (ngModelChange)="searchSubscribers()"
+                />
+            </div>
+
+            <div class="table-responsive">
+                <table
+                    class="table table-hover table-striped table-bordered table-group-divider align-middle"
+                >
+                    <thead class="table-light">
+                        <tr>
+                            <th>Email</th>
+                            <th>Responded</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let subscribe of paginatedSubscribes">
+                            <td>{{ subscribe.subscribeEmail }}</td>
+                            <td>
+                                <span
+                                    class="badge"
+                                    [class.bg-success]="subscribe.isResponse"
+                                    [class.bg-danger]="!subscribe.isResponse"
+                                >
+                                    {{ subscribe.isResponse ? "Yes" : "No" }}
+                                </span>
+                            </td>
+                            <td>
+                                <button
+                                    class="btn btn-warning btn-sm me-2"
+                                    (click)="editSubscribe(subscribe)"
+                                >
+                                    Edit
+                                </button>
+                                <button
+                                    class="btn btn-danger btn-sm"
+                                    (click)="
+                                        subscribe.subscribeId !== undefined &&
+                                            confirmDelete(subscribe.subscribeId)
+                                    "
+                                >
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                        <tr *ngIf="paginatedSubscribes.length === 0">
+                            <td colspan="3" class="text-center text-muted">
+                                No subscribers found.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <div class="text-muted">
+                    Showing {{ getDisplayRange().start }}–{{
+                        getDisplayRange().end
+                    }}
+                    of {{ filteredSubscribes.length }}
+                </div>
+                <nav *ngIf="totalPages.length > 1">
+                    <ul class="pagination mb-0">
+                        <li class="page-item" [class.disabled]="page === 1">
+                            <button
+                                class="page-link"
+                                (click)="onPageChange(page - 1)"
+                            >
+                                Previous
+                            </button>
+                        </li>
+                        <li
+                            class="page-item"
+                            *ngFor="let p of totalPages"
+                            [class.active]="page === p"
+                        >
+                            <button class="page-link" (click)="onPageChange(p)">
+                                {{ p }}
+                            </button>
+                        </li>
+                        <li
+                            class="page-item"
+                            [class.disabled]="page === totalPages.length"
+                        >
+                            <button
+                                class="page-link"
+                                (click)="onPageChange(page + 1)"
+                            >
+                                Next
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>

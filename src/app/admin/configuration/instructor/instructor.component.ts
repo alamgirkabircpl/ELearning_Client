@@ -1,6 +1,7 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, Inject, inject, PLATFORM_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { ApiService } from '../../../api.service';
 import { PlatformService } from '../../../platform.service';
 import { ToastNotificationService } from '../../../toast-notification.service';
@@ -12,7 +13,7 @@ import { UserService } from '../../services/users.service';
 @Component({
     selector: 'app-instructor',
     standalone: true,
-    imports: [CommonModule, FormsModule],
+    imports: [CommonModule, FormsModule, CKEditorModule],
     templateUrl: './instructor.component.html',
     styleUrls: ['./instructor.component.scss'],
 })
@@ -39,17 +40,60 @@ export class InstructorComponent {
     isSubmitting = false;
     isEditMode = false;
 
+    public Editor: any;
+    public config: any;
+    public initialData = '<p>Write description here...</p>';
     // DataTable options
     dtOptions: any;
 
-    ngOnInit(): void {
-        if (this.platformService.isBrowser()) {
-            this.loadInstructors();
+    constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
-            this.dtOptions = {
-                pagingType: 'full_numbers',
-            };
+    async ngOnInit(): Promise<void> {
+        if (isPlatformBrowser(this.platformId)) {
+            try {
+                const ClassicEditor = (
+                    await import('@ckeditor/ckeditor5-build-classic')
+                ).default;
+                this.Editor = ClassicEditor;
+                this.config = {
+                    toolbar: [
+                        'heading',
+                        '|',
+                        'bold',
+                        'italic',
+                        'link',
+                        'bulletedList',
+                        'numberedList',
+                        '|',
+                        'indent',
+                        'outdent',
+                        '|',
+                        'undo',
+                        'redo',
+                    ],
+                };
+            } catch (error) {
+                console.error('Error loading CKEditor:', error);
+            }
         }
+        this.loadInstructors();
+        this.dtOptions = {
+            pagingType: 'full_numbers',
+            pageLength: 10,
+            lengthMenu: [5, 10, 25, 50],
+            processing: true,
+            order: [],
+            columnDefs: [
+                {
+                    targets: [0],
+                    orderable: false,
+                },
+                {
+                    targets: [1],
+                    orderable: true,
+                },
+            ],
+        };
     }
 
     private createEmptyInstructor(): Instructor {
@@ -199,7 +243,7 @@ export class InstructorComponent {
             firstName: this.instructor.firstName,
             lastName: this.instructor.lastName,
             email: this.instructor.email,
-            userName: this.instructor.userName,
+            userName: this.instructor.email,
             password: this.instructor.password,
             confirmPassword: this.instructor.confirmPassword,
             isActive: true,

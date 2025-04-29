@@ -92,4 +92,11 @@ export class LoginPageComponent {
                 }
             });
     }
+
+    loginWith(provider: string) {
+        this.isLoading = true;
+        this.errorMessage = '';
+
+        window.location.href = `http://localhost:44449/api/ApplicationUser/external-login?provider=${provider}&returnUrl=http://localhost:4200/login-callback`;
+    }
 }

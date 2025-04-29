@@ -1,63 +1,80 @@
-<div class="container-fluid py-4">
-    <div class="row">
-        <div class="col-12">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci
-            perspiciatis vitae culpa, doloremque cumque labore a ullam itaque
-            distinctio cum. Enim suscipit quas quae tempore? Dignissimos eveniet
-            illum qui omnis quos. Commodi, labore in facilis soluta alias ut at
-            facere molestias aperiam obcaecati nihil? Quia, quibusdam.
-            Reprehenderit, accusantium vitae, officia laudantium ipsum harum ab
-            fuga suscipit error repellat repudiandae animi illo? Quas totam
-            dolor eum dolorum assumenda in quis, modi cum ex voluptatibus.
-            Maiores eaque accusantium odio ipsa eum, accusamus dolorum eius
-            distinctio in qui. Sint eos ut odit asperiores et perspiciatis
-            reprehenderit in quaerat quas, obcaecati quam quis, vel, praesentium
-            sequi aliquam enim facilis repudiandae. Consectetur dolores, sunt
-            quae blanditiis dicta expedita ad officiis atque? Numquam nam soluta
-            eligendi. Saepe quam, qui porro consequuntur reprehenderit, ipsum
-            animi unde, veniam corrupti soluta labore placeat quidem! Qui
-            voluptatibus autem laboriosam temporibus, fuga ex voluptatem
-            consequuntur nulla ullam fugiat! Incidunt quam rerum id temporibus
-            nostrum atque debitis harum pariatur esse reprehenderit voluptates,
-            dolorum alias asperiores perspiciatis blanditiis veritatis ipsam
-            impedit recusandae amet? Consequatur ipsum quaerat repellat corporis
-            saepe quasi! Voluptatum, dolorum magnam. Maiores cumque distinctio
-            assumenda optio facere delectus quia, qui voluptas. Quis eaque sint
-            explicabo quae placeat molestias aut alias excepturi iste
-            temporibus, quod aspernatur error quo ea assumenda saepe. Tempora,
-            quia quaerat. Distinctio iusto natus sed. Asperiores commodi
-            temporibus, esse illo neque dolorum ullam molestiae quidem officiis
-            laudantium quas eaque voluptas eum quo tenetur sint omnis molestias
-            a nam odio repellendus doloribus? Deleniti voluptatibus sequi,
-            inventore repudiandae, rem, vel at rerum ut consectetur optio
-            nesciunt suscipit nihil ea autem distinctio soluta cumque vero
-            perferendis ducimus cupiditate delectus. Quos autem maiores maxime
-            voluptatibus? Illum reiciendis dignissimos eveniet accusamus hic
-            corporis laudantium provident minima facere perspiciatis. Eveniet
-            vitae facere beatae rerum iste veritatis illum id, laborum quia amet
-            inventore dolorem corporis, autem voluptatibus odio nam facilis
-            eaque quasi quos et ullam at suscipit? Sit repellat delectus
-            architecto id quidem, ratione ut provident veniam quia atque illo
-            eligendi, consequuntur in culpa qui necessitatibus optio quae.
-            Laborum consectetur cupiditate nostrum minima vitae, eligendi illum,
-            fuga laboriosam dicta voluptatibus quia facilis vel culpa voluptas
-            deserunt, laudantium optio. Facere adipisci distinctio iure debitis
-            quaerat. Unde exercitationem, corporis esse, obcaecati veritatis,
-            molestias atque inventore vel iste nobis natus alias eveniet. Nemo
-            harum inventore, quidem voluptatum accusamus saepe error
-            perspiciatis nulla maiores quo architecto odit corrupti amet alias
-            sed rerum? Quasi facere porro repellat exercitationem alias eos id
-            illum culpa fugiat ut omnis hic asperiores quidem placeat, rem
-            voluptatem. Fugit ab eius iste laborum aspernatur quidem,
-            consectetur repudiandae ipsa beatae, tenetur porro id accusamus ad
-            quae saepe, laudantium vitae quos libero dolorem veniam blanditiis
-            quo? Sunt cum, unde velit debitis quis nobis iusto aut dolorem
-            dignissimos excepturi. Asperiores praesentium aut quisquam ea vitae
-            quos quibusdam quia harum, velit quo placeat alias eligendi
-            consequuntur fugiat rerum maxime expedita aperiam tempore sunt
-            pariatur? Sint illo laboriosam vitae exercitationem eos explicabo
-            repellat, cum corporis quo? Quam recusandae dolore eos id neque nisi
-            obcaecati quas harum aut, soluta, ratione sed reiciendis quidem.
+<div class="container py-5">
+    <h2 class="mb-4">Admin Dashboard</h2>
+
+    <div class="row g-4">
+        <!-- Enrolls -->
+        <div class="col-md-6 col-xl-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body d-flex align-items-center">
+                    <div class="me-3 text-primary">
+                        <i class="bi bi-person-check-fill display-6"></i>
+                    </div>
+                    <div>
+                        <h6 class="card-title mb-1">Enrolls</h6>
+                        <h4 class="mb-0">{{ enrollsCount }}</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Courses -->
+        <div class="col-md-6 col-xl-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body d-flex align-items-center">
+                    <div class="me-3 text-success">
+                        <i class="bi bi-journal-bookmark-fill display-6"></i>
+                    </div>
+                    <div>
+                        <h6 class="card-title mb-1">Courses</h6>
+                        <h4 class="mb-0">{{ coursesCount }}</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instructors -->
+        <div class="col-md-6 col-xl-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body d-flex align-items-center">
+                    <div class="me-3 text-warning">
+                        <i class="bi bi-person-badge-fill display-6"></i>
+                    </div>
+                    <div>
+                        <h6 class="card-title mb-1">Instructors</h6>
+                        <h4 class="mb-0">{{ instructorsCount }}</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payments -->
+        <div class="col-md-6 col-xl-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body d-flex align-items-center">
+                    <div class="me-3 text-danger">
+                        <i class="bi bi-currency-dollar display-6"></i>
+                    </div>
+                    <div>
+                        <h6 class="card-title mb-1">Payments</h6>
+                        <h4 class="mb-0">${{ totalPayments }}</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Visits -->
+        <div class="col-md-6 col-xl-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body d-flex align-items-center">
+                    <div class="me-3 text-info">
+                        <i class="bi bi-graph-up-arrow display-6"></i>
+                    </div>
+                    <div>
+                        <h6 class="card-title mb-1">Visits</h6>
+                        <h4 class="mb-0">{{ visitCount }}</h4>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

@@ -7,22 +7,23 @@ import { RoleService } from '../services/roles.service';
 
 @Component({
     selector: 'app-role',
-    imports: [FormsModule, CommonModule],
     standalone: true,
+    imports: [CommonModule, FormsModule],
     templateUrl: './role.component.html',
-    styleUrls: ['./role.component.css'],
+    styleUrls: ['./role.component.scss'],
 })
 export class RoleComponent implements OnInit {
-    allRoles: Role[] = []; // All roles from API
-    displayedRoles: Role[] = []; // Roles to display on current page
+    allRoles: Role[] = [];
+    displayedRoles: Role[] = [];
+    searchText = '';
     currentPage = 1;
-    pageSize = 5; // Items per page
+    pageSize = 2;
     totalItems = 0;
 
-    // Form properties
     roleName = '';
     isEditing = false;
-    currentRoleId: string | null = null;
+    currentRole: Role | null = null;
+    loading = false;
 
     toastNotification = inject(ToastNotificationService);
 
@@ -33,54 +34,97 @@ export class RoleComponent implements OnInit {
     }
 
     loadRoles(): void {
+        this.loading = true;
         this.roleService.getAllRoles().subscribe({
             next: (roles) => {
                 this.allRoles = roles;
-                this.totalItems = roles.length;
-                this.updateDisplayedRoles();
+                this.applyFilters();
+                this.loading = false;
             },
-            error: (err) => console.error('Error loading roles:', err),
+            error: (err) => {
+                console.error('Error loading roles:', err);
+                this.loading = false;
+            },
         });
     }
 
-    updateDisplayedRoles(): void {
+    applyFilters(): void {
+        let filteredRoles = this.allRoles;
+
+        if (this.searchText.trim()) {
+            const lowerSearch = this.searchText.trim().toLowerCase();
+            filteredRoles = filteredRoles.filter((role) =>
+                role.roleName.toLowerCase().includes(lowerSearch)
+            );
+        }
+
+        this.totalItems = filteredRoles.length;
         const startIndex = (this.currentPage - 1) * this.pageSize;
         const endIndex = startIndex + this.pageSize;
-        this.displayedRoles = this.allRoles.slice(startIndex, endIndex);
+        this.displayedRoles = filteredRoles.slice(startIndex, endIndex);
+    }
+
+    onSearchChange(): void {
+        this.currentPage = 1;
+        this.applyFilters();
     }
 
     getPageNumbers(): number[] {
         const totalPages = Math.ceil(this.totalItems / this.pageSize);
-        return Array(totalPages)
-            .fill(0)
-            .map((x, i) => i + 1);
+        const visiblePages = 5;
+        let startPage: number, endPage: number;
+
+        if (totalPages <= visiblePages) {
+            return Array.from({ length: totalPages }, (_, i) => i + 1);
+        }
+
+        const maxPagesBeforeCurrent = Math.floor(visiblePages / 2);
+        const maxPagesAfterCurrent = Math.ceil(visiblePages / 2) - 1;
+
+        if (this.currentPage <= maxPagesBeforeCurrent) {
+            startPage = 1;
+            endPage = visiblePages;
+        } else if (this.currentPage + maxPagesAfterCurrent >= totalPages) {
+            startPage = totalPages - visiblePages + 1;
+            endPage = totalPages;
+        } else {
+            startPage = this.currentPage - maxPagesBeforeCurrent;
+            endPage = this.currentPage + maxPagesAfterCurrent;
+        }
+
+        return Array.from(
+            { length: endPage - startPage + 1 },
+            (_, i) => startPage + i
+        );
     }
 
     onPageChange(page: number): void {
+        const totalPages = Math.ceil(this.totalItems / this.pageSize);
+        if (page < 1 || page > totalPages || page === this.currentPage) return;
         this.currentPage = page;
-        this.updateDisplayedRoles();
+        this.applyFilters();
     }
 
     onSubmit(): void {
         if (!this.roleName.trim()) return;
 
-        if (this.isEditing && this.currentRoleId) {
-            const role: Role = {
-                roleId: this.currentRoleId,
+        if (this.isEditing && this.currentRole) {
+            const updatedRole: Role = {
+                roleId: this.currentRole.roleId,
                 roleName: this.roleName,
             };
-            this.roleService.updateRole(role).subscribe({
+            this.roleService.updateRole(updatedRole).subscribe({
                 next: () => {
                     this.toastNotification.showSuccess(
                         'Role updated successfully!'
                     );
-                    this.loadRoles(); // Refresh the list
+                    this.loadRoles();
                     this.resetForm();
                 },
                 error: (err) => {
                     console.error('Error updating role:', err);
                     this.toastNotification.showError(
-                        'Error updating role: ' + err.message
+                        'Error updating role: ' + err.error.message
                     );
                 },
             });
@@ -90,17 +134,22 @@ export class RoleComponent implements OnInit {
                     this.toastNotification.showSuccess(
                         'Role created successfully!'
                     );
-                    this.loadRoles(); // Refresh the list
+                    this.loadRoles();
                     this.resetForm();
                 },
-                error: (err) => console.error('Error creating role:', err),
+                error: (err) => {
+                    console.error('Error creating role:', err);
+                    this.toastNotification.showError(
+                        'Error creating role: ' + err.error.message
+                    );
+                },
             });
         }
     }
 
     editRole(role: Role): void {
         this.isEditing = true;
-        this.currentRoleId = role.roleId;
+        this.currentRole = role;
         this.roleName = role.roleName;
     }
 
@@ -111,12 +160,12 @@ export class RoleComponent implements OnInit {
                     this.toastNotification.showSuccess(
                         'Role deleted successfully!'
                     );
-                    this.loadRoles(); // Refresh the list
+                    this.loadRoles();
                 },
                 error: (err) => {
                     console.error('Error deleting role:', err);
                     this.toastNotification.showError(
-                        'Error deleting role: ' + err.message
+                        'Error deleting role: ' + err.error.message
                     );
                 },
             });
@@ -126,6 +175,12 @@ export class RoleComponent implements OnInit {
     resetForm(): void {
         this.roleName = '';
         this.isEditing = false;
-        this.currentRoleId = null;
+        this.currentRole = null;
+    }
+
+    getDisplayRange(): { start: number; end: number } {
+        const start = (this.currentPage - 1) * this.pageSize + 1;
+        const end = Math.min(this.currentPage * this.pageSize, this.totalItems);
+        return { start, end };
     }
 }

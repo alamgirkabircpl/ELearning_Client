@@ -1,51 +1,108 @@
 <!-- Default -->
-<div
-    class="contact-area bg-f3f3f3 border-top ptb-120"
-    [ngClass]="{
-        'd-none': router.url === '/index-2' || router.url === '/index-3'
-    }"
->
+<div class="contact-area bg-f3f3f3 ptb-120">
     <div class="container">
         <div class="section-title text-center">
             <h2 class="fw-semibold mx-auto mb-0 text-uppercase">
                 Have any question?
             </h2>
             <p>
-                Your email address will not be published. Required field are
-                marked*
+                Your email address will not be published. Required fields are
+                marked *
             </p>
         </div>
+
         <div class="contact-form text-center mx-auto">
-            <div class="row">
-                <div class="col-lg-6 col-md-6">
-                    <div class="form-group">
-                        <input
-                            type="text"
-                            placeholder="Full name *"
-                            class="form-control"
-                        />
+            <form [formGroup]="contactForm" (ngSubmit)="submitContact()">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="form-group">
+                            <input
+                                type="text"
+                                formControlName="name"
+                                placeholder="Full name *"
+                                class="form-control"
+                            />
+                            <div
+                                *ngIf="
+                                    contactForm.get('name')?.touched &&
+                                    contactForm.get('name')?.invalid
+                                "
+                                class="text-danger"
+                            >
+                                Name is required
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-md-6">
+                        <div class="form-group">
+                            <input
+                                type="email"
+                                formControlName="email"
+                                placeholder="Email address *"
+                                class="form-control"
+                            />
+                            <div
+                                *ngIf="
+                                    contactForm.get('email')?.touched &&
+                                    contactForm.get('email')?.invalid
+                                "
+                                class="text-danger"
+                            >
+                                Valid email is required
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 col-md-12">
+                        <div class="form-group">
+                            <input
+                                type="text"
+                                formControlName="subject"
+                                placeholder="Subject *"
+                                class="form-control"
+                            />
+                            <div
+                                *ngIf="
+                                    contactForm.get('subject')?.touched &&
+                                    contactForm.get('subject')?.invalid
+                                "
+                                class="text-danger"
+                            >
+                                Subject is required
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 col-md-12">
+                        <div class="form-group mb-0">
+                            <textarea
+                                class="form-control"
+                                formControlName="message"
+                                placeholder="Write your message *"
+                                rows="5"
+                            ></textarea>
+                            <div
+                                *ngIf="
+                                    contactForm.get('message')?.touched &&
+                                    contactForm.get('message')?.invalid
+                                "
+                                class="text-danger"
+                            >
+                                Message is required
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6">
-                    <div class="form-group">
-                        <input
-                            type="text"
-                            placeholder="Email address *"
-                            class="form-control"
-                        />
-                    </div>
-                </div>
-                <div class="col-lg-12 col-md-12">
-                    <div class="form-group mb-0">
-                        <textarea
-                            class="form-control"
-                            placeholder="Write your message *"
-                        ></textarea>
-                    </div>
-                </div>
-            </div>
-            <button class="default-btn" type="submit">Send Message</button>
+
+                <button
+                    class="default-btn mt-3"
+                    type="submit"
+                    [disabled]="isSubmitting"
+                >
+                    {{ isSubmitting ? "Sending..." : "Send Message" }}
+                </button>
+            </form>
         </div>
     </div>
 </div>
-r

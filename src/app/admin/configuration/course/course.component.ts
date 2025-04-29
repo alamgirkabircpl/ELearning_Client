@@ -1,15 +1,18 @@
 // course.component.ts
 
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import {
     Component,
     ElementRef,
+    Inject,
     inject,
     OnInit,
+    PLATFORM_ID,
     ViewChild,
 } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { ApiService } from '../../../api.service';
 import { ToastNotificationService } from '../../../toast-notification.service';
 import { Course } from '../../models/course';
@@ -20,7 +23,7 @@ import { CourseService } from '../../services/course.service';
 @Component({
     selector: 'app-course-list',
     standalone: true,
-    imports: [CommonModule, FormsModule],
+    imports: [CommonModule, FormsModule, CKEditorModule],
     templateUrl: './course.component.html',
     styleUrls: ['./course.component.scss'],
 })
@@ -43,10 +46,13 @@ export class CourseComponent implements OnInit {
     isEditMode = false;
     isLoading = false;
     formSubmitted = false;
+    public Editor: any;
+    public config: any;
+    public initialData = '<p>Write description here...</p>';
 
     // Pagination
     pageNumber = 1;
-    pageSize = 5;
+    pageSize = 2;
     totalItems = 0;
 
     private courseService = inject(CourseService);
@@ -54,7 +60,35 @@ export class CourseComponent implements OnInit {
     private toastService = inject(ToastNotificationService);
     private router = inject(Router);
     apiService = inject(ApiService);
-    ngOnInit(): void {
+    constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+    async ngOnInit(): Promise<void> {
+        if (isPlatformBrowser(this.platformId)) {
+            try {
+                const ClassicEditor = (
+                    await import('@ckeditor/ckeditor5-build-classic')
+                ).default;
+                this.Editor = ClassicEditor;
+                this.config = {
+                    toolbar: [
+                        'heading',
+                        '|',
+                        'bold',
+                        'italic',
+                        'link',
+                        'bulletedList',
+                        'numberedList',
+                        '|',
+                        'indent',
+                        'outdent',
+                        '|',
+                        'undo',
+                        'redo',
+                    ],
+                };
+            } catch (error) {
+                console.error('Error loading CKEditor:', error);
+            }
+        }
         this.loadCourses();
         this.loadCategories();
         this.getImageUrl('assets/default-image.png');

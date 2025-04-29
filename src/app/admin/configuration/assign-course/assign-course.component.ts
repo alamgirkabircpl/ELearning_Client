@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import {
+    FormArray,
     FormBuilder,
+    FormControl,
     FormGroup,
     FormsModule,
     ReactiveFormsModule,
@@ -15,24 +17,29 @@ import { AssignCourseService } from '../../services/assign-course.service';
 @Component({
     selector: 'app-assign-course',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, TruncatePipe, FormsModule],
+    imports: [CommonModule, ReactiveFormsModule, FormsModule, TruncatePipe],
     templateUrl: './assign-course.component.html',
-    styleUrl: './assign-course.component.scss',
+    styleUrls: ['./assign-course.component.scss'],
 })
 export class AssignCourseComponent implements OnInit {
     assignCourses: AssignCourse[] = [];
+    filteredAssignCourses: AssignCourse[] = [];
+    paginatedAssignCourses: AssignCourse[] = [];
+
     instructors: Instructor[] = [];
     courses: Course[] = [];
     currentPage = 1;
-    pageSize = 5;
+    pageSize = 2;
     totalItems = 0;
     totalPages = 0;
+    searchQuery = '';
 
     assignCourseForm: FormGroup;
     isEditing = false;
     selectedId: number | null = null;
 
     private toastService = inject(ToastNotificationService);
+
     constructor(
         private assignCourseService: AssignCourseService,
         private fb: FormBuilder
@@ -40,67 +47,86 @@ export class AssignCourseComponent implements OnInit {
         this.assignCourseForm = this.fb.group({
             courseId: ['', Validators.required],
             instructorDetailsId: ['', Validators.required],
-            courseUrl: this.fb.array(['']),
-            isApproved: [true],
-            isRejected: [false],
-            isPaused: [false],
+            courseUrl: this.fb.array([this.fb.control('')]),
             price: [0, [Validators.required, Validators.min(0)]],
             description: ['', Validators.required],
+            status: ['active'],
         });
     }
 
     ngOnInit(): void {
-        this.loadData();
+        this.loadAssignCourses();
         this.loadInstructors();
         this.loadCourses();
     }
 
-    get courseUrlControls() {
-        return this.assignCourseForm.get('courseUrl')?.value || [];
+    get courseUrls(): FormArray {
+        return this.assignCourseForm.get('courseUrl') as FormArray;
     }
 
-    getCourseName(courseId: number): string {
-        const course = this.courses.find((c) => c.courseId === courseId);
-        return course ? course.courseTitle : 'Unknown Course';
+    get courseUrlControls(): FormControl[] {
+        return this.courseUrls.controls as FormControl[];
     }
 
-    getInstructorName(instructorId: number): string {
-        const instructor = this.instructors.find(
-            (i) => i.instructorDetailsId === instructorId
+    isInvalid(field: string): boolean {
+        const control = this.assignCourseForm.get(field);
+        return (
+            !!control && control.invalid && (control.dirty || control.touched)
         );
-        return instructor ? instructor.fullName : 'Unknown Instructor';
     }
 
-    loadData(): void {
+    loadAssignCourses(): void {
         this.assignCourseService.getAll().subscribe({
-            next: (courses: any) => {
-                console.log('hi', courses);
-                this.assignCourseForm = courses;
+            next: (response: any) => {
+                this.assignCourses = response.data || response;
+                this.filteredAssignCourses = [...this.assignCourses];
+                this.calculatePagination();
             },
-            error: (err) => console.error('Error loading courses', err),
+            error: (err) => {
+                console.error('Error loading courses', err);
+                this.toastService.showError('Failed to load courses');
+            },
         });
     }
 
     loadInstructors(): void {
         this.assignCourseService.getInstructors().subscribe({
-            next: (instructors: any) => {
-                this.instructors = instructors;
+            next: (instructors: any) =>
+                (this.instructors = instructors.data || instructors),
+            error: (err) => {
+                console.error('Error loading instructors', err);
+                this.toastService.showError('Failed to load instructors');
             },
-            error: (err) => console.error('Error loading instructors', err),
         });
     }
 
     loadCourses(): void {
         this.assignCourseService.getCourses().subscribe({
-            next: (courses: any) => {
-                this.courses = courses.data;
+            next: (courses: any) => (this.courses = courses.data || courses),
+            error: (err) => {
+                console.error('Error loading courses', err);
+                this.toastService.showError('Failed to load courses');
             },
-            error: (err) => console.error('Error loading courses', err),
         });
+    }
+
+    getCourseName(courseId: number): string {
+        return (
+            this.courses.find((c) => c.courseId === courseId)?.courseTitle ||
+            'Unknown Course'
+        );
+    }
+
+    getInstructorName(instructorId: number): string {
+        return (
+            this.instructors.find((i) => i.instructorDetailsId === instructorId)
+                ?.fullName || 'Unknown Instructor'
+        );
     }
 
     onSubmit(): void {
         if (this.assignCourseForm.invalid) {
+            this.markFormGroupTouched(this.assignCourseForm);
             return;
         }
 
@@ -110,51 +136,43 @@ export class AssignCourseComponent implements OnInit {
                 this.isEditing && this.selectedId ? this.selectedId : 0,
             ...formValue,
         };
-        console.log(JSON.stringify(assignCourse));
-        console.log('Form Value:', formValue);
-        if (this.isEditing) {
-            const operation = this.assignCourseService.update(assignCourse);
 
-            operation.subscribe({
-                next: () => {
-                    this.toastService.showSuccess(
-                        'Assignment updated successfully!'
-                    );
-                    this.isEditing = false;
-                    this.resetForm();
-                    this.loadData();
-                },
-                error: (err) =>
-                    console.error('Error saving assign course', err),
-            });
-        } else {
-            const operation = this.assignCourseService.create(assignCourse);
+        const operation = this.isEditing
+            ? this.assignCourseService.update(assignCourse)
+            : this.assignCourseService.create(assignCourse);
 
-            operation.subscribe({
-                next: () => {
-                    this.toastService.showSuccess(
-                        'Assignment created successfully!'
-                    );
-                    this.resetForm();
-                    this.loadData();
-                },
-                error: (err) =>
-                    console.error('Error saving assign course', err),
-            });
-        }
+        operation.subscribe({
+            next: () => {
+                this.toastService.showSuccess(
+                    `Assignment ${
+                        this.isEditing ? 'updated' : 'created'
+                    } successfully!`
+                );
+                this.resetForm();
+                this.loadAssignCourses();
+            },
+            error: (err) => {
+                console.error('Error saving assignment', err);
+                this.toastService.showError('Failed to save assignment');
+            },
+        });
     }
 
     editAssignCourse(assignCourse: AssignCourse): void {
         this.isEditing = true;
         this.selectedId = assignCourse.courseAssignId;
-        this.assignCourseForm.patchValue({
-            courseId: assignCourse.courseId,
-            instructorDetailsId: assignCourse.instructorDetailsId,
-            courseUrl: assignCourse.courseUrl,
+        this.assignCourseForm.patchValue(assignCourse);
 
-            price: assignCourse.price,
-            description: assignCourse.description,
-        });
+        while (this.courseUrls.length) {
+            this.courseUrls.removeAt(0);
+        }
+        if (assignCourse.courseUrl?.length) {
+            assignCourse.courseUrl.forEach((url) =>
+                this.courseUrls.push(this.fb.control(url))
+            );
+        } else {
+            this.courseUrls.push(this.fb.control(''));
+        }
     }
 
     deleteAssignCourse(id: number): void {
@@ -164,53 +182,87 @@ export class AssignCourseComponent implements OnInit {
                     this.toastService.showSuccess(
                         'Assignment deleted successfully!'
                     );
-                    this.loadData();
+                    this.loadAssignCourses();
                 },
-                error: (err) =>
-                    console.error('Error deleting assign course', err),
+                error: (err) => {
+                    console.error('Error deleting assignment', err);
+                    this.toastService.showError('Failed to delete assignment');
+                },
             });
         }
     }
 
     resetForm(): void {
-        this.assignCourseForm.reset();
+        this.assignCourseForm.reset({
+            courseId: '',
+            instructorDetailsId: '',
+            price: 0,
+            description: '',
+            status: 'active',
+        });
+        while (this.courseUrls.length) {
+            this.courseUrls.removeAt(0);
+        }
+        this.courseUrls.push(this.fb.control(''));
+
         this.isEditing = false;
         this.selectedId = null;
     }
 
     onPageChange(page: number): void {
         this.currentPage = page;
-        this.loadData();
+        this.calculatePagination();
+    }
+
+    calculatePagination(): void {
+        this.totalItems = this.filteredAssignCourses.length;
+        this.totalPages = Math.ceil(this.totalItems / this.pageSize);
+        const start = (this.currentPage - 1) * this.pageSize;
+        const end = start + this.pageSize;
+        this.paginatedAssignCourses = this.filteredAssignCourses.slice(
+            start,
+            end
+        );
+    }
+
+    onSearch(): void {
+        const query = this.searchQuery.trim().toLowerCase();
+        this.filteredAssignCourses = this.assignCourses.filter((course) =>
+            (
+                this.getCourseName(course.courseId) +
+                this.getInstructorName(course.instructorDetailsId)
+            )
+                .toLowerCase()
+                .includes(query)
+        );
+        this.currentPage = 1;
+        this.calculatePagination();
+    }
+
+    clearSearch(): void {
+        this.searchQuery = '';
+        this.filteredAssignCourses = [...this.assignCourses];
+        this.calculatePagination();
     }
 
     addUrl(): void {
-        const currentUrls = this.assignCourseForm.get('courseUrl')?.value || [];
-        this.assignCourseForm
-            .get('courseUrl')
-            ?.patchValue([...currentUrls, '']);
+        this.courseUrls.push(this.fb.control(''));
     }
 
     removeUrl(index: number): void {
-        const currentUrls = this.assignCourseForm.get('courseUrl')?.value || [];
-        if (index >= 0 && index < currentUrls.length) {
-            currentUrls.splice(index, 1);
-            this.assignCourseForm
-                .get('courseUrl')
-                ?.patchValue([...currentUrls]);
+        if (this.courseUrls.length > 1) {
+            this.courseUrls.removeAt(index);
+        } else {
+            this.courseUrls.at(index).setValue('');
         }
     }
 
-    updateUrl(index: number, value: string): void {
-        const currentUrls = this.assignCourseForm.get('courseUrl')?.value || [];
-        if (index >= 0 && index < currentUrls.length) {
-            currentUrls[index] = value;
-            this.assignCourseForm
-                .get('courseUrl')
-                ?.patchValue([...currentUrls]);
-        }
-    }
-
-    trackByFn(index: number): number {
-        return index;
+    private markFormGroupTouched(formGroup: FormGroup | FormArray) {
+        Object.values(formGroup.controls).forEach((control) => {
+            control.markAsTouched();
+            if (control instanceof FormGroup || control instanceof FormArray) {
+                this.markFormGroupTouched(control);
+            }
+        });
     }
 }

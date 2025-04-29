@@ -1,23 +1,43 @@
 <div class="container mt-4">
-    <h2>Module Management</h2>
+    <h2 class="mb-3">Application Module Management</h2>
 
-    <!-- Module Form -->
-    <div class="card mb-4">
+    <!-- Search and Add New Module -->
+    <div
+        class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-3 gap-2"
+    >
+        <div class="w-100 w-md-50">
+            <input
+                type="text"
+                class="form-control"
+                placeholder="Search modules..."
+                [(ngModel)]="searchTerm"
+                (ngModelChange)="searchModules()"
+            />
+        </div>
+        <div>
+            <button class="btn btn-primary" (click)="openAddModule()">
+                Add New Module
+            </button>
+        </div>
+    </div>
+
+    <!-- Add/Edit Form -->
+    <div *ngIf="showForm" class="card mb-4">
         <div class="card-header">
             {{ isEditing ? "Edit Module" : "Add New Module" }}
         </div>
         <div class="card-body">
-            <form #moduleForm="ngForm" (ngSubmit)="onSubmit()">
+            <form (ngSubmit)="onSubmit()" #moduleForm="ngForm">
                 <div class="mb-3">
                     <label for="moduleName" class="form-label"
                         >Module Name</label
                     >
                     <input
                         type="text"
-                        class="form-control"
                         id="moduleName"
-                        name="moduleName"
+                        class="form-control"
                         [(ngModel)]="moduleName"
+                        name="moduleName"
                         required
                         #nameInput="ngModel"
                     />
@@ -33,16 +53,15 @@
                 </div>
                 <button
                     type="submit"
-                    class="btn btn-primary me-2"
-                    [disabled]="!moduleName.trim()"
+                    class="btn btn-success me-2"
+                    [disabled]="!moduleForm.valid"
                 >
                     {{ isEditing ? "Update" : "Save" }}
                 </button>
                 <button
                     type="button"
                     class="btn btn-secondary"
-                    (click)="resetForm()"
-                    *ngIf="isEditing"
+                    (click)="cancelForm()"
                 >
                     Cancel
                 </button>
@@ -50,33 +69,40 @@
         </div>
     </div>
 
-    <!-- Loading Indicator -->
-    <div *ngIf="loading" class="text-center my-3">
+    <!-- Loading Spinner -->
+    <div *ngIf="loading" class="text-center my-4">
         <div class="spinner-border text-primary" role="status">
             <span class="visually-hidden">Loading...</span>
         </div>
     </div>
 
     <!-- Modules Table -->
-    <div class="card">
+    <div *ngIf="!loading" class="card">
         <div class="card-header">
-            Modules List
-            <span class="badge bg-secondary ms-2">Total: {{ totalItems }}</span>
+            Module List
+            <span class="badge bg-info ms-2"
+                >Total: {{ filteredModules.length }}</span
+            >
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
                         <tr>
-                            <th>UID</th>
+                            <th>#</th>
                             <th>Module ID</th>
-                            <th>Name</th>
+                            <th>Module Name</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let module of modules">
-                            <td>{{ module.uid }}</td>
+                        <tr
+                            *ngFor="
+                                let module of paginatedModules();
+                                let i = index
+                            "
+                        >
+                            <td>{{ (currentPage - 1) * pageSize + i + 1 }}</td>
                             <td>{{ module.moduleId }}</td>
                             <td>{{ module.name }}</td>
                             <td>
@@ -94,7 +120,7 @@
                                 </button>
                             </td>
                         </tr>
-                        <tr *ngIf="modules.length === 0 && !loading">
+                        <tr *ngIf="filteredModules.length === 0">
                             <td colspan="4" class="text-center">
                                 No modules found
                             </td>
@@ -107,9 +133,10 @@
             <div class="d-flex justify-content-between align-items-center mt-3">
                 <div class="text-muted">
                     Showing {{ getDisplayRange().start }} to
-                    {{ getDisplayRange().end }} of {{ totalItems }} entries
+                    {{ getDisplayRange().end }} of
+                    {{ filteredModules.length }} entries
                 </div>
-                <nav *ngIf="totalItems > pageSize">
+                <nav *ngIf="totalPages() > 1">
                     <ul class="pagination mb-0">
                         <li
                             class="page-item"
@@ -118,13 +145,12 @@
                             <a
                                 class="page-link"
                                 (click)="onPageChange(currentPage - 1)"
+                                >Previous</a
                             >
-                                &laquo; Previous
-                            </a>
                         </li>
                         <li
-                            class="page-item"
                             *ngFor="let page of getPageNumbers()"
+                            class="page-item"
                             [class.active]="page === currentPage"
                         >
                             <a class="page-link" (click)="onPageChange(page)">{{
@@ -133,16 +159,13 @@
                         </li>
                         <li
                             class="page-item"
-                            [class.disabled]="
-                                currentPage === getPageNumbers().slice(-1)[0]
-                            "
+                            [class.disabled]="currentPage === totalPages()"
                         >
                             <a
                                 class="page-link"
                                 (click)="onPageChange(currentPage + 1)"
+                                >Next</a
                             >
-                                Next &raquo;
-                            </a>
                         </li>
                     </ul>
                 </nav>

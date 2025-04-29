@@ -1,1 +1,24 @@
 @import "../../common/courses/courses.component.scss";
+.custom-offcanvas {
+    width: 75%;
+    height: 100vh; /* Full viewport height */
+    overflow-y: auto;
+    position: fixed; /* To help positioning */
+}
+.close-arrow {
+    position: fixed; /* Fixed to viewport, not inside offcanvas */
+    top: 50%;
+    right: 73%; /* Exactly matching offcanvas width */
+    transform: translateY(-50%);
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-size: 26px;
+    padding: 8px;
+    z-index: 1060;
+    background: var(--primaryColor);
+}
+
+.close-arrow:hover {
+    background: var(--secondaryColor);
+    // background: #f8f9fa;
+}

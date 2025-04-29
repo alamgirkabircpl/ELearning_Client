@@ -48,54 +48,113 @@
         </div>
     </div>
 
+    <!-- Search Bar -->
+    <div class="mb-3">
+        <input
+            type="text"
+            class="form-control"
+            placeholder="Search role by name..."
+            [(ngModel)]="searchText"
+            name="search"
+            (ngModelChange)="onSearchChange()"
+        />
+    </div>
+
+    <!-- Loading Spinner -->
+    <div *ngIf="loading" class="text-center my-3">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
     <!-- Roles Table -->
     <div class="card">
-        <div class="card-header">Roles List (Total: {{ totalItems }})</div>
+        <div class="card-header">
+            Roles List
+            <span class="badge bg-secondary ms-2">Total: {{ totalItems }}</span>
+        </div>
         <div class="card-body">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Role ID</th>
-                        <th>Role Name</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let role of displayedRoles">
-                        <td>{{ role.roleId }}</td>
-                        <td>{{ role.roleName }}</td>
-                        <td>
-                            <button
-                                class="btn btn-sm btn-warning me-2"
-                                (click)="editRole(role)"
-                            >
-                                Edit
-                            </button>
-                            <button
-                                class="btn btn-sm btn-danger"
-                                (click)="deleteRole(role.roleId)"
-                            >
-                                Delete
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Role ID</th>
+                            <th>Role Name</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let role of displayedRoles">
+                            <td>{{ role.roleId }}</td>
+                            <td>{{ role.roleName }}</td>
+                            <td>
+                                <button
+                                    class="btn btn-sm btn-warning me-2"
+                                    (click)="editRole(role)"
+                                >
+                                    Edit
+                                </button>
+                                <button
+                                    class="btn btn-sm btn-danger"
+                                    (click)="deleteRole(role.roleId)"
+                                >
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                        <tr *ngIf="displayedRoles.length === 0 && !loading">
+                            <td colspan="3" class="text-center">
+                                No roles found
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
             <!-- Pagination -->
-            <nav *ngIf="totalItems > pageSize">
-                <ul class="pagination">
-                    <li
-                        class="page-item"
-                        *ngFor="let page of getPageNumbers()"
-                        [class.active]="page === currentPage"
-                    >
-                        <a class="page-link" (click)="onPageChange(page)">{{
-                            page
-                        }}</a>
-                    </li>
-                </ul>
-            </nav>
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <div class="text-muted">
+                    Showing {{ getDisplayRange().start }} to
+                    {{ getDisplayRange().end }} of {{ totalItems }} entries
+                </div>
+                <nav *ngIf="totalItems > pageSize">
+                    <ul class="pagination mb-0">
+                        <li
+                            class="page-item"
+                            [class.disabled]="currentPage === 1"
+                        >
+                            <a
+                                class="page-link"
+                                (click)="onPageChange(currentPage - 1)"
+                            >
+                                &laquo; Previous
+                            </a>
+                        </li>
+                        <li
+                            class="page-item"
+                            *ngFor="let page of getPageNumbers()"
+                            [class.active]="page === currentPage"
+                        >
+                            <a class="page-link" (click)="onPageChange(page)">{{
+                                page
+                            }}</a>
+                        </li>
+                        <li
+                            class="page-item"
+                            [class.disabled]="
+                                currentPage === getPageNumbers().slice(-1)[0]
+                            "
+                        >
+                            <a
+                                class="page-link"
+                                (click)="onPageChange(currentPage + 1)"
+                            >
+                                Next &raquo;
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
         </div>
     </div>
 </div>

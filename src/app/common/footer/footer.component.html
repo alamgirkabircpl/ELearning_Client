@@ -1,10 +1,5 @@
 <!-- Default -->
-<footer
-    class="footer-area bg-f6ffeb pt-120 border-top"
-    [ngClass]="{
-        'd-none': router.url === '/index-2' || router.url === '/index-3'
-    }"
->
+<footer class="footer-area bg-f6ffeb pt-120">
     <div class="container">
         <div class="subscribe-box row">
             <div class="col-lg-6 col-md-12">
@@ -15,13 +10,42 @@
             </div>
             <div class="col-lg-6 col-md-12">
                 <div class="subscribe-form">
-                    <form>
+                    <!-- <form>
                         <input
                             type="text"
                             class="form-control"
                             placeholder="Enter email address"
                         />
                         <button type="button">Subscribe</button>
+                    </form> -->
+
+                    <form
+                        [formGroup]="subscribeForm"
+                        (ngSubmit)="submitSubscribe()"
+                    >
+                        <input
+                            type="email"
+                            class="form-control"
+                            formControlName="subscribeEmail"
+                            placeholder="Enter email address"
+                        />
+                        <div
+                            *ngIf="
+                                subscribeForm.get('subscribeEmail')?.touched &&
+                                subscribeForm.get('subscribeEmail')?.invalid
+                            "
+                            class="text-danger"
+                        >
+                            Valid email is required
+                        </div>
+
+                        <button
+                            class="default-btn"
+                            type="submit"
+                            [disabled]="isSubmitting"
+                        >
+                            {{ isSubmitting ? "Subscribing..." : "Subscribe" }}
+                        </button>
                     </form>
                     <p>By subscribing, you agree to our Privacy Policy</p>
                 </div>
@@ -31,7 +55,7 @@
             <div class="col-md-3 col-sm-6">
                 <div class="single-footer-widget mb-25">
                     <a routerLink="/" class="logo mb-0 d-inline-block">
-                        <img src="images/logo.svg" alt="logo" />
+                        <img src="images/newlogo.webp" alt="logo" />
                     </a>
                 </div>
             </div>

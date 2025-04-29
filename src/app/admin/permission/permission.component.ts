@@ -13,13 +13,16 @@ import { PermissionService } from '../services/permission.service';
     styleUrls: ['./permission.component.scss'],
 })
 export class PermissionComponent implements OnInit {
-    permissions: Permission[] = [];
-    currentPage = 1;
-    pageSize = 5;
-    totalItems = 0;
-    permissionName = '';
-    isEditing = false;
+    allPermissions: Permission[] = [];
+    displayedPermissions: Permission[] = [];
+    searchQuery: string = '';
+    permissionName: string = '';
+    isEditing: boolean = false;
     currentPermission: Permission | null = null;
+
+    currentPage = 1;
+    pageSize = 2;
+    totalItems = 0;
     loading = false;
 
     toastNotification = inject(ToastNotificationService);
@@ -32,57 +35,49 @@ export class PermissionComponent implements OnInit {
 
     loadPermissions(): void {
         this.loading = true;
-        this.permissionService
-            .getAllPermissions(this.currentPage, this.pageSize)
-            .subscribe({
-                next: (response) => {
-                    this.permissions = response.data;
-                    // Adjust this based on your actual API response structure
-                    this.totalItems = response.data.length * 3; // Temporary multiplier
-                    this.loading = false;
-                },
-                error: (err) => {
-                    console.error('Error loading permissions:', err);
-                    this.loading = false;
-                },
-            });
+        this.permissionService.getAllPermissions().subscribe({
+            next: (permissions) => {
+                this.allPermissions = permissions.data; // Assuming 'data' contains the array of permissions
+                this.totalItems = permissions.data.length; // Assuming 'totalItems' contains the total count
+                this.updateDisplayedPermissions();
+                this.loading = false;
+            },
+            error: (err) => {
+                console.error('Error loading permissions:', err);
+                this.loading = false;
+            },
+        });
+    }
+
+    updateDisplayedPermissions(): void {
+        let filtered = this.allPermissions;
+        if (this.searchQuery.trim()) {
+            filtered = filtered.filter((permission) =>
+                permission.name
+                    .toLowerCase()
+                    .includes(this.searchQuery.toLowerCase())
+            );
+        }
+        this.totalItems = filtered.length;
+
+        const startIndex = (this.currentPage - 1) * this.pageSize;
+        const endIndex = startIndex + this.pageSize;
+        this.displayedPermissions = filtered.slice(startIndex, endIndex);
     }
 
     getPageNumbers(): number[] {
         const totalPages = Math.ceil(this.totalItems / this.pageSize);
-        const visiblePages = 5;
-        let startPage: number, endPage: number;
-
-        if (totalPages <= visiblePages) {
-            return Array.from({ length: totalPages }, (_, i) => i + 1);
-        }
-
-        const maxPagesBeforeCurrent = Math.floor(visiblePages / 2);
-        const maxPagesAfterCurrent = Math.ceil(visiblePages / 2) - 1;
-
-        if (this.currentPage <= maxPagesBeforeCurrent) {
-            startPage = 1;
-            endPage = visiblePages;
-        } else if (this.currentPage + maxPagesAfterCurrent >= totalPages) {
-            startPage = totalPages - visiblePages + 1;
-            endPage = totalPages;
-        } else {
-            startPage = this.currentPage - maxPagesBeforeCurrent;
-            endPage = this.currentPage + maxPagesAfterCurrent;
-        }
-
-        return Array.from(
-            { length: endPage - startPage + 1 },
-            (_, i) => startPage + i
-        );
+        return Array.from({ length: totalPages }, (_, i) => i + 1);
     }
 
     onPageChange(page: number): void {
-        const totalPages = Math.ceil(this.totalItems / this.pageSize);
-        if (page < 1 || page > totalPages || page === this.currentPage) return;
-
         this.currentPage = page;
-        this.loadPermissions();
+        this.updateDisplayedPermissions();
+    }
+
+    onSearch(): void {
+        this.currentPage = 1;
+        this.updateDisplayedPermissions();
     }
 
     onSubmit(): void {
@@ -137,9 +132,10 @@ export class PermissionComponent implements OnInit {
         this.permissionName = permission.name;
     }
 
-    deletePermission(uid: string): void {
+    deletePermission(permissionId: string): void {
+        console.log('Deleting permission with ID:', permissionId);
         if (confirm('Are you sure you want to delete this permission?')) {
-            this.permissionService.deletePermission(uid).subscribe({
+            this.permissionService.deletePermission(permissionId).subscribe({
                 next: () => {
                     this.toastNotification.showSuccess(
                         'Permission deleted successfully!'
@@ -148,7 +144,6 @@ export class PermissionComponent implements OnInit {
                 },
                 error: (err) => {
                     console.error('Error deleting permission:', err);
-
                     this.toastNotification.showError(
                         'Error deleting permission: ' + err.error.message
                     );
@@ -161,12 +156,5 @@ export class PermissionComponent implements OnInit {
         this.permissionName = '';
         this.isEditing = false;
         this.currentPermission = null;
-    }
-
-    // Add this method to your component class
-    getDisplayRange(): { start: number; end: number } {
-        const start = (this.currentPage - 1) * this.pageSize + 1;
-        const end = Math.min(this.currentPage * this.pageSize, this.totalItems);
-        return { start, end };
     }
 }

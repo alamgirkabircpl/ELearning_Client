@@ -1,8 +1,9 @@
 import { CommonModule, NgClass } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { AssignCourse } from '../../admin/models/assign-course';
 import { AssignCourseService } from '../../admin/services/assign-course.service';
+import { CommonService } from '../../admin/services/common.service';
+import { ApiService } from '../../api.service';
 import { PlatformService } from '../../platform.service';
 
 @Component({
@@ -13,9 +14,11 @@ import { PlatformService } from '../../platform.service';
     styleUrl: './courses.component.scss',
 })
 export class CoursesComponent implements OnInit {
-    assignCourse: AssignCourse[] = [];
+    assignCourse: any[] = [];
 
     assignCourseService = inject(AssignCourseService);
+    commonService = inject(CommonService);
+    apiService = inject(ApiService);
 
     platFormService = inject(PlatformService);
     router = inject(Router);
@@ -27,11 +30,16 @@ export class CoursesComponent implements OnInit {
     }
 
     loadAssignCourse() {
-        this.assignCourseService.getAll().subscribe({
+        this.commonService.GetCourseAndInstructorDetails().subscribe({
             next: (courses: any) => {
+                console.log('Courses:', courses);
                 this.assignCourse = courses;
             },
             error: (err) => console.error('Error loading courses', err),
         });
+    }
+
+    getImageUrl(imagePath: string): string {
+        return this.apiService.getImageUrl(imagePath);
     }
 }
