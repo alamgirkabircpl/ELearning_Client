@@ -138,10 +138,10 @@ export class AuthService {
     refreshAccessToken(): Observable<string> {
         const refreshToken = this.getRefreshToken();
         const token = this.getToken();
-
         if (!refreshToken) {
             return throwError(() => new Error('No refresh token'));
         }
+        console.log('first', refreshToken, token);
 
         return this.http
             .post<{ token: string; refreshToken: string }>(
@@ -154,6 +154,7 @@ export class AuthService {
             .pipe(
                 tap((res) => this.setTokens(res.token, res.refreshToken)),
                 map((res) => res.token),
+
                 catchError((err) => {
                     this.clearTokens();
                     return throwError(() => err);

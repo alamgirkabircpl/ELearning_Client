@@ -7,7 +7,8 @@ import { PaginatedPermissions, Permission } from '../models/permission';
     providedIn: 'root',
 })
 export class PermissionService {
-    private baseUrl = 'http://localhost:44449/api/Permission';
+    private baseUrl =
+        'https://elearning-fka2dpedhgbxh5hd.eastasia-01.azurewebsites.net/api/Permission';
 
     constructor(private http: HttpClient) {}
 

@@ -4,12 +4,7 @@
     <!--begin::Start Navbar Links-->
     <ul class="navbar-nav gap-2">
         <li class="nav-item">
-            <a
-                class="nav-link"
-                data-lte-toggle="sidebar"
-                href="#"
-                role="button"
-            >
+            <a class="nav-link" data-lte-toggle="sidebar" role="button">
                 <i class="bi bi-list"></i>
             </a>
         </li>
@@ -36,17 +31,17 @@
 
         <!-- Change Password Button -->
         <li class="nav-item">
-            <button
+            <a
                 [routerLink]="['/']"
                 target="_blank"
-                routerLinkActive="router-link-active"
                 class="btn btn-primary btn-sm text-white"
             >
                 <i class="bi bi-globe"></i>
                 <span class="d-none d-md-inline"> View Website</span>
-            </button>
+            </a>
         </li>
     </ul>
+
     <!--end::Start Navbar Links-->
 </div>
 <!--end::Container-->

@@ -15,7 +15,8 @@ import {
 export class UserRoleService {
     private apiService = inject(ApiService);
 
-    private baseUrl = 'http://localhost:44449';
+    private baseUrl =
+        'https://elearning-fka2dpedhgbxh5hd.eastasia-01.azurewebsites.net';
 
     constructor(private http: HttpClient) {}
 

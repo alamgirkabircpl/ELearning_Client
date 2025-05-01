@@ -7,7 +7,8 @@ import { Role } from '../models/role';
     providedIn: 'root',
 })
 export class RoleService {
-    private baseUrl = 'http://localhost:44449/api/ApplicationRole';
+    private baseUrl =
+        'https://elearning-fka2dpedhgbxh5hd.eastasia-01.azurewebsites.net/api/ApplicationRole';
 
     constructor(private http: HttpClient) {}
 

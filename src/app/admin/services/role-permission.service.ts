@@ -5,7 +5,8 @@ import { Injectable } from '@angular/core';
     providedIn: 'root',
 })
 export class RolePermissionService {
-    private baseUrl = 'http://localhost:44449';
+    private baseUrl =
+        'https://elearning-fka2dpedhgbxh5hd.eastasia-01.azurewebsites.net/';
 
     constructor(private http: HttpClient) {}
 

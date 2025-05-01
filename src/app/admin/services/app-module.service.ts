@@ -7,7 +7,8 @@ import { ApplicationModule, PaginatedModules } from '../models/app-module';
     providedIn: 'root',
 })
 export class AppModuleService {
-    private baseUrl = 'http://localhost:44449/api/ApplicationModule';
+    private baseUrl =
+        'https://elearning-fka2dpedhgbxh5hd.eastasia-01.azurewebsites.net/api/ApplicationModule';
 
     constructor(private http: HttpClient) {}
 

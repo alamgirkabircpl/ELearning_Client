@@ -58,6 +58,7 @@ export class SidebarComponent implements OnInit {
 
     ngOnInit() {
         if (this.platformService.isBrowser()) {
+            this.authService.initializeUserFromToken();
             this.getUserData();
         }
     }
@@ -94,11 +95,13 @@ export class SidebarComponent implements OnInit {
     }
 
     hasPermission(permission: string): boolean {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('auth_token');
         if (!token) return false;
+        console.log('first', token);
 
         const decodedToken = this.jwtHelper.decodeToken(token);
         const permissions = decodedToken['Permission'] || [];
+        console.log('i am perrmission', permissions, permission);
         return permissions.includes(permission);
     }
 

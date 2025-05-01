@@ -12,23 +12,24 @@ export class CommonService {
 
     GetCourseAndInstructorDetails(): Observable<any> {
         return this.http.get<any>(
-            'http://localhost:44449/api/Common/GetCourseAndInstructorDetails'
+            'https://elearning-fka2dpedhgbxh5hd.eastasia-01.azurewebsites.net/api/Common/GetCourseAndInstructorDetails'
         );
     }
     GetUserByEmail(email: string): Observable<any> {
         return this.http.get<any>(
-            'http://localhost:44449/api/Common/GetUserByEmail?email=' + email
+            'https://elearning-fka2dpedhgbxh5hd.eastasia-01.azurewebsites.net/api/Common/GetUserByEmail?email=' +
+                email
         );
     }
     GetCoursePrice(courseId: number): Observable<any> {
         return this.http.get<any>(
-            'http://localhost:44449/api/Common/GetCoursePriceByCourseId' +
+            'https://elearning-fka2dpedhgbxh5hd.eastasia-01.azurewebsites.net/api/Common/GetCoursePriceByCourseId' +
                 courseId
         );
     }
     GetEnrolmentDetailsByUserId(userId: string): Observable<any> {
         return this.http.get<any>(
-            'http://localhost:44449/api/Common/GetEnrolmentDetailsByUserId' +
+            'https://elearning-fka2dpedhgbxh5hd.eastasia-01.azurewebsites.net/api/Common/GetEnrolmentDetailsByUserId' +
                 userId
         );
     }

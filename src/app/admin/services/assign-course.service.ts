@@ -7,7 +7,8 @@ import { AssignCourse, Course, Instructor } from '../models/assign-course';
     providedIn: 'root',
 })
 export class AssignCourseService {
-    private baseUrl = 'http://localhost:44449/api/AssignCourse';
+    private baseUrl =
+        'https://elearning-fka2dpedhgbxh5hd.eastasia-01.azurewebsites.net/api/AssignCourse';
 
     constructor(private http: HttpClient) {}
 
@@ -37,14 +38,14 @@ export class AssignCourseService {
     getInstructors(): Observable<Instructor[]> {
         // Replace with actual API call to get instructors
         return this.http.get<Instructor[]>(
-            'http://localhost:44449/api/Instructor/GetAll'
+            'https://elearning-fka2dpedhgbxh5hd.eastasia-01.azurewebsites.net/api/Instructor/GetAll'
         );
     }
 
     getCourses(): Observable<Course[]> {
         // Replace with actual API call to get courses
         return this.http.get<Course[]>(
-            'http://localhost:44449/api/Course/GetAll?PageNumber=1&PageSize=12'
+            'https://elearning-fka2dpedhgbxh5hd.eastasia-01.azurewebsites.net/api/Course/GetAll?PageNumber=1&PageSize=12'
         );
     }
 }

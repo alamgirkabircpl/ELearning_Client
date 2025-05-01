@@ -59,8 +59,11 @@ function handleExpiredToken(
     returnUrl: string,
     route: any
 ): Observable<boolean | UrlTree> {
+    console.error('Token expired, refreshing...');
     return from(authService.refreshAccessToken()).pipe(
         map(() => {
+            alert('Token refreshed successfully!');
+            console.log('logged in successfully');
             const roles = route.data?.['roles'] || [];
             const permissions = route.data?.['permissions'] || [];
             if (roles.length && !authService.hasAnyRole(roles))

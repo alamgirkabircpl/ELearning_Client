@@ -101,7 +101,7 @@ export const routes: Routes = [
             {
                 path: 'dashboard',
                 component: AdminDashboardComponent,
-                data: { permissions: ['View_ABC'] },
+                data: { permissions: ['View_COURSE'] },
             },
 
             {
@@ -159,7 +159,7 @@ export const routes: Routes = [
                     {
                         path: 'roles',
                         component: RoleComponent,
-                        // data: { permissions: ['View_ABC'] },
+                        data: { permissions: ['View_COURSE'] },
                     },
                     {
                         path: 'manage-role',
@@ -184,7 +184,7 @@ export const routes: Routes = [
                     {
                         path: 'users',
                         component: UsersComponent,
-                        data: { permissions: ['View_ABCD'] },
+                        data: { permissions: ['View_COURSE'] },
                     },
                     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
                 ],

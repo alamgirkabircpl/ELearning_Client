@@ -11,7 +11,8 @@ import {
     providedIn: 'root',
 })
 export class ModuleRoleService {
-    private baseUrl = 'http://localhost:44449/api';
+    private baseUrl =
+        'https://elearning-fka2dpedhgbxh5hd.eastasia-01.azurewebsites.net/api';
 
     constructor(private http: HttpClient) {}
 

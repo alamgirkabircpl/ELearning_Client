@@ -142,7 +142,10 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview ml-4">
-                        <li class="nav-item">
+                        <li
+                            class="nav-item"
+                            *ngIf="hasPermission('View_COURSE')"
+                        >
                             <a
                                 routerLink="configuration/users"
                                 routerLinkActive="active"
