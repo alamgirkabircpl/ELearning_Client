@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "lanklub": {
+    "elearning": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,10 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/lanklub",
+            "allowedCommonJsDependencies": [
+        "@ckeditor/ckeditor5-build-classic"
+      ],
+            "outputPath": "dist/elearning",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -40,6 +43,7 @@
               "node_modules/datatables.net-dt/css/dataTables.dataTables.min.css",
 "node_modules/swiper/swiper-bundle.min.css",
 "node_modules/animate.css/animate.min.css",
+"node_modules/admin-lte/dist/css/adminlte.min.css",
 
               
               "src/styles.scss"
@@ -99,10 +103,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "lanklub:build:production"
+              "buildTarget": "elearning:build:production"
             },
             "development": {
-              "buildTarget": "lanklub:build:development"
+              "buildTarget": "elearning:build:development"
             }
           },
           "defaultConfiguration": "development"

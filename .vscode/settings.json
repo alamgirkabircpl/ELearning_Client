@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/603bbee0-3475-431a-ae67-e7cc7a98a83b/resourceGroups/CPL-ALAMGIR/providers/Microsoft.Web/sites/elearningclient",
+    "appService.deploySubpath": "dist"
+}
