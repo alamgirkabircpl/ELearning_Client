@@ -6,9 +6,7 @@ import { environment } from '../environments/environment.development';
 })
 export class ApiService {
     private readonly apiUrl = environment.apiUrl;
-
     constructor() {}
-
     getFullUrl(endpoint: string): string {
         return `${this.apiUrl}/${endpoint}`;
     }
