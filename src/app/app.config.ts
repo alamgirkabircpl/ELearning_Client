@@ -47,6 +47,6 @@ export const appConfig: ApplicationConfig = {
             },
         },
         // Register standalone directive as a provider
-        HasPermissionDirective,
+        HasPermissionDirective, provideAnimationsAsync(),
     ],
 };

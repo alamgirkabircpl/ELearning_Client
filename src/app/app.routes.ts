@@ -89,6 +89,13 @@ export const routes: Routes = [
     // { path: 'terms-conditions', component: TermsConditionsPageComponent },
     { path: 'contact', component: ContactPageComponent },
     { path: 'test', component: TestPageComponent },
+    {
+        path: 'material',
+        loadComponent: () =>
+            import(
+                '../app/material-dashboard/material-dashboard.component'
+            ).then((m) => m.MaterialDashboardComponent),
+    },
     // Here add new pages component
     { path: 'profile', canActivate: [authGuard], component: ProfileComponent },
     // Admin routes
