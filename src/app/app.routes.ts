@@ -19,6 +19,8 @@ import { PermissionComponent } from './admin/permission/permission.component';
 import { RoleComponent } from './admin/role/role.component';
 import { authGuard } from './auth.guard';
 import { HomeDemoOneComponent } from './demos/home-demo-one/home-demo-one.component';
+import { MaterialCategoryComponent } from './material-category/material-category.component';
+import { MaterialDashboardComponent } from './material-dashboard/material-dashboard.component';
 import { AboutPageComponent } from './pages/about-page/about-page.component';
 import { BlogDetailsPageComponent } from './pages/blog-details-page/blog-details-page.component';
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
@@ -93,8 +95,19 @@ export const routes: Routes = [
         path: 'material',
         loadComponent: () =>
             import(
-                '../app/material-dashboard/material-dashboard.component'
-            ).then((m) => m.MaterialDashboardComponent),
+                '../app/material-navigation/material-navigation.component'
+            ).then((m) => m.MaterialNavigationComponent),
+        data: { ssr: false },
+        children: [
+            {
+                path: '',
+                component: MaterialDashboardComponent,
+            },
+            {
+                path: 'mat-cat',
+                component: MaterialCategoryComponent,
+            },
+        ],
     },
     // Here add new pages component
     { path: 'profile', canActivate: [authGuard], component: ProfileComponent },

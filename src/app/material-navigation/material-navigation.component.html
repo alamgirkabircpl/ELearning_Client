@@ -1,0 +1,184 @@
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav
+        #drawer
+        class="sidenav"
+        fixedInViewport
+        [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+        [mode]="(isHandset$ | async) ? 'over' : 'side'"
+        [opened]="(isHandset$ | async) === false"
+    >
+        <div class="sidenav-header">
+            <mat-icon class="dashboard-icon">space_dashboard</mat-icon>
+            <span class="dashboard-title">AdminPro</span>
+        </div>
+
+        <mat-nav-list>
+            <!-- Dashboard -->
+            <a
+                mat-list-item
+                routerLink="/dashboard"
+                routerLinkActive="active-link"
+            >
+                <mat-icon>dashboard</mat-icon>
+                <span>Dashboard</span>
+            </a>
+
+            <!-- Dropdown Menu Example -->
+            <mat-expansion-panel class="dropdown-menu">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <mat-icon>people</mat-icon>
+                        <span>Users</span>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-nav-list>
+                    <a
+                        mat-list-item
+                        routerLink="/users/list"
+                        routerLinkActive="active-link"
+                    >
+                        <mat-icon>list</mat-icon>
+                        <span>User List</span>
+                    </a>
+                    <a
+                        mat-list-item
+                        routerLink="/users/create"
+                        routerLinkActive="active-link"
+                    >
+                        <mat-icon>person_add</mat-icon>
+                        <span>Create User</span>
+                    </a>
+                </mat-nav-list>
+            </mat-expansion-panel>
+
+            <!-- Another Dropdown -->
+            <mat-expansion-panel class="dropdown-menu">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <mat-icon>shopping_cart</mat-icon>
+                        <span>Products</span>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-nav-list>
+                    <a
+                        mat-list-item
+                        routerLink="mat-cat"
+                        routerLinkActive="active-link"
+                    >
+                        <mat-icon>list</mat-icon>
+                        <span>Product List</span>
+                    </a>
+                    <a
+                        mat-list-item
+                        routerLink="/products/add"
+                        routerLinkActive="active-link"
+                    >
+                        <mat-icon>add_circle</mat-icon>
+                        <span>Add Product</span>
+                    </a>
+                    <a
+                        mat-list-item
+                        routerLink="/products/categories"
+                        routerLinkActive="active-link"
+                    >
+                        <mat-icon>category</mat-icon>
+                        <span>Categories</span>
+                    </a>
+                </mat-nav-list>
+            </mat-expansion-panel>
+
+            <!-- Regular Menu Items -->
+            <a
+                mat-list-item
+                routerLink="/orders"
+                routerLinkActive="active-link"
+            >
+                <mat-icon>receipt</mat-icon>
+                <span>Orders</span>
+            </a>
+
+            <a
+                mat-list-item
+                routerLink="/settings"
+                routerLinkActive="active-link"
+            >
+                <mat-icon>settings</mat-icon>
+                <span>Settings</span>
+            </a>
+        </mat-nav-list>
+
+        <div class="sidenav-footer">
+            <div class="user-profile">
+                <mat-icon>account_circle</mat-icon>
+                <div class="user-info">
+                    <span class="user-name">Admin User</span>
+                    <span class="user-role">Administrator</span>
+                </div>
+            </div>
+        </div>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+        <mat-toolbar color="primary" class="main-toolbar">
+            @if (isHandset$ | async) {
+            <button
+                type="button"
+                aria-label="Toggle sidenav"
+                mat-icon-button
+                (click)="drawer.toggle()"
+            >
+                <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+            </button>
+            }
+            <span class="toolbar-title">Dashboard Overview</span>
+
+            <span class="spacer"></span>
+
+            <button mat-icon-button [matMenuTriggerFor]="notificationsMenu">
+                <mat-icon [matBadge]="3" matBadgeColor="warn"
+                    >notifications</mat-icon
+                >
+            </button>
+
+            <button mat-icon-button [matMenuTriggerFor]="userMenu">
+                <mat-icon>account_circle</mat-icon>
+            </button>
+
+            <mat-menu #userMenu="matMenu">
+                <button mat-menu-item>
+                    <mat-icon>person</mat-icon>
+                    <span>Profile</span>
+                </button>
+                <button mat-menu-item>
+                    <mat-icon>settings</mat-icon>
+                    <span>Settings</span>
+                </button>
+                <mat-divider></mat-divider>
+                <button mat-menu-item>
+                    <mat-icon>logout</mat-icon>
+                    <span>Logout</span>
+                </button>
+            </mat-menu>
+
+            <mat-menu #notificationsMenu="matMenu">
+                <button mat-menu-item>
+                    <mat-icon>email</mat-icon>
+                    <span>New message</span>
+                </button>
+                <button mat-menu-item>
+                    <mat-icon>system_update</mat-icon>
+                    <span>System update</span>
+                </button>
+                <button mat-menu-item>
+                    <mat-icon>warning</mat-icon>
+                    <span>Alert</span>
+                </button>
+            </mat-menu>
+        </mat-toolbar>
+
+        <div class="content-wrapper">
+            <router-outlet></router-outlet>
+            <!-- <app-material-dashboard /> -->
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>
