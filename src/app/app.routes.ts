@@ -21,6 +21,7 @@ import { authGuard } from './auth.guard';
 import { HomeDemoOneComponent } from './demos/home-demo-one/home-demo-one.component';
 import { MaterialCategoryComponent } from './material-category/material-category.component';
 import { MaterialDashboardComponent } from './material-dashboard/material-dashboard.component';
+import { MaterialNavigationComponent } from './material-navigation/material-navigation.component';
 import { AboutPageComponent } from './pages/about-page/about-page.component';
 import { BlogDetailsPageComponent } from './pages/blog-details-page/blog-details-page.component';
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
@@ -93,11 +94,7 @@ export const routes: Routes = [
     { path: 'test', component: TestPageComponent },
     {
         path: 'material',
-        loadComponent: () =>
-            import(
-                '../app/material-navigation/material-navigation.component'
-            ).then((m) => m.MaterialNavigationComponent),
-        data: { ssr: false },
+        component: MaterialNavigationComponent,
         children: [
             {
                 path: '',
