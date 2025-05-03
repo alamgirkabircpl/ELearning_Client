@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Course } from '../../admin/models/course';
 import { Enroll } from '../../admin/models/enroll';
@@ -101,7 +102,11 @@ export class CoursesPageComponent implements OnInit {
     private userService = inject(UserService);
     courseUId: string | null = null;
     instructorRegId: string | null = null;
-    constructor(private route: ActivatedRoute) {
+
+    constructor(
+        private route: ActivatedRoute,
+        private sanitizer: DomSanitizer
+    ) {
         this.route.queryParams.subscribe((params) => {
             const courseUId = params['courseUId'];
             const instructorRegId = params['instructorRegId'];
@@ -282,7 +287,9 @@ export class CoursesPageComponent implements OnInit {
             }
         );
     }
-
+    getSanitizedContent(html: string) {
+        return this.sanitizer.bypassSecurityTrustHtml(html);
+    }
     getImagePath(imageName: string): string {
         return this.apiService.getImageUrl(imageName);
     }

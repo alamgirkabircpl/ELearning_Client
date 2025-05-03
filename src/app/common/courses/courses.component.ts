@@ -1,4 +1,4 @@
-import { CommonModule, NgClass } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AssignCourseService } from '../../admin/services/assign-course.service';
@@ -9,7 +9,7 @@ import { PlatformService } from '../../platform.service';
 @Component({
     selector: 'app-courses',
     standalone: true,
-    imports: [RouterLink, NgClass, CommonModule],
+    imports: [RouterLink, CommonModule],
     templateUrl: './courses.component.html',
     styleUrl: './courses.component.scss',
 })

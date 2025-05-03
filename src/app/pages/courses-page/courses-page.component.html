@@ -15,7 +15,24 @@
                             {{ cdata.courseCategoryName }}
                         </a>
                     </h3>
-                    <p>{{ cdata.courseDescription }}</p>
+                    <!-- <p>{{ cdata.courseDescription }}</p> -->
+                    <p
+                        class="description-clamp-line-2"
+                        style="cursor: pointer"
+                        [innerHTML]="
+                            getSanitizedContent(cdata.courseDescription)
+                        "
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#courseDetails"
+                        (click)="
+                            handleOpenCourseDetails(
+                                cdata.courseUid,
+                                cdata.instructorRegId,
+                                cdata.courseId
+                            )
+                        "
+                    ></p>
+
                     <div class="instructor d-flex align-items-center">
                         <img
                             [src]="
@@ -105,9 +122,19 @@
             </div>
 
             <!-- Course Title -->
-            <h2 class="offcanvas-title fw-bold mb-0" id="courseDetailsLabel">
-                {{ course?.courseTitle || "Course Title" }}
-            </h2>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h2
+                    class="offcanvas-title fw-bold mb-0"
+                    id="courseDetailsLabel"
+                >
+                    {{ course?.courseTitle || "Course Title" }}
+                </h2>
+                <div>
+                    <span class="badge btn-default text-warning fs-5 px-3 py-2"
+                        >${{ coursePrice?.toFixed(2) }}</span
+                    >
+                </div>
+            </div>
         </div>
     </div>
 
@@ -185,16 +212,41 @@
                         >
                     </div>
                 </div>
-
+                <div class="row g-3 mb-4">
+                    <div class="col-6">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body text-center py-3">
+                                <i
+                                    class="bi bi-calendar-check-fill text-primary fs-4 mb-2"
+                                ></i>
+                                <h6 class="mb-1">Start Date</h6>
+                                <p class="small text-muted mb-0">
+                                    {{ course?.startDate }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body text-center py-3">
+                                <i
+                                    class="bi bi-calendar-check-fill text-primary fs-4 mb-2"
+                                ></i>
+                                <h6 class="mb-1">Start Date</h6>
+                                <p class="small text-muted mb-0">
+                                    {{ course?.endDate }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <h5 class="fw-semibold mb-3">Course Description</h5>
-                <p class="text-muted mb-4">
-                    {{
-                        course?.description ||
-                            "This comprehensive course will teach you everything you need to know about the subject matter through hands-on projects and real-world examples."
-                    }}
-                </p>
+                <p
+                    class="text-muted mb-4"
+                    [innerHTML]="getSanitizedContent(course?.description || '')"
+                ></p>
 
-                <h5 class="fw-semibold mb-3">What You'll Learn</h5>
+                <!-- <h5 class="fw-semibold mb-3">What You'll Learn</h5>
                 <ul class="list-unstyled mb-4">
                     <li class="mb-2 d-flex align-items-start">
                         <i
@@ -223,47 +275,9 @@
                         ></i>
                         <span>Gain industry-recognized certification</span>
                     </li>
-                </ul>
+                </ul> -->
 
-                <div class="row g-3 mb-4">
-                    <div class="col-6">
-                        <div class="card border-0 shadow-sm h-100">
-                            <!-- <div class="card-body text-center py-3">
-                                <i
-                                    class="bi bi-clock-fill text-primary fs-4 mb-2"
-                                ></i>
-                                <h6 class="mb-1">Duration</h6>
-                                <p class="small text-muted mb-0">
-                                    {{ course?.startDate || "8 weeks" }}
-                                </p>
-                            </div> -->
-                            <div class="card-body text-center py-3">
-                                <i
-                                    class="bi bi-calendar-check-fill text-primary fs-4 mb-2"
-                                ></i>
-                                <h6 class="mb-1">Start Date</h6>
-                                <p class="small text-muted mb-0">
-                                    {{ course?.startDate }}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="card border-0 shadow-sm h-100">
-                            <div class="card-body text-center py-3">
-                                <i
-                                    class="bi bi-calendar-check-fill text-primary fs-4 mb-2"
-                                ></i>
-                                <h6 class="mb-1">Start Date</h6>
-                                <p class="small text-muted mb-0">
-                                    {{ course?.endDate }}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <h5 class="fw-semibold mb-3">Course Curriculum</h5>
+                <!-- <h5 class="fw-semibold mb-3">Course Curriculum</h5>
                 <div class="accordion mb-4" id="curriculumAccordion">
                     <div class="accordion-item border-0 mb-2 shadow-sm">
                         <h6 class="accordion-header">
@@ -336,7 +350,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
 
             <!-- Instructor Tab -->
@@ -386,12 +400,14 @@
                             <h6 class="fw-semibold mb-2">
                                 About the Instructor
                             </h6>
-                            <p class="text-muted">
-                                {{
-                                    instructor?.description ||
-                                        "With over 10 years of industry experience, our instructor has worked with top tech companies and trained thousands of students worldwide."
-                                }}
-                            </p>
+                            <p
+                                class="text-muted"
+                                [innerHTML]="
+                                    getSanitizedContent(
+                                        instructor?.description || ''
+                                    )
+                                "
+                            ></p>
                         </div>
 
                         <div class="row g-2">

@@ -613,3 +613,12 @@ p {
 .toast-info {
     background-color: #17a2b8 !important;
 }
+
+.description-clamp-line-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* number of lines to show */
+    line-clamp: 2; /* standard property for compatibility */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
