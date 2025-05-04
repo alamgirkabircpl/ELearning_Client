@@ -1,188 +1,239 @@
-<div class="container mt-4">
-    <div class="card shadow-sm">
-        <div class="card-header text-white">
-            <h5 class="mb-0">
+<div class="container py-4">
+    <!-- Form Section -->
+    <div class="card shadow-sm mb-5">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0 card-title">
+                <i
+                    class="fas {{
+                        isEditMode ? 'fa-edit' : 'fa-plus-circle'
+                    }} me-2"
+                ></i>
                 {{ isEditMode ? "Edit" : "Add" }} Course Category
             </h5>
         </div>
         <div class="card-body">
-            <div *ngIf="isLoading" class="text-center my-3">
-                <div class="spinner-border text-primary" role="status"></div>
-                <p class="mt-2">Processing...</p>
+            <div *ngIf="isLoading" class="text-center my-4 py-3">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-2 mb-0 text-muted">Processing your request...</p>
             </div>
 
             <form
                 (ngSubmit)="saveCategory(form)"
                 #form="ngForm"
                 *ngIf="!isLoading"
+                class="needs-validation"
+                novalidate
             >
-                <div class="mb-3">
-                    <label class="form-label"
-                        >Title <span class="text-danger">*</span></label
-                    >
-                    <input
-                        type="text"
-                        class="form-control"
-                        [(ngModel)]="model.title"
-                        name="title"
-                        required
-                        #title="ngModel"
-                        [class.is-invalid]="
-                            title.invalid &&
-                            (title.dirty || title.touched || formSubmitted)
-                        "
-                        placeholder="Enter category title"
-                    />
-                    <div
-                        *ngIf="
-                            title.invalid &&
-                            (title.dirty || title.touched || formSubmitted)
-                        "
-                        class="invalid-feedback"
-                    >
-                        Title is required.
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <label
+                            for="categoryTitle"
+                            class="form-label fw-semibold"
+                        >
+                            Title <span class="text-danger">*</span>
+                        </label>
+                        <input
+                            type="text"
+                            class="form-control form-control-lg"
+                            id="categoryTitle"
+                            [(ngModel)]="model.title"
+                            name="title"
+                            required
+                            #title="ngModel"
+                            [class.is-invalid]="
+                                title.invalid &&
+                                (title.dirty || title.touched || formSubmitted)
+                            "
+                            placeholder="Enter category title"
+                        />
+                        <div
+                            *ngIf="
+                                title.invalid &&
+                                (title.dirty || title.touched || formSubmitted)
+                            "
+                            class="invalid-feedback"
+                        >
+                            Please provide a valid title.
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 mb-4">
+                        <label class="form-label fw-semibold">
+                            Description <span class="text-danger">*</span>
+                        </label>
+                        <ckeditor
+                            *ngIf="Editor"
+                            [editor]="Editor"
+                            [config]="config"
+                            [(ngModel)]="model.description"
+                            name="description"
+                            [data]="initialData"
+                            #description="ngModel"
+                            [class.is-invalid]="
+                                description?.invalid &&
+                                (description?.dirty ||
+                                    description?.touched ||
+                                    formSubmitted)
+                            "
+                        ></ckeditor>
                     </div>
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label"
-                        >Description <span class="text-danger">*</span></label
-                    >
-                    <ckeditor
-                        *ngIf="Editor"
-                        [editor]="Editor"
-                        [config]="config"
-                        [(ngModel)]="model.description"
-                        name="description"
-                        [data]="initialData"
-                        #description="ngModel"
-                        [class.is-invalid]="
-                            description?.invalid &&
-                            (description?.dirty ||
-                                description?.touched ||
-                                formSubmitted)
-                        "
-                    ></ckeditor>
-                </div>
-
-                <div class="d-flex justify-content-end">
-                    <button
-                        type="submit"
-                        class="btn btn-success me-2"
-                        [disabled]="isLoading"
-                    >
-                        {{ isEditMode ? "Update" : "Create" }}
-                    </button>
+                <div class="d-flex justify-content-end border-top pt-3">
                     <button
                         type="button"
-                        class="btn btn-outline-secondary"
+                        class="btn btn-outline-secondary me-2"
                         (click)="resetForm()"
                         [disabled]="isLoading"
                     >
-                        Reset
+                        <i class="fas fa-undo me-1"></i> Reset
+                    </button>
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                        [disabled]="isLoading"
+                    >
+                        <i
+                            class="fas {{
+                                isEditMode ? 'fa-save' : 'fa-plus'
+                            }} me-1"
+                        ></i>
+                        {{ isEditMode ? "Update" : "Create" }}
                     </button>
                 </div>
             </form>
         </div>
     </div>
 
-    <div class="mt-5">
-        <h4>Course Categories</h4>
-
-        <div class="mb-3">
-            <input
-                type="text"
-                class="form-control"
-                placeholder="Search by title or description..."
-                [(ngModel)]="searchText"
-                (input)="applyFilter()"
-                name="search"
-            />
+    <!-- List Section -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-light">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                    <i class="fas fa-list-alt me-2"></i>Course Categories
+                </h5>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-text bg-white">
+                            <i class="fas fa-search"></i>
+                        </span>
+                        <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Search categories..."
+                            [(ngModel)]="searchText"
+                            (input)="applyFilter()"
+                            name="search"
+                        />
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div
-            *ngIf="filteredCategories.length === 0 && !isLoading"
-            class="alert alert-info"
-        >
-            No categories found. Create one!
-        </div>
-
-        <div class="table-responsive">
-            <table
-                *ngIf="filteredCategories.length > 0"
-                class="table table-bordered table-hover"
+        <div class="card-body">
+            <div
+                *ngIf="filteredCategories.length === 0 && !isLoading"
+                class="alert alert-info mb-0"
             >
-                <thead class="table-light">
-                    <tr>
-                        <th>Title</th>
-                        <th>Description</th>
-                        <th style="width: 150px">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr
-                        *ngFor="
-                            let cat of filteredCategories.slice(
-                                (currentPage - 1) * pageSize,
-                                currentPage * pageSize
-                            )
-                        "
-                    >
-                        <td>{{ cat.title }}</td>
-                        <td [innerHTML]="cat.description"></td>
-                        <td>
-                            <button
-                                class="btn btn-sm btn-warning me-2"
-                                (click)="editCategory(cat)"
-                                [disabled]="isLoading"
-                            >
-                                Edit
-                            </button>
-                            <button
-                                class="btn btn-sm btn-danger"
-                                (click)="deleteCategory(cat)"
-                                [disabled]="isLoading"
-                            >
-                                Delete
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                <i class="fas fa-info-circle me-2"></i> No categories found.
+                Create one!
+            </div>
 
-        <nav
-            *ngIf="totalPages > 1"
-            aria-label="Page navigation example"
-            class="mt-3"
-        >
-            <ul class="pagination justify-content-center">
-                <li class="page-item" [class.disabled]="currentPage === 1">
-                    <a class="page-link" (click)="changePage(currentPage - 1)"
-                        >Previous</a
-                    >
-                </li>
-                <li
-                    class="page-item"
-                    *ngFor="
-                        let page of [].constructor(totalPages);
-                        let i = index
-                    "
-                    [class.active]="currentPage === i + 1"
-                >
-                    <a class="page-link" (click)="changePage(i + 1)">{{
-                        i + 1
-                    }}</a>
-                </li>
-                <li
-                    class="page-item"
-                    [class.disabled]="currentPage === totalPages"
-                >
-                    <a class="page-link" (click)="changePage(currentPage + 1)"
-                        >Next</a
-                    >
-                </li>
-            </ul>
-        </nav>
+            <div *ngIf="filteredCategories.length > 0" class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col" class="w-25">Title</th>
+                            <th scope="col">Description</th>
+                            <th
+                                scope="col"
+                                class="text-end"
+                                style="width: 180px"
+                            >
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            *ngFor="
+                                let cat of filteredCategories.slice(
+                                    (currentPage - 1) * pageSize,
+                                    currentPage * pageSize
+                                )
+                            "
+                        >
+                            <td class="fw-semibold">{{ cat.title }}</td>
+                            <td [innerHTML]="cat.description"></td>
+                            <td class="text-end">
+                                <div class="btn-group" role="group">
+                                    <button
+                                        class="btn btn-sm btn-outline-primary me-1"
+                                        (click)="editCategory(cat)"
+                                        [disabled]="isLoading"
+                                        title="Edit"
+                                    >
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button
+                                        class="btn btn-sm btn-outline-danger"
+                                        (click)="deleteCategory(cat)"
+                                        [disabled]="isLoading"
+                                        title="Delete"
+                                    >
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div *ngIf="totalPages > 1" class="mt-4">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        <li
+                            class="page-item"
+                            [class.disabled]="currentPage === 1"
+                        >
+                            <a
+                                class="page-link"
+                                (click)="changePage(currentPage - 1)"
+                                tabindex="-1"
+                            >
+                                <i class="fas fa-chevron-left"></i>
+                            </a>
+                        </li>
+                        <li
+                            class="page-item"
+                            *ngFor="
+                                let page of [].constructor(totalPages);
+                                let i = index
+                            "
+                            [class.active]="currentPage === i + 1"
+                        >
+                            <a class="page-link" (click)="changePage(i + 1)">{{
+                                i + 1
+                            }}</a>
+                        </li>
+                        <li
+                            class="page-item"
+                            [class.disabled]="currentPage === totalPages"
+                        >
+                            <a
+                                class="page-link"
+                                (click)="changePage(currentPage + 1)"
+                            >
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
     </div>
 </div>

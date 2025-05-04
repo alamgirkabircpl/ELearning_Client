@@ -25,20 +25,31 @@ export class InstructorComponent {
     private platformService = inject(PlatformService);
     instructors: Instructor[] = [];
     pagedInstructors: Instructor[] = [];
+    filteredInstructor: Instructor[] = [];
+    users: User[] = [];
+    selectedUser: { id: string; email: string } = {
+        id: '',
+        email: '',
+    };
 
     // Pagination
+    // Pagination
     currentPage = 1;
-    itemsPerPage = 10;
-    totalPages = 1;
-    visiblePages: number[] = [];
+    pageSize = 2;
+    totalPages = 0;
+    searchText = '';
 
     // Form state
     instructor: Instructor = this.createEmptyInstructor();
     selectedFile: File | null = null;
     profileImagePreview: string | null = null;
+    //  profileImagePreview: string | null = 'images/defaultprofileimage.webp';
+
     showPassword = false;
     isSubmitting = false;
     isEditMode = false;
+    isLoading = false;
+    isSelectedUser = false;
 
     public Editor: any;
     public config: any;
@@ -77,23 +88,14 @@ export class InstructorComponent {
             }
         }
         this.loadInstructors();
-        this.dtOptions = {
-            pagingType: 'full_numbers',
-            pageLength: 10,
-            lengthMenu: [5, 10, 25, 50],
-            processing: true,
-            order: [],
-            columnDefs: [
-                {
-                    targets: [0],
-                    orderable: false,
-                },
-                {
-                    targets: [1],
-                    orderable: true,
-                },
-            ],
-        };
+        this.loadUser();
+    }
+
+    loadUser() {
+        this.userService.getAllUser().subscribe((res) => {
+            this.users = Array.isArray(res) ? res : [res];
+            console.log(res);
+        });
     }
 
     private createEmptyInstructor(): Instructor {
@@ -116,6 +118,8 @@ export class InstructorComponent {
     }
 
     private loadInstructors(): void {
+        this.isLoading = true;
+
         this.instructorService.getAll().subscribe({
             next: (res) => {
                 this.instructors = res.map((instructor) => ({
@@ -124,57 +128,36 @@ export class InstructorComponent {
                         instructor.profilePicture ||
                         'assets/images/default-profile.png',
                 }));
-                this.updatePagination();
+                this.applyFilter();
+                this.isLoading = false;
             },
             error: (err) => {
                 console.error('Error fetching instructors:', err);
                 this.toastService.showError('Failed to load instructors');
+                this.isLoading = false;
             },
         });
     }
 
-    // Pagination methods
-    updatePagination(): void {
+    applyFilter(): void {
+        const search = this.searchText.toLowerCase();
+        this.filteredInstructor = this.instructors.filter(
+            (cat) =>
+                cat.firstName.toLowerCase().includes(search) ||
+                cat.description.toLowerCase().includes(search)
+        );
         this.totalPages = Math.ceil(
-            this.instructors.length / this.itemsPerPage
+            this.filteredInstructor.length / this.pageSize
         );
-
-        // Calculate visible pages (max 5 pages shown)
-        const maxVisiblePages = 5;
-        const halfVisible = Math.floor(maxVisiblePages / 2);
-        let startPage = Math.max(1, this.currentPage - halfVisible);
-        let endPage = Math.min(
+        if (this.currentPage > this.totalPages) {
+            this.currentPage = this.totalPages || 1;
+        }
+        console.log(
+            'first,',
             this.totalPages,
-            startPage + maxVisiblePages - 1
+            this.currentPage,
+            this.instructor
         );
-
-        if (endPage - startPage + 1 < maxVisiblePages) {
-            startPage = Math.max(1, endPage - maxVisiblePages + 1);
-        }
-
-        this.visiblePages = Array.from(
-            { length: endPage - startPage + 1 },
-            (_, i) => startPage + i
-        );
-
-        // Update paged data
-        const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-        this.pagedInstructors = this.instructors.slice(
-            startIndex,
-            startIndex + this.itemsPerPage
-        );
-    }
-
-    setPage(page: number): void {
-        if (page >= 1 && page <= this.totalPages && page !== this.currentPage) {
-            this.currentPage = page;
-            this.updatePagination();
-        }
-    }
-
-    onPageSizeChange(): void {
-        this.currentPage = 1;
-        this.updatePagination();
     }
 
     // File handling
@@ -233,52 +216,72 @@ export class InstructorComponent {
     }
 
     private createInstructor(): void {
-        if (this.instructor.password !== this.instructor.confirmPassword) {
-            this.toastService.showError('Passwords do not match');
-            return;
+        if (this.isSelectedUser) {
+            const formData = this.createInstructorFormData();
+            formData.append('id', this.selectedUser.id);
+
+            this.instructorService.create(formData).subscribe({
+                next: () => {
+                    this.toastService.showSuccess(
+                        'Instructor created successfully'
+                    );
+                    this.resetForm();
+                    this.loadInstructors();
+                },
+                error: (err) => {
+                    console.error('Error creating instructor:', err);
+                    this.toastService.showError('Failed to create instructor');
+                    this.isSubmitting = false;
+                },
+            });
+        } else {
+            if (this.instructor.password !== this.instructor.confirmPassword) {
+                this.toastService.showError('Passwords do not match');
+                return;
+            }
+
+            this.isSubmitting = true;
+            const userData: User = {
+                firstName: this.instructor.firstName,
+                lastName: this.instructor.lastName,
+                email: this.instructor.email,
+                userName: this.instructor.email,
+                password: this.instructor.password,
+                confirmPassword: this.instructor.confirmPassword,
+                isActive: true,
+            };
+
+            this.userService.createUser(userData).subscribe({
+                next: (userResponse) => {
+                    this.toastService.showSuccess('User created successfully');
+
+                    const formData = this.createInstructorFormData();
+                    formData.append('id', userResponse.data.id);
+
+                    this.instructorService.create(formData).subscribe({
+                        next: () => {
+                            this.toastService.showSuccess(
+                                'Instructor created successfully'
+                            );
+                            this.resetForm();
+                            this.loadInstructors();
+                        },
+                        error: (err) => {
+                            console.error('Error creating instructor:', err);
+                            this.toastService.showError(
+                                'Failed to create instructor'
+                            );
+                            this.isSubmitting = false;
+                        },
+                    });
+                },
+                error: (err) => {
+                    console.error('Error creating user:', err);
+                    this.toastService.showError('Failed to create user');
+                    this.isSubmitting = false;
+                },
+            });
         }
-
-        this.isSubmitting = true;
-        const userData: User = {
-            firstName: this.instructor.firstName,
-            lastName: this.instructor.lastName,
-            email: this.instructor.email,
-            userName: this.instructor.email,
-            password: this.instructor.password,
-            confirmPassword: this.instructor.confirmPassword,
-            isActive: true,
-        };
-
-        this.userService.createUser(userData).subscribe({
-            next: (userResponse) => {
-                this.toastService.showSuccess('User created successfully');
-
-                const formData = this.createInstructorFormData();
-                formData.append('id', userResponse.data.id);
-
-                this.instructorService.create(formData).subscribe({
-                    next: () => {
-                        this.toastService.showSuccess(
-                            'Instructor created successfully'
-                        );
-                        this.resetForm();
-                        this.loadInstructors();
-                    },
-                    error: (err) => {
-                        console.error('Error creating instructor:', err);
-                        this.toastService.showError(
-                            'Failed to create instructor'
-                        );
-                        this.isSubmitting = false;
-                    },
-                });
-            },
-            error: (err) => {
-                console.error('Error creating user:', err);
-                this.toastService.showError('Failed to create user');
-                this.isSubmitting = false;
-            },
-        });
     }
 
     private createInstructorFormData(): FormData {
@@ -328,20 +331,33 @@ export class InstructorComponent {
     delete(id?: string): void {
         if (!id) return;
 
-        if (confirm('Are you sure you want to delete this instructor?')) {
-            this.instructorService.delete(id).subscribe({
-                next: () => {
-                    this.toastService.showSuccess(
-                        'Instructor deleted successfully'
-                    );
-                    this.loadInstructors();
-                },
-                error: (err) => {
-                    console.error('Error deleting instructor:', err);
-                    this.toastService.showError('Failed to delete instructor');
-                },
+        this.toastService
+            .confirm(
+                'Confirm Deletion',
+                'Are you sure you want to delete this category?'
+            )
+            .then((confirmed) => {
+                if (!confirmed) {
+                    this.toastService.showInfo('Deletion cancelled');
+                    return;
+                }
+
+                this.isLoading = true;
+                this.instructorService.delete(id).subscribe({
+                    next: () => {
+                        this.toastService.showSuccess(
+                            'Instructor deleted successfully'
+                        );
+                        this.loadInstructors();
+                    },
+                    error: (err) => {
+                        console.error('Error deleting instructor:', err);
+                        this.toastService.showError(
+                            'Failed to delete instructor'
+                        );
+                    },
+                });
             });
-        }
     }
 
     resetForm(): void {
@@ -350,6 +366,8 @@ export class InstructorComponent {
         this.profileImagePreview = null;
         this.isEditMode = false;
         this.isSubmitting = false;
+        this.selectedUser = { id: '', email: '' }; // For Option 1
+        this.isSelectedUser = false;
     }
 
     togglePasswordVisibility(): void {
@@ -360,4 +378,52 @@ export class InstructorComponent {
     }
     // Template helper
     Math = Math;
+
+    changePage(page: number): void {
+        if (page >= 1 && page <= this.totalPages) {
+            this.currentPage = page;
+        }
+    }
+    onUserSelect(): void {
+        console.log('I am calling');
+        if (this.selectedUser && this.selectedUser.id) {
+            const alreadyExist = this.instructors.find(
+                (ins) => ins.id == this.selectedUser.id
+            );
+            if (!alreadyExist) {
+                const selectedUser = this.users.find(
+                    (user) => user.id === this.selectedUser.id
+                );
+                console.log(selectedUser, this.instructor);
+
+                if (selectedUser) {
+                    this.instructor.firstName = selectedUser.firstName;
+                    this.instructor.lastName = selectedUser.lastName;
+                    this.instructor.email = selectedUser.email;
+                    this.instructor.userName = selectedUser.userName;
+                }
+                this.isSelectedUser = true;
+            } else {
+                this.toastService.showWarning('Instructor already exist!!!');
+                this.isSelectedUser = false;
+
+                // Reset the fields if no user is selected
+                this.instructor.firstName = '';
+                this.instructor.lastName = '';
+                this.instructor.email = '';
+                this.instructor.userName = '';
+                this.selectedUser = { id: '', email: '' }; // For Option 1
+            }
+        } else {
+            this.isSelectedUser = false;
+
+            // Reset the fields if no user is selected
+            this.instructor.firstName = '';
+            this.instructor.lastName = '';
+            this.instructor.email = '';
+            this.instructor.userName = '';
+            this.selectedUser = { id: '', email: '' }; // For Option 1
+        }
+    }
+    ngOnDestroy(): void {}
 }

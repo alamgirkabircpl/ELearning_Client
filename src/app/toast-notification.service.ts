@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2';
 
 @Injectable({
     providedIn: 'root',
@@ -22,5 +23,15 @@ export class ToastNotificationService {
 
     showInfo(msg: string) {
         this.toastr.info(msg, 'Info');
+    }
+    confirm(title: string, text: string): Promise<boolean> {
+        return Swal.fire({
+            title,
+            text,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel',
+        }).then((result) => result.isConfirmed);
     }
 }

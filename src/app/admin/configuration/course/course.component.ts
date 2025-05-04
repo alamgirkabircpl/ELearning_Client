@@ -1,5 +1,3 @@
-// course.component.ts
-
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import {
     Component,
@@ -31,6 +29,7 @@ export class CourseComponent implements OnInit {
     @ViewChild('fileInput') fileInput!: ElementRef;
 
     courses: Course[] = [];
+    filteredCourses: Course[] = [];
     categories: CourseCategory[] = [];
     model: Course = {
         uid: '',
@@ -39,21 +38,27 @@ export class CourseComponent implements OnInit {
         courseCategoryId: 0,
         startDate: this.formatDateForInput(new Date()),
         endDate: this.formatDateForInput(new Date()),
+        startTime: this.formatTimeForInput(new Date()),
+        endTime: this.formatTimeForInput(new Date()),
         isVisible: false,
         logo: '',
     };
     selectedFile: File | null = null;
     isEditMode = false;
     isLoading = false;
+    searchText = '';
     formSubmitted = false;
+    dateTimeError = '';
+    // Add this property to your component class
+    readonly Math = Math;
     public Editor: any;
     public config: any;
     public initialData = '<p>Write description here...</p>';
 
     // Pagination
-    pageNumber = 1;
+    currentPage = 1;
     pageSize = 2;
-    totalItems = 0;
+    totalPages = 0;
 
     private courseService = inject(CourseService);
     private categoryService = inject(CourseCategoryService);
@@ -61,6 +66,7 @@ export class CourseComponent implements OnInit {
     private router = inject(Router);
     apiService = inject(ApiService);
     constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+
     async ngOnInit(): Promise<void> {
         if (isPlatformBrowser(this.platformId)) {
             try {
@@ -91,15 +97,14 @@ export class CourseComponent implements OnInit {
         }
         this.loadCourses();
         this.loadCategories();
-        this.getImageUrl('assets/default-image.png');
     }
 
     loadCourses(): void {
         this.isLoading = true;
-        this.courseService.getAll(this.pageNumber, this.pageSize).subscribe({
+        this.courseService.getAll().subscribe({
             next: (res) => {
                 this.courses = res.data;
-                this.totalItems = res.data.length;
+                this.applyFilter();
                 this.isLoading = false;
             },
             error: (err) => {
@@ -122,139 +127,160 @@ export class CourseComponent implements OnInit {
         });
     }
 
+    applyFilter(): void {
+        const search = this.searchText.toLowerCase();
+        this.filteredCourses = this.courses.filter(
+            (course) =>
+                course.courseTitle.toLowerCase().includes(search) ||
+                this.getCategoryName(course.courseCategoryId)
+                    .toLowerCase()
+                    .includes(search) ||
+                (course.description &&
+                    course.description.toLowerCase().includes(search))
+        );
+        this.totalPages = Math.ceil(
+            this.filteredCourses.length / this.pageSize
+        );
+        this.currentPage = Math.min(this.currentPage, this.totalPages) || 1;
+    }
+
     onFileSelected(event: Event): void {
         const input = event.target as HTMLInputElement;
         if (input.files && input.files.length > 0) {
             this.selectedFile = input.files[0];
-            console.log('File selected:', this.selectedFile.name);
         }
     }
 
+    onDateChange(field: 'startDate' | 'endDate', event: Event): void {
+        const input = event.target as HTMLInputElement;
+        this.model[field] = input.value;
+        this.validateDateTime();
+    }
+
+    onTimeChange(field: 'startTime' | 'endTime', event: Event): void {
+        const input = event.target as HTMLInputElement;
+        this.model[field] = input.value;
+        console.log(input, this.model.startTime, this.model.endTime);
+        this.validateDateTime();
+    }
+
+    private validateDateTime(): void {
+        this.dateTimeError = '';
+
+        if (!this.model.startDate || !this.model.endDate) return;
+
+        const startDateTime = this.combineDateTime(
+            String(this.model.startDate),
+            String(this.model.startTime)
+        );
+        const endDateTime = this.combineDateTime(
+            String(this.model.endDate),
+            String(this.model.endTime)
+        );
+
+        if (endDateTime < startDateTime) {
+            this.dateTimeError = 'End date/time must be after start date/time';
+        }
+    }
     saveCourse(form: NgForm): void {
         this.formSubmitted = true;
-        if (!this.isEditMode) {
-            if (form.invalid) {
-                this.toastService.showError('Please fill all required fields');
-                return;
+        this.validateDateTime();
+
+        if (form.invalid || this.dateTimeError) {
+            if (this.dateTimeError) {
+                this.toastService.showError(this.dateTimeError);
             }
-
-            if (
-                !this.model.courseCategoryId ||
-                this.model.courseCategoryId === 0
-            ) {
-                this.toastService.showError('Please select a category');
-                return;
-            }
-
-            const formData = new FormData();
-            formData.append('CourseTitle', this.model.courseTitle);
-            formData.append('Description', this.model.description);
-            formData.append(
-                'CourseCategoryId',
-                this.model.courseCategoryId.toString()
-            );
-            formData.append(
-                'StartDate',
-                new Date(this.model.startDate).toISOString()
-            );
-            formData.append(
-                'EndDate',
-                new Date(this.model.endDate).toISOString()
-            );
-            formData.append('IsVisible', this.model.isVisible.toString());
-
-            if (this.selectedFile) {
-                formData.append(
-                    'File',
-                    this.selectedFile,
-                    this.selectedFile.name
-                );
-                formData.append('Logopath', this.selectedFile.name); // ✅ Important for validation
-            } else {
-                formData.append('Logopath', ''); // Send empty string if no file to avoid backend error
-            }
-
-            this.isLoading = true;
-            const operation = this.isEditMode ? 'update' : 'create';
-            const observable = this.courseService.create(formData);
-
-            observable.subscribe({
-                next: () => {
-                    this.toastService.showSuccess(
-                        `Course ${operation}d successfully`
-                    );
-                    this.loadCourses();
-                    this.resetForm();
-                    this.isLoading = false;
-                },
-                error: (err) => {
-                    this.toastService.showError(
-                        `Failed to ${operation} course`
-                    );
-                    console.error(`Error ${operation}ing course:`, err);
-                    this.isLoading = false;
-                },
-            });
-        } else {
-            if (form.invalid) {
-                this.toastService.showError('Please fill all required fields');
-                return;
-            }
-
-            if (
-                !this.model.courseCategoryId ||
-                this.model.courseCategoryId === 0
-            ) {
-                this.toastService.showError('Please select a category');
-                return;
-            }
-
-            const formData = new FormData();
-            formData.append('Id', this.model.uid || '');
-            formData.append('CourseId', (this.model.courseId ?? '').toString());
-            formData.append('CourseTitle', this.model.courseTitle);
-            formData.append('Description', this.model.description);
-            formData.append(
-                'CourseCategoryId',
-                this.model.courseCategoryId.toString()
-            );
-            formData.append(
-                'StartDate',
-                new Date(this.model.startDate).toISOString()
-            );
-            formData.append(
-                'EndDate',
-                new Date(this.model.endDate).toISOString()
-            );
-            formData.append('IsVisible', this.model.isVisible.toString());
-            formData.append('Logo', this.model.logo || '');
-
-            if (this.selectedFile) {
-                formData.append(
-                    'File',
-                    this.selectedFile,
-                    this.selectedFile.name
-                );
-            }
-
-            this.isLoading = true;
-            this.courseService.update(formData).subscribe({
-                next: (event) => {
-                    this.toastService.showSuccess(
-                        'Course updated successfully'
-                    );
-                    this.loadCourses();
-                    this.resetForm();
-
-                    this.isLoading = false;
-                },
-                error: (err) => {
-                    this.toastService.showError('Failed to update course');
-                    console.error('Error updating course:', err);
-                    this.isLoading = false;
-                },
-            });
+            return;
         }
+
+        if (!this.model.courseCategoryId || this.model.courseCategoryId === 0) {
+            this.toastService.showError('Please select a category');
+            return;
+        }
+
+        const formData = new FormData();
+        // const startDateTime = this.combineDateTime(
+        //     String(this.model.startDate),
+        //     String(this.model.startTime)
+        // );
+        // const endDateTime = this.combineDateTime(
+        //     String(this.model.endDate),
+        //     String(this.model.endTime)
+        // );
+
+        formData.append('CourseTitle', this.model.courseTitle);
+        formData.append('Description', this.model.description);
+        formData.append(
+            'CourseCategoryId',
+            this.model.courseCategoryId.toString()
+        );
+        formData.append(
+            'StartDate',
+            this.model.startDate instanceof Date
+                ? this.model.startDate.toISOString()
+                : this.model.startDate
+        );
+        formData.append(
+            'EndDate',
+            this.model.endDate instanceof Date
+                ? this.model.endDate.toISOString()
+                : this.model.endDate
+        );
+        formData.append(
+            'startTime',
+            this.model.startTime instanceof Date
+                ? this.formatTimeForInput(this.model.startTime)
+                : this.model.startTime
+        );
+        formData.append(
+            'endTime',
+            this.model.endTime instanceof Date
+                ? this.formatTimeForInput(this.model.endTime)
+                : this.model.endTime
+        );
+
+        formData.append('IsVisible', this.model.isVisible.toString());
+
+        if (this.selectedFile) {
+            formData.append('File', this.selectedFile, this.selectedFile.name);
+            formData.append('Logopath', this.selectedFile.name);
+        } else {
+            formData.append('Logopath', this.model.logo || '');
+        }
+
+        if (this.isEditMode) {
+            formData.append('Id', this.model.uid || '');
+            if (this.model.courseId) {
+                formData.append('CourseId', this.model.courseId.toString());
+            }
+        }
+
+        this.isLoading = true;
+        const serviceCall = this.isEditMode
+            ? this.courseService.update(formData)
+            : this.courseService.create(formData);
+
+        serviceCall.subscribe({
+            next: () => {
+                const action = this.isEditMode ? 'updated' : 'created';
+                this.toastService.showSuccess(`Course ${action} successfully`);
+                this.loadCourses();
+                this.resetForm();
+                this.isLoading = false;
+            },
+            error: (err) => {
+                const action = this.isEditMode ? 'update' : 'create';
+                this.toastService.showError(`Failed to ${action} course`);
+                console.error(`Error ${action}ing course:`, err);
+                this.isLoading = false;
+            },
+        });
+    }
+
+    private combineDateTime(dateStr: string, timeStr: string): Date {
+        const [year, month, day] = dateStr.split('-').map(Number);
+        const [hours, minutes] = timeStr.split(':').map(Number);
+        return new Date(year, month - 1, day, hours, minutes);
     }
 
     getCategoryName(categoryId: number): string {
@@ -269,6 +295,8 @@ export class CourseComponent implements OnInit {
             ...course,
             startDate: this.formatDateForInput(course.startDate),
             endDate: this.formatDateForInput(course.endDate),
+            startTime: this.parseTime(course.startTime),
+            endTime: this.parseTime(course.endTime),
         };
         this.isEditMode = true;
         this.selectedFile = null;
@@ -278,27 +306,48 @@ export class CourseComponent implements OnInit {
             this.fileInput.nativeElement.value = '';
         }
     }
+    private parseTime(time: string | Date): string {
+        const d = new Date(time);
+        if (!isNaN(d.getTime())) {
+            const hours = ('0' + d.getHours()).slice(-2);
+            const minutes = ('0' + d.getMinutes()).slice(-2);
+            return `${hours}:${minutes}`;
+        }
+
+        const [hourStr, minuteStr] =
+            typeof time === 'string' ? time.split(':') : ['00', '00'];
+        return `${hourStr.padStart(2, '0')}:${minuteStr.padStart(2, '0')}`;
+    }
 
     deleteCourse(id: string): void {
         if (!id) return;
 
-        if (confirm('Are you sure you want to delete this course?')) {
-            this.isLoading = true;
-            this.courseService.delete(id).subscribe({
-                next: () => {
-                    this.toastService.showSuccess(
-                        'Course deleted successfully'
-                    );
-                    this.loadCourses();
-                    this.isLoading = false;
-                },
-                error: (err) => {
-                    this.toastService.showError('Failed to delete course');
-                    console.error('Error deleting course:', err);
-                    this.isLoading = false;
-                },
+        this.toastService
+            .confirm(
+                'Confirm Deletion',
+                'Are you sure you want to delete this course?'
+            )
+            .then((confirmed) => {
+                if (confirmed) {
+                    this.isLoading = true;
+                    this.courseService.delete(id).subscribe({
+                        next: () => {
+                            this.toastService.showSuccess(
+                                'Course deleted successfully'
+                            );
+                            this.loadCourses();
+                            this.isLoading = false;
+                        },
+                        error: (err) => {
+                            this.toastService.showError(
+                                'Failed to delete course'
+                            );
+                            console.error('Error deleting course:', err);
+                            this.isLoading = false;
+                        },
+                    });
+                }
             });
-        }
     }
 
     resetForm(): void {
@@ -309,38 +358,66 @@ export class CourseComponent implements OnInit {
             courseCategoryId: 0,
             startDate: this.formatDateForInput(new Date()),
             endDate: this.formatDateForInput(new Date()),
+            startTime: this.formatTimeForInput(new Date()),
+            endTime: this.formatTimeForInput(new Date()),
             isVisible: false,
             logo: '',
         };
         this.selectedFile = null;
         this.isEditMode = false;
         this.formSubmitted = false;
+        this.dateTimeError = '';
 
         if (this.fileInput) {
             this.fileInput.nativeElement.value = '';
         }
     }
 
-    onPageChange(page: number): void {
-        if (
-            page < 1 ||
-            (page > this.pageNumber && this.courses.length < this.pageSize)
-        ) {
-            return;
+    changePage(page: number): void {
+        if (page >= 1 && page <= this.totalPages) {
+            this.currentPage = page;
         }
-        this.pageNumber = page;
-        this.loadCourses();
     }
 
     private formatDateForInput(date: string | Date): string {
         const d = new Date(date);
-        const pad = (num: number) => num.toString().padStart(2, '0');
-        return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(
-            d.getDate()
-        )}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+        if (isNaN(d.getTime())) return '';
+
+        const year = d.getFullYear();
+        const month = ('0' + (d.getMonth() + 1)).slice(-2);
+        const day = ('0' + d.getDate()).slice(-2);
+        return `${year}-${month}-${day}`;
+    }
+
+    private formatTimeForInput(date: string | Date): string {
+        const d = new Date(date);
+        if (isNaN(d.getTime())) return '00:00';
+
+        const hours = ('0' + d.getHours()).slice(-2);
+        const minutes = ('0' + d.getMinutes()).slice(-2);
+        return `${hours}:${minutes}`;
     }
 
     getImageUrl(path: string | null): string {
         return this.apiService.getImageUrl(path);
+    }
+
+    getPageRange(): number[] {
+        const visiblePages = 5; // Number of pages to show in the pagination
+        let startPage = Math.max(
+            1,
+            this.currentPage - Math.floor(visiblePages / 2)
+        );
+        let endPage = startPage + visiblePages - 1;
+
+        if (endPage > this.totalPages) {
+            endPage = this.totalPages;
+            startPage = Math.max(1, endPage - visiblePages + 1);
+        }
+
+        return Array.from(
+            { length: endPage - startPage + 1 },
+            (_, i) => startPage + i
+        );
     }
 }

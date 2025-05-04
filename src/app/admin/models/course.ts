@@ -7,6 +7,8 @@ export interface Course {
     courseCategoryId: number;
     startDate: string | Date;
     endDate: string | Date;
+    startTime: string | Date;
+    endTime: string | Date;
     isVisible: boolean;
     file?: File;
 }

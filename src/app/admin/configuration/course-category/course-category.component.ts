@@ -36,7 +36,7 @@ export class CourseCategoryComponent implements OnInit, OnDestroy {
 
     // Pagination
     currentPage = 1;
-    pageSize = 5;
+    pageSize = 2;
     totalPages = 0;
 
     private toastService = inject(ToastNotificationService);
@@ -104,6 +104,12 @@ export class CourseCategoryComponent implements OnInit, OnDestroy {
         if (this.currentPage > this.totalPages) {
             this.currentPage = this.totalPages || 1;
         }
+        console.log(
+            'first,',
+            this.totalPages,
+            this.currentPage,
+            this.categories
+        );
     }
 
     saveCategory(form: NgForm): void {
@@ -124,7 +130,7 @@ export class CourseCategoryComponent implements OnInit, OnDestroy {
         observable.subscribe({
             next: () => {
                 this.toastService.showSuccess(
-                    `Category ${
+                    `Course Category ${
                         this.isEditMode ? 'updated' : 'created'
                     } successfully`
                 );
@@ -144,23 +150,38 @@ export class CourseCategoryComponent implements OnInit, OnDestroy {
         this.isEditMode = true;
         this.formSubmitted = false;
     }
-
     deleteCategory(category: CourseCategory): void {
         if (!category.uid) return;
-        if (!confirm('Are you sure you want to delete this category?')) return;
 
-        this.isLoading = true;
-        this.categoryService.delete(category.uid).subscribe({
-            next: () => {
-                this.toastService.showSuccess('Category deleted successfully');
-                this.loadCategories();
-                this.isLoading = false;
-            },
-            error: (err) => {
-                this.toastService.showError('Failed to delete category');
-                this.isLoading = false;
-            },
-        });
+        this.toastService
+            .confirm(
+                'Confirm Deletion',
+                'Are you sure you want to delete this category?'
+            )
+            .then((confirmed) => {
+                if (!confirmed) {
+                    this.toastService.showInfo('Deletion cancelled');
+                    return;
+                }
+
+                this.isLoading = true;
+
+                this.categoryService.delete(category.uid!).subscribe({
+                    next: () => {
+                        this.toastService.showSuccess(
+                            'Course Category deleted successfully'
+                        );
+                        this.loadCategories();
+                        this.isLoading = false;
+                    },
+                    error: () => {
+                        this.toastService.showError(
+                            'Failed to delete course category'
+                        );
+                        this.isLoading = false;
+                    },
+                });
+            });
     }
 
     resetForm(): void {

@@ -57,3 +57,47 @@
         text-align: center;
     }
 }
+/* Custom date/time picker styling */
+.date-picker,
+.time-picker {
+    position: relative;
+}
+
+.date-picker input[type="date"]::-webkit-calendar-picker-indicator,
+.time-picker input[type="time"]::-webkit-calendar-picker-indicator {
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.date-picker .input-group-text,
+.time-picker .input-group-text {
+    pointer-events: none;
+    z-index: 1;
+    background-color: #f8f9fa;
+    border-color: #dee2e6;
+}
+
+/* Improve native picker appearance */
+input[type="date"],
+input[type="time"] {
+    appearance: none;
+    -webkit-appearance: none;
+    padding-right: 2.5rem;
+    position: relative;
+}
+
+/* Validation styling */
+.is-invalid {
+    border-color: #dc3545;
+}
+
+.invalid-feedback {
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.875em;
+    color: #dc3545;
+}

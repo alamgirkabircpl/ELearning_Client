@@ -22,3 +22,6 @@
     background: var(--secondaryColor);
     // background: #f8f9fa;
 }
+.offcanvas-backdrop.show {
+    opacity: 0;
+}

@@ -7,8 +7,7 @@ import { Instructor } from '../models/trainer';
     providedIn: 'root',
 })
 export class InstructorService {
-    private baseUrl =
-        'https://elearning-fka2dpedhgbxh5hd.eastasia-01.azurewebsites.net/api/Instructor';
+    private baseUrl = 'http://localhost:44449/api/Instructor';
 
     constructor(private http: HttpClient) {}
 

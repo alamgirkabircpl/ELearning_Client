@@ -11,7 +11,7 @@ export class CourseService {
 
     getAll(
         pageNumber: number = 1,
-        pageSize: number = 5
+        pageSize: number = 0
     ): Observable<PaginatedCourses> {
         const params = new HttpParams()
             .set('PageNumber', pageNumber.toString())
