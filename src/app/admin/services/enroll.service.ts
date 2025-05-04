@@ -10,7 +10,7 @@ import { Enroll } from '../models/enroll';
 export class EnrollService {
     constructor(private http: HttpClient, private apiService: ApiService) {}
 
-    getAll(pageNumber: number = 1, pageSize: number = 5): Observable<any> {
+    getAll(pageNumber: number = 0, pageSize: number = 0): Observable<any> {
         const params = new HttpParams()
             .set('PageNumber', pageNumber.toString())
             .set('PageSize', pageSize.toString());

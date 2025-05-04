@@ -12,25 +12,30 @@ export class CommonService {
 
     GetCourseAndInstructorDetails(): Observable<any> {
         return this.http.get<any>(
-            'https://elearning-fka2dpedhgbxh5hd.eastasia-01.azurewebsites.net/api/Common/GetCourseAndInstructorDetails'
+            `${this.apiService.getFullUrl(
+                'api/Common/GetCourseAndInstructorDetails'
+            )}`
         );
     }
     GetUserByEmail(email: string): Observable<any> {
         return this.http.get<any>(
-            'https://elearning-fka2dpedhgbxh5hd.eastasia-01.azurewebsites.net/api/Common/GetUserByEmail?email=' +
-                email
+            `${this.apiService.getFullUrl(
+                'api/Common/GetUserByEmail?email='
+            )}${email}`
         );
     }
     GetCoursePrice(courseId: number): Observable<any> {
         return this.http.get<any>(
-            'https://elearning-fka2dpedhgbxh5hd.eastasia-01.azurewebsites.net/api/Common/GetCoursePriceByCourseId' +
-                courseId
+            `${this.apiService.getFullUrl(
+                'api/Common/GetCoursePriceByCourseId'
+            )}${courseId}`
         );
     }
     GetEnrolmentDetailsByUserId(userId: string): Observable<any> {
         return this.http.get<any>(
-            'https://elearning-fka2dpedhgbxh5hd.eastasia-01.azurewebsites.net/api/Common/GetEnrolmentDetailsByUserId' +
-                userId
+            `${this.apiService.getFullUrl(
+                'api/Common/GetEnrolmentDetailsByUserId'
+            )}${userId}`
         );
     }
 }

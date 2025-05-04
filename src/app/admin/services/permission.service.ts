@@ -1,23 +1,23 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ApiService } from '../../api.service';
 import { PaginatedPermissions, Permission } from '../models/permission';
 
 @Injectable({
     providedIn: 'root',
 })
 export class PermissionService {
-    private baseUrl =
-        'https://elearning-fka2dpedhgbxh5hd.eastasia-01.azurewebsites.net/api/Permission';
+    private apiService = inject(ApiService);
 
     constructor(private http: HttpClient) {}
 
     getAllPermissions(
-        pageNumber: number = 1,
-        pageSize: number = 5
+        pageNumber: number = 0,
+        pageSize: number = 0
     ): Observable<PaginatedPermissions> {
         return this.http.get<PaginatedPermissions>(
-            `${this.baseUrl}/GetAllPermission`,
+            `${this.apiService.getFullUrl('api/Permission/GetAllPermission')}`,
             {
                 params: new HttpParams()
                     .set('PageNumber', pageNumber.toString())
@@ -27,14 +27,22 @@ export class PermissionService {
     }
 
     createPermission(name: string): Observable<any> {
-        return this.http.post(`${this.baseUrl}/CreatePermission`, { name });
+        return this.http.post(
+            `${this.apiService.getFullUrl('api/Permission/CreatePermission')}`,
+            { name }
+        );
     }
 
     updatePermission(permission: Permission): Observable<any> {
-        return this.http.put(`${this.baseUrl}/Update`, permission);
+        return this.http.put(
+            `${this.apiService.getFullUrl('api/Permission/Update')}`,
+            permission
+        );
     }
 
     deletePermission(uid: string): Observable<any> {
-        return this.http.delete(`${this.baseUrl}/Delete${uid}`);
+        return this.http.delete(
+            `${this.apiService.getFullUrl('api/Permission/Delete')}${uid}`
+        );
     }
 }

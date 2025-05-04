@@ -15,20 +15,17 @@ import {
 export class UserRoleService {
     private apiService = inject(ApiService);
 
-    private baseUrl =
-        'https://elearning-fka2dpedhgbxh5hd.eastasia-01.azurewebsites.net';
-
     constructor(private http: HttpClient) {}
 
     getUsers(): Observable<ManageUser[]> {
         return this.http.get<ManageUser[]>(
-            `${this.baseUrl}/api/ApplicationUser`
+            `${this.apiService.getFullUrl('api/ApplicationUser')}`
         );
     }
 
     getRoles(): Observable<ManageRole[]> {
         return this.http.get<ManageRole[]>(
-            `${this.baseUrl}/api/ApplicationRole/GetAll`
+            `${this.apiService.getFullUrl('api/ApplicationRole/GetAll')}`
         );
     }
 
@@ -36,20 +33,26 @@ export class UserRoleService {
         userId: string
     ): Observable<{ data: { roles: ManageRole[] } }> {
         return this.http.get<{ data: { roles: ManageRole[] } }>(
-            `${this.baseUrl}/api/ApplicationUser/GetUserRolesById${userId}`
+            `${this.apiService.getFullUrl(
+                'api/ApplicationUser/GetUserRolesById'
+            )}${userId}`
         );
     }
 
     assignRole(payload: ManageUserRolePayload): Observable<any> {
         return this.http.post(
-            `${this.baseUrl}/api/ApplicationRole/assign-to-user`,
+            `${this.apiService.getFullUrl(
+                'api/ApplicationRole/assign-to-user'
+            )}`,
             payload
         );
     }
 
     removeRole(payload: ManageUserRolePayload): Observable<any> {
         return this.http.post(
-            `${this.baseUrl}/api/ApplicationRole/remove-from-user`,
+            `${this.apiService.getFullUrl(
+                'api/ApplicationRole/remove-from-user'
+            )}`,
             payload
         );
     }

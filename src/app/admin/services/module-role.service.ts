@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ApiService } from '../../api.service';
 import {
     ManageModuleDTO,
     ManageRoleDTO,
@@ -11,39 +12,44 @@ import {
     providedIn: 'root',
 })
 export class ModuleRoleService {
-    private baseUrl =
-        'https://elearning-fka2dpedhgbxh5hd.eastasia-01.azurewebsites.net/api';
+    private apiService = inject(ApiService);
 
     constructor(private http: HttpClient) {}
 
     getRoles(): Observable<ManageRoleDTO[]> {
         return this.http.get<ManageRoleDTO[]>(
-            `${this.baseUrl}/ApplicationRole/GetAll`
+            `${this.apiService.getFullUrl('api/ApplicationRole/GetAll')}`
         );
     }
 
     getModules(): Observable<ManageModuleDTO[]> {
         return this.http.get<ManageModuleDTO[]>(
-            `${this.baseUrl}/ApplicationModule/GetAll`
+            `${this.apiService.getFullUrl('api/ApplicationModule/GetAll')}`
         );
     }
 
     getModuleRoles(roleId: string): Observable<ModuleRoleResponse> {
         return this.http.get<ModuleRoleResponse>(
-            `${this.baseUrl}/Common/GetModuleByRoleAsync/${roleId}`
+            `${this.apiService.getFullUrl(
+                'api/Common/GetModuleByRoleAsync'
+            )}/${roleId}`
         );
     }
 
     assignModuleToRole(payload: ManageRoleModulePayload): Observable<any> {
         return this.http.post(
-            `${this.baseUrl}/ApplicationModule/assign-to-role`,
+            `${this.apiService.getFullUrl(
+                'api/ApplicationModule/assign-to-role'
+            )}`,
             payload
         );
     }
 
     removeModuleFromRole(payload: ManageRoleModulePayload): Observable<any> {
         return this.http.delete(
-            `${this.baseUrl}/ApplicationModule/remove-from-role`,
+            `${this.apiService.getFullUrl(
+                'api/ApplicationModule/remove-from-role'
+            )}`,
             { body: payload }
         );
     }

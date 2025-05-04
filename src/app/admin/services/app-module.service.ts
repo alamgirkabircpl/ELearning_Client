@@ -1,37 +1,50 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ApiService } from '../../api.service';
 import { ApplicationModule, PaginatedModules } from '../models/app-module';
 
 @Injectable({
     providedIn: 'root',
 })
 export class AppModuleService {
-    private baseUrl =
-        'https://elearning-fka2dpedhgbxh5hd.eastasia-01.azurewebsites.net/api/ApplicationModule';
+    private apiService = inject(ApiService);
 
     constructor(private http: HttpClient) {}
 
     getAllModules(
-        pageNumber: number = 1,
-        pageSize: number = 5
+        pageNumber: number = 0,
+        pageSize: number = 0
     ): Observable<PaginatedModules> {
-        return this.http.get<PaginatedModules>(`${this.baseUrl}/GetAll`, {
-            params: new HttpParams()
-                .set('PageNumber', pageNumber.toString())
-                .set('PageSize', pageSize.toString()),
-        });
+        return this.http.get<PaginatedModules>(
+            `${this.apiService.getFullUrl('api/ApplicationModule/GetAll')}`,
+            {
+                params: new HttpParams()
+                    .set('PageNumber', pageNumber.toString())
+                    .set('PageSize', pageSize.toString()),
+            }
+        );
     }
 
     createModule(name: string): Observable<any> {
-        return this.http.post(`${this.baseUrl}`, { name });
+        return this.http.post(
+            `${this.apiService.getFullUrl('api/ApplicationModule')}`,
+            { name }
+        );
     }
 
     updateModule(module: ApplicationModule): Observable<any> {
-        return this.http.put(`${this.baseUrl}/Update`, module);
+        return this.http.put(
+            `${this.apiService.getFullUrl('api/ApplicationModule/Update')}`,
+            module
+        );
     }
 
     deleteModule(uid: string): Observable<any> {
-        return this.http.delete(`${this.baseUrl}/Delete${uid}`);
+        return this.http.delete(
+            `${this.apiService.getFullUrl(
+                'api/ApplicationModule/Delete'
+            )}${uid}`
+        );
     }
 }

@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { ApiService } from '../../api.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class RolePermissionService {
-    private baseUrl =
-        'https://elearning-fka2dpedhgbxh5hd.eastasia-01.azurewebsites.net/';
+    private apiService = inject(ApiService);
 
     constructor(private http: HttpClient) {}
 
