@@ -15,14 +15,10 @@ import { InstructorService } from '../../admin/services/instructor.service';
 import { UserService } from '../../admin/services/users.service';
 import { ApiService } from '../../api.service';
 import { AuthService } from '../../auth.service';
-import { BackToTopComponent } from '../../common/back-to-top/back-to-top.component';
-import { FooterComponent } from '../../common/footer/footer.component';
-import { NavbarComponent } from '../../common/navbar/navbar.component';
 import { PlatformService } from '../../platform.service';
 import { ToastNotificationService } from '../../toast-notification.service';
-import { PageBannerComponent } from './page-banner/page-banner.component';
 // Update your CourseData interface to match the API response
-export interface CourseData {
+interface CourseData {
     courseId: number;
     instructorRegId: string;
     courseUid: string;
@@ -52,27 +48,19 @@ export interface CourseData {
 }
 
 @Component({
-    selector: 'app-courses-page',
+    selector: 'app-courses-and-instructor-page',
     standalone: true,
-    imports: [
-        RouterLink,
-        NavbarComponent,
-        PageBannerComponent,
-        FooterComponent,
-        BackToTopComponent,
-        CommonModule,
-        FormsModule,
-        PaymentComponent,
-    ],
-    templateUrl: './courses-page.component.html',
-    styleUrl: './courses-page.component.scss',
+    imports: [RouterLink, CommonModule, FormsModule, PaymentComponent],
+    templateUrl: './courses-page-instructor.component.html',
+    styleUrl: './courses-page-instructor.component.scss',
 })
-export class CoursesPageComponent implements OnInit {
+export class CoursesAndInstructorPageComponent implements OnInit {
     courses: CourseData[] = []; // Typed array
     selectedCourse: CourseData | null = null;
     isLoading = false;
     error: string | null = null;
     coursePrice: number | null = null;
+    instructorId: string | null = null;
 
     instructor: Instructor | null = null;
     course: Course | null = null;
@@ -122,20 +110,37 @@ export class CoursesPageComponent implements OnInit {
 
     ngOnInit(): void {
         if (this.platFormService.isBrowser()) {
-            this.loadInstructorAndCourseDetails();
+            const instructorId = this.route.snapshot.paramMap.get('id');
+            console.log('Instructor ID:', instructorId);
+            this.instructorId = instructorId;
+            if (this.instructorId !== null) {
+                this.loadInstructorAndCourseDetails(this.instructorId);
+            }
         }
     }
 
-    loadInstructorAndCourseDetails(): void {
+    loadInstructorAndCourseDetails(instructorId: string): void {
         console.log('Loading courses...');
+
         this.isLoading = true;
         this.error = null;
 
         this.commonService.GetCourseAndInstructorDetails().subscribe({
             next: (data: any) => {
-                this.courses = data;
-                this.isLoading = false;
-                console.log('Courses loaded successfully:', this.courses);
+                this.courses = data?.filter(
+                    (f: { instructorRegId: string }) =>
+                        f.instructorRegId == this.instructorId
+                );
+
+                // if (this.instructorId && data) {
+                //     console.log('first', this.instructorId, data);
+                //     this.courses = data.filter(
+                //         (x: { instructorDetailsId: number }) =>
+                //             x.instructorDetailsId === instructorId
+                //     );
+                //     this.isLoading = false;
+                //     console.log('Courses loaded successfully:', this.courses);
+                // }
             },
             error: (err) => {
                 console.error('Error loading courses:', err);

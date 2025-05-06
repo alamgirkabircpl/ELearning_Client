@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, Inject, inject, OnInit, PLATFORM_ID } from '@angular/core';
 import {
     FormArray,
     FormBuilder,
@@ -9,15 +9,23 @@ import {
     ReactiveFormsModule,
     Validators,
 } from '@angular/forms';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { ToastNotificationService } from '../../../toast-notification.service';
 import { TruncatePipe } from '../../../truncate.pipe';
 import { AssignCourse, Course, Instructor } from '../../models/assign-course';
 import { AssignCourseService } from '../../services/assign-course.service';
+import { InstructorService } from '../../services/instructor.service';
 
 @Component({
     selector: 'app-assign-course',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, FormsModule, TruncatePipe],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        FormsModule,
+        TruncatePipe,
+        CKEditorModule,
+    ],
     templateUrl: './assign-course.component.html',
     styleUrls: ['./assign-course.component.scss'],
 })
@@ -25,6 +33,7 @@ export class AssignCourseComponent implements OnInit {
     assignCourses: AssignCourse[] = [];
     filteredAssignCourses: AssignCourse[] = [];
     paginatedAssignCourses: AssignCourse[] = [];
+    selectedInstructor: any = null;
 
     instructors: Instructor[] = [];
     courses: Course[] = [];
@@ -38,9 +47,15 @@ export class AssignCourseComponent implements OnInit {
     isEditing = false;
     selectedId: number | null = null;
 
+    public Editor: any;
+    public config: any;
+    public initialData = '<p>Write description here...</p>';
+
     private toastService = inject(ToastNotificationService);
+    private instructorService = inject(InstructorService);
 
     constructor(
+        @Inject(PLATFORM_ID) private platformId: Object,
         private assignCourseService: AssignCourseService,
         private fb: FormBuilder
     ) {
@@ -48,13 +63,40 @@ export class AssignCourseComponent implements OnInit {
             courseId: ['', Validators.required],
             instructorDetailsId: ['', Validators.required],
             courseUrl: this.fb.array([this.fb.control('')]),
-            price: [0, [Validators.required, Validators.min(0)]],
+            // price: [0, [Validators.required, Validators.min(0)]],
+            price: 2.1,
             description: ['', Validators.required],
             status: ['active'],
         });
     }
-
-    ngOnInit(): void {
+    async ngOnInit(): Promise<void> {
+        if (isPlatformBrowser(this.platformId)) {
+            try {
+                const ClassicEditor = (
+                    await import('@ckeditor/ckeditor5-build-classic')
+                ).default;
+                this.Editor = ClassicEditor;
+                this.config = {
+                    toolbar: [
+                        'heading',
+                        '|',
+                        'bold',
+                        'italic',
+                        'link',
+                        'bulletedList',
+                        'numberedList',
+                        '|',
+                        'indent',
+                        'outdent',
+                        '|',
+                        'undo',
+                        'redo',
+                    ],
+                };
+            } catch (error) {
+                console.error('Error loading CKEditor:', error);
+            }
+        }
         this.loadAssignCourses();
         this.loadInstructors();
         this.loadCourses();
@@ -72,6 +114,15 @@ export class AssignCourseComponent implements OnInit {
         const control = this.assignCourseForm.get(field);
         return (
             !!control && control.invalid && (control.dirty || control.touched)
+        );
+    }
+
+    onInstructorChange(event: Event): void {
+        const target = event.target as HTMLSelectElement;
+        const selectedId = target.value;
+
+        this.selectedInstructor = this.instructors.find(
+            (i) => i.instructorDetailsId === +selectedId
         );
     }
 

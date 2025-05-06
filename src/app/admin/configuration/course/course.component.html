@@ -20,17 +20,25 @@
                 novalidate
             >
                 <div class="row g-3">
+                    <div class="col-12">
+                        <h5
+                            class="fw-semibold text-primary mb-3 border-bottom pb-2"
+                        >
+                            Course Information
+                        </h5>
+                    </div>
+
                     <!-- Category Selection -->
                     <div class="col-md-6">
                         <label
                             for="courseCategory"
-                            class="form-label fw-semibold"
+                            class="form-label fw-medium text-muted"
                         >
                             Category Name <span class="text-danger">*</span>
                         </label>
                         <select
                             id="courseCategory"
-                            class="form-select form-select-lg"
+                            class="form-select"
                             [(ngModel)]="model.courseCategoryId"
                             name="courseCategoryId"
                             required
@@ -58,13 +66,16 @@
 
                     <!-- Course Title -->
                     <div class="col-md-6">
-                        <label for="courseTitle" class="form-label fw-semibold">
+                        <label
+                            for="courseTitle"
+                            class="form-label fw-medium text-muted"
+                        >
                             Title <span class="text-danger">*</span>
                         </label>
                         <input
                             type="text"
                             id="courseTitle"
-                            class="form-control form-control-lg"
+                            class="form-control"
                             [(ngModel)]="model.courseTitle"
                             name="courseTitle"
                             required
@@ -81,16 +92,28 @@
                         </div>
                     </div>
 
-                    <!-- Start Date -->
-                    <div class="col-md-6">
-                        <label for="startDate" class="form-label fw-semibold"
-                            >Start Date</label
+                    <!-- Section Header -->
+                    <div class="col-12 mt-4">
+                        <h5
+                            class="fw-semibold text-primary mb-3 border-bottom pb-2"
                         >
-                        <div class="input-group date-picker">
+                            Schedule
+                        </h5>
+                    </div>
+
+                    <!-- Start Date/Time -->
+                    <div class="col-md-6">
+                        <label
+                            for="startDate"
+                            class="form-label fw-medium text-muted"
+                        >
+                            Start Date <span class="text-danger">*</span>
+                        </label>
+                        <div class="input-group">
                             <input
                                 type="date"
                                 id="startDate"
-                                class="form-control form-control-lg"
+                                class="form-control"
                                 [(ngModel)]="model.startDate"
                                 name="startDate"
                                 (change)="onDateChange('startDate', $event)"
@@ -98,8 +121,8 @@
                                     formSubmitted && !model.startDate
                                 "
                             />
-                            <span class="input-group-text">
-                                <i class="fas fa-calendar-alt"></i>
+                            <span class="input-group-text bg-light">
+                                <i class="fas fa-calendar-alt text-muted"></i>
                             </span>
                             <div
                                 *ngIf="formSubmitted && !model.startDate"
@@ -110,16 +133,18 @@
                         </div>
                     </div>
 
-                    <!-- Start Time -->
                     <div class="col-md-6">
-                        <label for="startTime" class="form-label fw-semibold"
-                            >Start Time</label
+                        <label
+                            for="startTime"
+                            class="form-label fw-medium text-muted"
                         >
-                        <div class="input-group time-picker">
+                            Start Time <span class="text-danger">*</span>
+                        </label>
+                        <div class="input-group">
                             <input
                                 type="time"
                                 id="startTime"
-                                class="form-control form-control-lg"
+                                class="form-control"
                                 [(ngModel)]="model.startTime"
                                 name="startTime"
                                 (change)="onTimeChange('startTime', $event)"
@@ -127,8 +152,8 @@
                                     formSubmitted && !model.startTime
                                 "
                             />
-                            <span class="input-group-text">
-                                <i class="fas fa-clock"></i>
+                            <span class="input-group-text bg-light">
+                                <i class="fas fa-clock text-muted"></i>
                             </span>
                             <div
                                 *ngIf="formSubmitted && !model.startTime"
@@ -139,16 +164,19 @@
                         </div>
                     </div>
 
-                    <!-- End Date -->
+                    <!-- End Date/Time -->
                     <div class="col-md-6">
-                        <label for="endDate" class="form-label fw-semibold"
-                            >End Date</label
+                        <label
+                            for="endDate"
+                            class="form-label fw-medium text-muted"
                         >
-                        <div class="input-group date-picker">
+                            End Date <span class="text-danger">*</span>
+                        </label>
+                        <div class="input-group">
                             <input
                                 type="date"
                                 id="endDate"
-                                class="form-control form-control-lg"
+                                class="form-control"
                                 [(ngModel)]="model.endDate"
                                 name="endDate"
                                 (change)="onDateChange('endDate', $event)"
@@ -157,8 +185,8 @@
                                     formSubmitted && !model.endDate
                                 "
                             />
-                            <span class="input-group-text">
-                                <i class="fas fa-calendar-alt"></i>
+                            <span class="input-group-text bg-light">
+                                <i class="fas fa-calendar-alt text-muted"></i>
                             </span>
                             <div
                                 *ngIf="formSubmitted && !model.endDate"
@@ -169,16 +197,18 @@
                         </div>
                     </div>
 
-                    <!-- End Time -->
                     <div class="col-md-6">
-                        <label for="endTime" class="form-label fw-semibold"
-                            >End Time</label
+                        <label
+                            for="endTime"
+                            class="form-label fw-medium text-muted"
                         >
-                        <div class="input-group time-picker">
+                            End Time <span class="text-danger">*</span>
+                        </label>
+                        <div class="input-group">
                             <input
                                 type="time"
                                 id="endTime"
-                                class="form-control form-control-lg"
+                                class="form-control"
                                 [(ngModel)]="model.endTime"
                                 name="endTime"
                                 (change)="onTimeChange('endTime', $event)"
@@ -186,8 +216,8 @@
                                     formSubmitted && !model.endTime
                                 "
                             />
-                            <span class="input-group-text">
-                                <i class="fas fa-clock"></i>
+                            <span class="input-group-text bg-light">
+                                <i class="fas fa-clock text-muted"></i>
                             </span>
                             <div
                                 *ngIf="formSubmitted && !model.endTime"
@@ -197,68 +227,210 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Section Header -->
+                    <div class="col-12 mt-4">
+                        <h5
+                            class="fw-semibold text-primary mb-3 border-bottom pb-2"
+                        >
+                            Pricing
+                        </h5>
+                    </div>
 
-                    <!-- Date/Time Validation Error -->
-                    <div *ngIf="dateTimeError" class="col-12">
-                        <div class="alert alert-danger mb-0">
-                            <i class="fas fa-exclamation-circle me-2"></i>
-                            {{ dateTimeError }}
+                    <!-- Price and Discount -->
+                    <div class="col-md-6">
+                        <label
+                            for="coursePrice"
+                            class="form-label fw-medium text-muted"
+                        >
+                            Price <span class="text-danger">*</span>
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input
+                                type="number"
+                                id="coursePrice"
+                                class="form-control"
+                                [(ngModel)]="model.coursePrice"
+                                name="coursePrice"
+                                required
+                                [class.is-invalid]="
+                                    formSubmitted && !model.coursePrice
+                                "
+                                placeholder="0.00"
+                                step="0.01"
+                                min="0"
+                            />
+                            <div
+                                *ngIf="formSubmitted && !model.coursePrice"
+                                class="invalid-feedback"
+                            >
+                                Please provide a price
+                            </div>
                         </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label
+                            for="discount"
+                            class="form-label fw-medium text-muted"
+                        >
+                            Discount
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text">%</span>
+                            <input
+                                type="number"
+                                id="discount"
+                                class="form-control"
+                                [(ngModel)]="model.discount"
+                                name="discount"
+                                placeholder="0"
+                                min="0"
+                                max="100"
+                            />
+                        </div>
+                    </div>
+
+                    <!-- Section Header -->
+                    <div class="col-12 mt-4">
+                        <h5
+                            class="fw-semibold text-primary mb-3 border-bottom pb-2"
+                        >
+                            Settings
+                        </h5>
                     </div>
 
                     <!-- Course Image -->
                     <div class="col-md-6">
-                        <label for="courseImage" class="form-label fw-semibold"
-                            >Image</label
+                        <label
+                            for="courseImage"
+                            class="form-label fw-medium text-muted"
                         >
-                        <input
-                            type="file"
-                            id="courseImage"
-                            class="form-control form-control-lg"
-                            (change)="onFileSelected($event)"
-                            accept="image/*"
-                            #fileInput
-                        />
-                        <small
-                            *ngIf="selectedFile"
-                            class="text-muted d-block mt-2"
-                        >
-                            <i class="fas fa-file-image me-1"></i> Selected:
-                            {{ selectedFile.name }}
-                        </small>
-                        <div *ngIf="isEditMode && model.logo" class="mt-3">
-                            <p class="mb-2 fw-semibold">Current Image:</p>
-                            <img
-                                [src]="getImageUrl(model.logo)"
-                                alt="Current logo"
-                                style="max-height: 120px"
-                                class="img-thumbnail"
-                            />
-                        </div>
-                    </div>
-
-                    <!-- Visibility Toggle -->
-                    <div class="col-md-6 d-flex align-items-center">
-                        <div class="form-check form-switch mt-4">
+                            Course Image
+                        </label>
+                        <div class="file-upload-wrapper">
                             <input
-                                type="checkbox"
-                                id="isVisible"
-                                class="form-check-input"
-                                [(ngModel)]="model.isVisible"
-                                name="isVisible"
-                                role="switch"
+                                type="file"
+                                id="courseImage"
+                                class="form-control"
+                                (change)="onFileSelected($event)"
+                                accept="image/*"
+                                #fileInput
                             />
-                            <label
-                                class="form-check-label fw-semibold"
-                                for="isVisible"
-                                >Visible</label
+                            <small
+                                *ngIf="selectedFile"
+                                class="text-muted d-block mt-2"
                             >
+                                <i class="fas fa-file-image me-1"></i> Selected:
+                                {{ selectedFile.name }}
+                            </small>
+                            <div *ngIf="isEditMode && model.logo" class="mt-3">
+                                <p class="mb-2 fw-medium text-muted">
+                                    Current Image:
+                                </p>
+                                <img
+                                    [src]="getImageUrl(model.logo)"
+                                    alt="Current logo"
+                                    style="max-height: 120px"
+                                    class="img-thumbnail"
+                                />
+                            </div>
                         </div>
                     </div>
 
+                    <!-- Toggle Switches -->
+                    <div class="col-md-6">
+                        <div class="d-flex flex-column gap-3">
+                            <div class="form-check form-switch">
+                                <input
+                                    type="checkbox"
+                                    id="isVisible"
+                                    class="form-check-input"
+                                    [(ngModel)]="model.isVisible"
+                                    name="isVisible"
+                                    role="switch"
+                                />
+                                <label
+                                    class="form-check-label fw-medium text-muted"
+                                    for="isVisible"
+                                >
+                                    Make course visible
+                                </label>
+                            </div>
+
+                            <div class="form-check form-switch">
+                                <input
+                                    type="checkbox"
+                                    id="isOnLine"
+                                    class="form-check-input"
+                                    [(ngModel)]="model.isOnLine"
+                                    name="isOnLine"
+                                    role="switch"
+                                />
+                                <label
+                                    class="form-check-label fw-medium text-muted"
+                                    for="isOnLine"
+                                >
+                                    Online course
+                                </label>
+                            </div>
+
+                            <div class="form-check form-switch">
+                                <input
+                                    type="checkbox"
+                                    id="internal"
+                                    class="form-check-input"
+                                    [(ngModel)]="model.internal"
+                                    name="internal"
+                                    role="switch"
+                                />
+                                <label
+                                    class="form-check-label fw-medium text-muted"
+                                    for="internal"
+                                >
+                                    Internal course
+                                </label>
+                            </div>
+
+                            <div class="form-check form-switch">
+                                <input
+                                    type="checkbox"
+                                    id="isFreeCourse"
+                                    class="form-check-input"
+                                    [(ngModel)]="model.isFreeCourse"
+                                    name="isFreeCourse"
+                                    role="switch"
+                                />
+                                <label
+                                    class="form-check-label fw-medium text-muted"
+                                    for="isFreeCourse"
+                                >
+                                    Free course
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-12 mt-3">
+                        <label>Select Days</label>
+                        <div class="d-flex flex-wrap gap-3">
+                            <label
+                                *ngFor="let day of daysOfWeek"
+                                class="form-check"
+                            >
+                                <input
+                                    type="checkbox"
+                                    class="form-check-input"
+                                    [value]="day"
+                                    [checked]="model.selectedDays.includes(day)"
+                                    (change)="onDayToggle($event, day)"
+                                />
+                                {{ day }}
+                            </label>
+                        </div>
+                    </div>
                     <!-- Description -->
-                    <div class="col-12">
-                        <label class="form-label fw-semibold">
+                    <div class="col-12 mt-3">
+                        <label class="form-label fw-medium text-muted">
                             Description <span class="text-danger">*</span>
                         </label>
                         <ckeditor

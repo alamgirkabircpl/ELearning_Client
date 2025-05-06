@@ -10,6 +10,12 @@ export interface Course {
     startTime: string | Date;
     endTime: string | Date;
     isVisible: boolean;
+    isFreeCourse: boolean;
+    isOnLine: boolean;
+    internal: boolean;
+    coursePrice: number;
+    discount: number;
+    selectedDays: string[];
     file?: File;
 }
 

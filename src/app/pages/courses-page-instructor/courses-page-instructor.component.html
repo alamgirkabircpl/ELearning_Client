@@ -1,73 +1,84 @@
-<!-- Default -->
+<!-- <div class="pb-120 border-bottom"></div> -->
+
+<!-- Courses -->
 <div class="courses-area bg-f3f3f3 pt-120 pb-95">
     <div class="container">
-        <div class="section-title position-relative">
-            <h2 class="mb-0 fw-semibold text-uppercase">Our Popular Courses</h2>
-            <a routerLink="/courses" class="default-btn">
-                Explore All Courses
-            </a>
-        </div>
         <div class="row justify-content-center">
-            <div class="col-xl-4 col-md-6" *ngFor="let course of assignCourse">
+            <div class="col-xl-4 col-md-6" *ngFor="let cdata of courses">
                 <div class="single-course-box mb-25 position-relative">
                     <h3 class="fw-semibold">
-                        <a
-                            data-bs-toggle="offcanvas"
-                            data-bs-target="#courseDetails"
-                            (click)="
-                                handleOpenCourseDetails(
-                                    course.courseUid,
-                                    course.instructorRegId,
-                                    course.courseId
-                                )
-                            "
-                            style="cursor: pointer"
-                        >
-                            {{ course.courseName }}
+                        <a routerLink="/course-details">
+                            {{ cdata.courseCategoryName }}
                         </a>
                     </h3>
-                    <p>{{ course.description }}</p>
-                    <div class="instructor d-flex align-items-center">
-                        <img
-                            [src]="getImageUrl(course?.instructorProfilePic)"
-                            class="rounded-circle"
-                            alt="user-image"
-                        />
-                        <div>
-                            <h4
-                                class="fw-medium"
-                                [routerLink]="[
-                                    '/team-details',
-                                    course?.instructorRegId
-                                ]"
-                                style="cursor: pointer"
-                            >
-                                {{ course.instructorName }}
-                            </h4>
-                            <span class="d-block"> Instructor </span>
-                        </div>
-                    </div>
-                    <a
+                    <!-- <p>{{ cdata.courseDescription }}</p> -->
+                    <p
+                        class="description-clamp-line-2"
+                        style="cursor: pointer"
+                        [innerHTML]="
+                            getSanitizedContent(cdata.courseDescription)
+                        "
                         data-bs-toggle="offcanvas"
                         data-bs-target="#courseDetails"
                         (click)="
                             handleOpenCourseDetails(
-                                course.courseUid,
-                                course.instructorRegId,
-                                course.courseId
+                                cdata.courseUid,
+                                cdata.instructorRegId,
+                                cdata.courseId
                             )
                         "
+                    ></p>
+
+                    <div class="instructor d-flex align-items-center">
+                        <img
+                            [src]="
+                                getImagePath(
+                                    cdata?.instructorProfilePic ||
+                                        'images/teams/team1.jpg'
+                                )
+                            "
+                            loading="lazy"
+                            class="rounded-circle"
+                            alt="user-image"
+                        />
+                        <div>
+                            <h4 class="fw-medium">
+                                {{ cdata.instructorName }}
+                            </h4>
+                            <span class="d-block"> Instructor </span>
+                        </div>
+                    </div>
+                    <button
                         class="default-btn"
-                        style="cursor: pointer"
+                        type="button"
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#courseDetails"
+                        (click)="
+                            handleOpenCourseDetails(
+                                cdata.courseUid,
+                                cdata.instructorRegId,
+                                cdata.courseId
+                            )
+                        "
+                    >
+                        View Details
+                    </button>
+                    <!-- <a
+                        [routerLink]="['/course-details']"
+                        [queryParams]="{
+                            courseUId: course.courseUid,
+                            instructorRegId: course.instructorRegId,
+                        }"
+                        class="default-btn"
                     >
                         Enroll Now
-                    </a>
+                    </a> -->
                 </div>
             </div>
         </div>
     </div>
 </div>
-
+<!-- End Courses -->
 <!-- Offcanvas Sidebar -->
 <div
     class="offcanvas offcanvas-end custom-offcanvas"
@@ -182,7 +193,7 @@
                 >
                     <img
                         [src]="
-                            getImageUrl(
+                            getImagePath(
                                 course?.logo ||
                                     'assets/images/course/course1.jpg'
                             )
@@ -346,7 +357,7 @@
                         <div class="d-flex align-items-center mb-4">
                             <img
                                 [src]="
-                                    getImageUrl(
+                                    getImagePath(
                                         instructor?.profilePicture ||
                                             'assets/images/teams/team1.jpg'
                                     )
@@ -576,3 +587,4 @@
         </div>
     </div>
 </div>
+<!-- <app-contact /> -->

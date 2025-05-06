@@ -29,11 +29,13 @@
                             name="selectedUser"
                             (change)="onUserSelect()"
                         >
-                            <option [ngValue]="0" disabled selected>
+                            <option [ngValue]="selectedUser" disabled selected>
                                 Select a User
                             </option>
                             <option *ngFor="let user of users" [ngValue]="user">
-                                {{ user.firstName + " " + user.lastName }}
+                                {{ user.firstName + " " + user.lastName }} ({{
+                                    user.email
+                                }})
                             </option>
                         </select>
                     </div>

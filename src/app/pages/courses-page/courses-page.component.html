@@ -11,7 +11,17 @@
             <div class="col-xl-4 col-md-6" *ngFor="let cdata of courses">
                 <div class="single-course-box mb-25 position-relative">
                     <h3 class="fw-semibold">
-                        <a routerLink="/course-details">
+                        <a
+                            data-bs-toggle="offcanvas"
+                            data-bs-target="#courseDetails"
+                            (click)="
+                                handleOpenCourseDetails(
+                                    cdata.courseUid,
+                                    cdata.instructorRegId,
+                                    cdata.courseId
+                                )
+                            "
+                        >
                             {{ cdata.courseCategoryName }}
                         </a>
                     </h3>
@@ -46,7 +56,14 @@
                             alt="user-image"
                         />
                         <div>
-                            <h4 class="fw-medium">
+                            <h4
+                                class="fw-medium"
+                                [routerLink]="[
+                                    '/team-details',
+                                    cdata.instructorRegId
+                                ]"
+                                style="cursor: pointer"
+                            >
                                 {{ cdata.instructorName }}
                             </h4>
                             <span class="d-block"> Instructor </span>
@@ -88,6 +105,7 @@
     class="offcanvas offcanvas-end custom-offcanvas"
     tabindex="-1"
     id="courseDetails"
+    data-bs-backdrop="false"
     aria-labelledby="courseDetailsLabel"
 >
     <!-- Close Button -->

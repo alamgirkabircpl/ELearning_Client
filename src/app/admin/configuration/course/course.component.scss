@@ -101,3 +101,10 @@ input[type="time"] {
     font-size: 0.875em;
     color: #dc3545;
 }
+
+.btn-group-sm .btn.active {
+    background-color: #0d6efd;
+    color: white;
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}

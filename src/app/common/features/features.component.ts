@@ -1,5 +1,6 @@
-import { CommonModule, NgClass } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Router, RouterLink } from '@angular/router';
 import { Course } from '../../admin/models/course';
 import { CourseService } from '../../admin/services/course.service';
@@ -8,12 +9,12 @@ import { PlatformService } from '../../platform.service';
 @Component({
     selector: 'app-features',
     standalone: true,
-    imports: [RouterLink, NgClass, CommonModule],
+    imports: [RouterLink, CommonModule],
     templateUrl: './features.component.html',
     styleUrl: './features.component.scss',
 })
 export class FeaturesComponent {
-    constructor(public router: Router) {}
+    constructor(public router: Router, private sanitizer: DomSanitizer) {}
 
     // Toggle Class
     isActive1 = true; // First div is active by default
@@ -56,5 +57,9 @@ export class FeaturesComponent {
         } else if (divNumber === 3) {
             this.isActive3 = true;
         }
+    }
+
+    getSanitizedContent(html: string) {
+        return this.sanitizer.bypassSecurityTrustHtml(html);
     }
 }

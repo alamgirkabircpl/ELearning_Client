@@ -27,6 +27,15 @@ import { CourseService } from '../../services/course.service';
 })
 export class CourseComponent implements OnInit {
     @ViewChild('fileInput') fileInput!: ElementRef;
+    daysOfWeek = [
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+        'Sunday',
+    ];
 
     courses: Course[] = [];
     filteredCourses: Course[] = [];
@@ -41,6 +50,12 @@ export class CourseComponent implements OnInit {
         startTime: this.formatTimeForInput(new Date()),
         endTime: this.formatTimeForInput(new Date()),
         isVisible: false,
+        isFreeCourse: false,
+        isOnLine: false,
+        internal: false,
+        coursePrice: 0,
+        discount: 0,
+        selectedDays: [],
         logo: '',
     };
     selectedFile: File | null = null;
@@ -114,6 +129,26 @@ export class CourseComponent implements OnInit {
             },
         });
     }
+    onDayToggle(event: any, day: string) {
+        // Ensure it's initialized
+        if (!Array.isArray(this.model.selectedDays)) {
+            this.model.selectedDays = [];
+        }
+
+        if (event.target.checked) {
+            // Add the day if it's not already in the list
+            if (!this.model.selectedDays.includes(day)) {
+                this.model.selectedDays.push(day);
+            }
+        } else {
+            // Remove the day
+            this.model.selectedDays = this.model.selectedDays.filter(
+                (d) => d !== day
+            );
+        }
+
+        console.log(this.model.selectedDays);
+    }
 
     loadCategories(): void {
         this.categoryService.getAll().subscribe({
@@ -185,7 +220,6 @@ export class CourseComponent implements OnInit {
     saveCourse(form: NgForm): void {
         this.formSubmitted = true;
         this.validateDateTime();
-
         if (form.invalid || this.dateTimeError) {
             if (this.dateTimeError) {
                 this.toastService.showError(this.dateTimeError);
@@ -209,7 +243,10 @@ export class CourseComponent implements OnInit {
         // );
 
         formData.append('CourseTitle', this.model.courseTitle);
+        formData.append('SelectedDays', this.model.selectedDays.join(','));
         formData.append('Description', this.model.description);
+        formData.append('Discount', this.model.discount.toString());
+        formData.append('CoursePrice', this.model.coursePrice.toString());
         formData.append(
             'CourseCategoryId',
             this.model.courseCategoryId.toString()
@@ -238,9 +275,10 @@ export class CourseComponent implements OnInit {
                 ? this.formatTimeForInput(this.model.endTime)
                 : this.model.endTime
         );
-
         formData.append('IsVisible', this.model.isVisible.toString());
-
+        formData.append('IsFreeCourse', this.model.isFreeCourse.toString());
+        formData.append('Internal', this.model.internal.toString());
+        formData.append('IsOnLine', this.model.isOnLine.toString());
         if (this.selectedFile) {
             formData.append('File', this.selectedFile, this.selectedFile.name);
             formData.append('Logopath', this.selectedFile.name);
@@ -291,13 +329,36 @@ export class CourseComponent implements OnInit {
     }
 
     editCourse(course: Course): void {
+        const uniqueDays = new Set<string>();
+
+        if (Array.isArray(course.selectedDays)) {
+            course.selectedDays.forEach((item) => {
+                item.split(',').forEach((day) => {
+                    const trimmed = day.trim();
+                    if (trimmed) {
+                        uniqueDays.add(trimmed);
+                    }
+                });
+            });
+        }
         this.model = {
             ...course,
             startDate: this.formatDateForInput(course.startDate),
             endDate: this.formatDateForInput(course.endDate),
             startTime: this.parseTime(course.startTime),
             endTime: this.parseTime(course.endTime),
+            isFreeCourse: !!course.isFreeCourse,
+
+            coursePrice: course.coursePrice,
+            discount: course.discount,
+            selectedDays: Array.from(uniqueDays),
+
+            isVisible: !!course.isVisible,
+            internal: !!course.internal,
+            isOnLine: !!course.isOnLine,
         };
+
+        console.log(this.model);
         this.isEditMode = true;
         this.selectedFile = null;
         this.formSubmitted = false;
@@ -361,6 +422,12 @@ export class CourseComponent implements OnInit {
             startTime: this.formatTimeForInput(new Date()),
             endTime: this.formatTimeForInput(new Date()),
             isVisible: false,
+            isFreeCourse: false,
+            isOnLine: false,
+            internal: false,
+            coursePrice: 0,
+            discount: 0,
+            selectedDays: [],
             logo: '',
         };
         this.selectedFile = null;

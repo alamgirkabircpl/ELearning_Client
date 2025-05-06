@@ -9,6 +9,7 @@ export interface Instructor {
     certification: string;
     linkdinProfile?: string;
     profilePicture?: string;
+    phoneNumber?: string;
     file?: File;
     id?: string;
     isActive: boolean;

@@ -3,11 +3,13 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Instructor } from '../../admin/models/trainer';
 import { InstructorService } from '../../admin/services/instructor.service';
+import { UserService } from '../../admin/services/users.service';
 import { ApiService } from '../../api.service';
 import { BackToTopComponent } from '../../common/back-to-top/back-to-top.component';
 import { FooterComponent } from '../../common/footer/footer.component';
 import { NavbarComponent } from '../../common/navbar/navbar.component';
 import { PlatformService } from '../../platform.service';
+import { CoursesAndInstructorPageComponent } from '../courses-page-instructor/courses-page-instructor.component';
 import { PageBannerComponent } from './page-banner/page-banner.component';
 
 @Component({
@@ -20,6 +22,7 @@ import { PageBannerComponent } from './page-banner/page-banner.component';
         FooterComponent,
         BackToTopComponent,
         CommonModule,
+        CoursesAndInstructorPageComponent,
     ],
     templateUrl: './team-details-page.component.html',
     styleUrl: './team-details-page.component.scss',
@@ -31,6 +34,7 @@ export class TeamDetailsPageComponent implements OnInit {
     instructorService = inject(InstructorService);
     platformService = inject(PlatformService);
     apiService = inject(ApiService);
+    userService = inject(UserService);
     selectedInstructor: any = null;
     isLoading: boolean = false;
     instructorId: string = '';

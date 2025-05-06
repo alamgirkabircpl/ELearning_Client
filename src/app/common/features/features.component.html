@@ -7,7 +7,10 @@
                     class="single-feature-box text-center mb-25 position-relative z-1"
                 >
                     <h3 class="fw-semibold">{{ course.courseTitle }}</h3>
-                    <p class="mx-auto">{{ course.description }}</p>
+                    <div
+                        class="mx-auto text-white"
+                        [innerHTML]="getSanitizedContent(course.description)"
+                    ></div>
                     <a
                         routerLink="/courses"
                         class="link-btn position-relative z-1 d-inline-block rounded-circle text-center"

@@ -1,5 +1,5 @@
-<div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
+<div class="container py-4">
+    <!-- <div class="d-flex justify-content-between align-items-center mb-3">
         <h2 class="mb-0">Assign Course Management</h2>
         <div class="input-group w-50">
             <input
@@ -17,12 +17,19 @@
                 Clear
             </button>
         </div>
-    </div>
+    </div> -->
 
     <!-- Form -->
-    <div class="card mb-4">
-        <div class="card-header">
-            {{ isEditing ? "Edit Assign Course" : "Add New Assign Course" }}
+    <div class="card mb-5">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0 card-title">
+                <i
+                    class="fas {{
+                        isEditing ? 'fa-edit' : 'fa-plus-circle'
+                    }} me-2"
+                ></i>
+                {{ isEditing ? "Edit Assign Course" : "Add New Assign Course" }}
+            </h5>
         </div>
         <div class="card-body">
             <form [formGroup]="assignCourseForm" (ngSubmit)="onSubmit()">
@@ -52,6 +59,7 @@
                         <select
                             class="form-select"
                             formControlName="instructorDetailsId"
+                            (change)="onInstructorChange($event)"
                             [class.is-invalid]="
                                 isInvalid('instructorDetailsId')
                             "
@@ -64,13 +72,14 @@
                                 {{ instructor.fullName }}
                             </option>
                         </select>
+
                         <div class="invalid-feedback">
                             Please select an instructor
                         </div>
                     </div>
                 </div>
 
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Price</label>
                         <input
@@ -92,20 +101,56 @@
                             <option value="completed">Completed</option>
                         </select>
                     </div>
+                </div> -->
+                <div *ngIf="selectedInstructor" class="card mt-3 shadow-sm">
+                    <div class="card-body">
+                        <!-- <h5 class="card-title">
+                            {{ selectedInstructor.fullName }}
+                        </h5> -->
+                        <p class="card-text">
+                            <strong>Email:</strong>
+                            {{ selectedInstructor.email }}
+                        </p>
+                        <p class="card-text">
+                            <strong>Certifications:</strong>
+                            {{ selectedInstructor.certifications }} years
+                        </p>
+                        <p class="card-text">
+                            <strong>Experience:</strong>
+                            {{ selectedInstructor.experience }} years
+                        </p>
+
+                        <p
+                            class="card-text"
+                            *ngIf="selectedInstructor.description"
+                        >
+                            <strong>Bio:</strong>
+                            {{ selectedInstructor.description }}
+                        </p>
+                    </div>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Description</label>
-                    <textarea
+                    <ckeditor
+                        *ngIf="Editor"
+                        [editor]="Editor"
+                        [config]="config"
+                        name="description"
+                        [data]="initialData"
+                        formControlName="description"
+                        [class.is-invalid]="isInvalid('description')"
+                    ></ckeditor>
+                    <!-- <textarea
                         class="form-control"
                         rows="3"
                         formControlName="description"
                         [class.is-invalid]="isInvalid('description')"
                     ></textarea>
-                    <div class="invalid-feedback">Description is required</div>
+                    <div class="invalid-feedback">Description is required</div> -->
                 </div>
 
-                <div class="mb-3">
+                <!-- <div class="mb-3">
                     <label class="form-label">Course URLs</label>
                     <div
                         *ngFor="
@@ -134,41 +179,72 @@
                     >
                         Add URL
                     </button>
-                </div>
+                </div> -->
 
-                <div class="d-flex justify-content-end">
+                <div class="d-flex justify-content-end border-top pt-3">
                     <button
-                        class="btn btn-primary me-2"
-                        type="submit"
-                        [disabled]="assignCourseForm.invalid"
-                    >
-                        {{ isEditing ? "Update" : "Save" }}
-                    </button>
-                    <button
-                        class="btn btn-secondary"
                         type="button"
+                        class="btn btn-outline-secondary me-2"
                         (click)="resetForm()"
                     >
-                        Cancel
+                        <i class="fas fa-undo me-1"></i> Reset
+                    </button>
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                        [disabled]="assignCourseForm.invalid"
+                    >
+                        <i
+                            class="fas {{
+                                isEditing ? 'fa-save' : 'fa-plus'
+                            }} me-1"
+                        ></i>
+                        {{ isEditing ? "Update" : "Create" }}
                     </button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Table -->
-    <div class="card">
-        <div
-            class="card-header d-flex justify-content-between align-items-center"
-        >
-            <span>Assign Course List</span>
-            <span class="badge bg-primary"
-                >Total: {{ filteredAssignCourses.length }}</span
-            >
+    <!-- List Section -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-light">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                    <i class="fas fa-list-alt me-2"></i>Course Categories
+                </h5>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-text bg-white">
+                            <i class="fas fa-search"></i>
+                        </span>
+                        <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Search by Course or Instructor..."
+                            [(ngModel)]="searchQuery"
+                            (input)="onSearch()"
+                            name="search"
+                        />
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
+
+        <div class="card-body">
+            <div
+                *ngIf="filteredAssignCourses.length === 0"
+                class="alert alert-info mb-0"
+            >
+                <i class="fas fa-info-circle me-2"></i> No categories found.
+                Create one!
+            </div>
+
+            <div
+                *ngIf="filteredAssignCourses.length > 0"
+                class="table-responsive"
+            >
+                <table class="table table-hover align-middle">
                     <thead class="table-light">
                         <tr>
                             <th>ID</th>
