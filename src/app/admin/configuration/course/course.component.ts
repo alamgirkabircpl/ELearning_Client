@@ -231,6 +231,10 @@ export class CourseComponent implements OnInit {
             this.toastService.showError('Please select a category');
             return;
         }
+        if (this.model.discount > 0) {
+            this.model.coursePrice =
+                this.model.coursePrice * (1 - this.model.discount / 100);
+        }
 
         const formData = new FormData();
         // const startDateTime = this.combineDateTime(
@@ -292,7 +296,7 @@ export class CourseComponent implements OnInit {
                 formData.append('CourseId', this.model.courseId.toString());
             }
         }
-
+        console.log(this.model);
         this.isLoading = true;
         const serviceCall = this.isEditMode
             ? this.courseService.update(formData)

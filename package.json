@@ -1,5 +1,5 @@
 {
-    "name": "lanklub",
+    "name": "elearn",
     "version": "1.0.0",
     "scripts": {
         "ng": "ng",
@@ -7,7 +7,7 @@
         "build": "ng build",
         "watch": "ng build --watch --configuration development",
         "test": "ng test",
-        "serve:ssr:lanklub": "node dist/lanklub/server/server.mjs"
+        "serve:ssr:elearn": "node dist/elearn/server/server.mjs"
     },
     "private": true,
     "dependencies": {

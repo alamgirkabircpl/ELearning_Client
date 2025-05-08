@@ -16,14 +16,14 @@ export class EnrollService {
             .set('PageSize', pageSize.toString());
 
         return this.http.get<any>(
-            this.apiService.getFullUrl('api/Course/GetAll'),
+            this.apiService.getFullUrl('api/Enrolls/GetAll'),
             { params }
         );
     }
 
     getById(id: string): Observable<Enroll> {
         return this.http.get<Enroll>(
-            `${this.apiService.getFullUrl('api/Course/GetById')}${id}`
+            `${this.apiService.getFullUrl('api/Enrolls/GetById')}${id}`
         );
     }
 
@@ -34,17 +34,17 @@ export class EnrollService {
         );
     }
 
-    update(course: FormData): Observable<any> {
+    update(enroll: FormData): Observable<any> {
         return this.http.put(
-            this.apiService.getFullUrl('api/Course/Update'),
-            course
+            this.apiService.getFullUrl('api/Enrolls/Update'),
+            enroll
         );
     }
 
     delete(id: string): Observable<any> {
         console.log(id);
         return this.http.delete(
-            `${this.apiService.getFullUrl('api/Course/Delete')}${id}`
+            `${this.apiService.getFullUrl('api/Enrolls/Delete')}${id}`
         );
     }
 }

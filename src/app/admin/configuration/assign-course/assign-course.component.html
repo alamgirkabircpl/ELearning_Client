@@ -267,9 +267,8 @@
                                 }}
                             </td>
                             <td>{{ assignCourse.price | currency }}</td>
-                            <td>
-                                {{ assignCourse.description | truncate : 50 }}
-                            </td>
+                            <td [innerHTML]="assignCourse.description"></td>
+
                             <td>
                                 <button
                                     class="btn btn-sm btn-primary me-2"
