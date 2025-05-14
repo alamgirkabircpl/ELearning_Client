@@ -24,7 +24,6 @@ import { BlogDetailsPageComponent } from './pages/blog-details-page/blog-details
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
 import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.component';
 import { ContactPageComponent } from './pages/contact-page/contact-page.component';
-import { CourseDetailsPageComponent } from './pages/course-details-page/course-details-page.component';
 import { ErrorPageComponent } from './pages/error-page/error-page.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
@@ -50,7 +49,7 @@ export const routes: Routes = [
             ),
         data: { ssr: false },
     }, // Disable SSR for this route if needed
-    { path: 'course-details', component: CourseDetailsPageComponent },
+    // { path: 'course-details', component: CourseDetailsPageComponent },
     { path: 'team', component: TeamPageComponent },
     // { path: 'team-details', component: TeamDetailsPageComponent },
     { path: 'team-details/:id', component: TeamDetailsPageComponent },
@@ -127,6 +126,13 @@ export const routes: Routes = [
                             import(
                                 '../app/admin/subscribe/subscribe.component'
                             ).then((m) => m.SubscribeComponent),
+                    },
+                    {
+                        path: 'course-payment',
+                        loadComponent: () =>
+                            import(
+                                '../app/admin/course-payment/course-payment.component'
+                            ).then((m) => m.CoursePaymentComponent),
                     },
                     {
                         path: 'contact-admin',

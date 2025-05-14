@@ -1,6 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {
+    FormBuilder,
+    FormGroup,
+    FormsModule,
+    ReactiveFormsModule,
+    Validators,
+} from '@angular/forms';
 import { CommonService } from '../../admin/services/common.service';
 import { EnrollService } from '../../admin/services/enroll.service';
 import { UserService } from '../../admin/services/users.service';
@@ -21,6 +27,7 @@ import { ToastNotificationService } from '../../toast-notification.service';
         BackToTopComponent,
         FormsModule,
         CommonModule,
+        ReactiveFormsModule,
     ],
     templateUrl: './profile.component.html',
     styleUrls: ['./profile.component.scss'],
@@ -28,9 +35,10 @@ import { ToastNotificationService } from '../../toast-notification.service';
 export class ProfileComponent implements OnInit {
     userData: any;
     enrollDetails: any[] = [];
-    activeTab: string = 'profile'; // Default tab
+    activeTab: string = 'profile';
+    isEditMode: boolean = false;
+    profileForm: FormGroup;
 
-    // CommonService is injected directly into the constructor
     constructor(
         private userService: UserService,
         private authService: AuthService,
@@ -38,25 +46,76 @@ export class ProfileComponent implements OnInit {
         private platformService: PlatformService,
         private enrollService: EnrollService,
         private commonService: CommonService,
-        private apiService: ApiService
-    ) {}
+        private apiService: ApiService,
+        private fb: FormBuilder
+    ) {
+        this.profileForm = this.fb.group({
+            firstName: ['', Validators.required],
+            lastName: ['', Validators.required],
+            email: ['', [Validators.required, Validators.email]],
+            userName: ['', [Validators.required, Validators.email]],
+            phone: [''],
+            bio: [''],
+        });
+    }
 
     ngOnInit(): void {
         this.authService.initializeUserFromToken();
-        this.getUser(); // Load user data when component initializes
+        this.getUser();
     }
 
-    // Fetch the user data based on the logged-in user
     getUser() {
         if (this.authService.isLoggedIn()) {
-            const user = this.authService.getCurrentUser(); // Assuming this returns the user data
+            const user = this.authService.getCurrentUser();
             this.userService
                 .getUserByEmail(user.email)
                 .subscribe((response) => {
                     this.userData = response;
-                    console.log('User data:', this.userData);
-                    this.loadEnrollDetails(this.userData.userId); // Load enrollment details for the user
+                    this.loadEnrollDetails(this.userData.userId);
+                    this.initializeForm();
                 });
+        }
+    }
+
+    initializeForm(): void {
+        this.profileForm.patchValue({
+            firstName: this.userData?.firstName || '',
+            lastName: this.userData?.lastName || '',
+            email: this.userData?.email || '',
+            userName: this.userData?.email,
+            phone: this.userData?.phone || '',
+            bio: this.userData?.bio || '',
+        });
+    }
+
+    toggleEditMode(): void {
+        this.isEditMode = !this.isEditMode;
+        if (this.isEditMode) {
+            this.initializeForm();
+        }
+    }
+    saveProfile(): void {
+        if (this.profileForm.valid) {
+            // Make sure userName is set to email before saving
+            const formData = this.profileForm.value;
+            const updatedData = {
+                ...formData,
+                userName: formData.email, // Force userName to match email
+            };
+
+            this.userService.updateUser(updatedData).subscribe({
+                next: (response) => {
+                    this.userData = { ...this.userData, ...updatedData };
+                    this.toastService.showSuccess(
+                        'Profile updated successfully'
+                    );
+                    this.isEditMode = false;
+                },
+                error: (error) => {
+                    this.toastService.showError('Failed to update profile');
+                    console.error('Error updating profile:', error);
+                },
+            });
         }
     }
 

@@ -152,7 +152,8 @@ export class CoursesPageComponent implements OnInit {
     handleOpenCourseDetails(
         courseUid: string,
         instructorRegId: string,
-        courseId: number
+        courseId: number,
+        coursePrice: number
     ) {
         // Instead of alert, you would typically:
         // 1. Fetch course details based on these IDs
@@ -165,7 +166,7 @@ export class CoursesPageComponent implements OnInit {
         // this.loadCourseDetails(courseUid, instructorRegId);
         this.loadInstructorDetails(instructorRegId);
         this.loadCourseDetails(courseUid);
-        this.loadCoursePrice(courseId);
+        // this.loadCoursePrice(courseId);
     }
 
     loadInstructorDetails(instructorRegId: any) {
@@ -208,19 +209,19 @@ export class CoursesPageComponent implements OnInit {
         }
     }
 
-    loadCoursePrice(courseUId: any) {
-        if (courseUId) {
-            this.commonService.GetCoursePrice(courseUId).subscribe(
-                (course) => {
-                    this.coursePrice = course.price;
-                    console.log('Course Details:', course.price);
-                },
-                (error) => {
-                    console.error('Error fetching course details:', error);
-                }
-            );
-        }
-    }
+    // loadCoursePrice(courseUId: any) {
+    //     if (courseUId) {
+    //         this.commonService.GetCoursePrice(courseUId).subscribe(
+    //             (course) => {
+    //                 this.coursePrice = course.coursePrice;
+    //                 console.log('Course Details:', course.price);
+    //             },
+    //             (error) => {
+    //                 console.error('Error fetching course details:', error);
+    //             }
+    //         );
+    //     }
+    // }
 
     onSubmit(form: NgForm): void {
         if (this.authService.isLoggedIn()) {
@@ -292,5 +293,30 @@ export class CoursesPageComponent implements OnInit {
     }
     getImagePath(imageName: string): string {
         return this.apiService.getImageUrl(imageName);
+    }
+
+    convertTo12Hour(time: string | Date | undefined): string {
+        if (!time) return '';
+
+        let date: Date;
+
+        if (typeof time === 'string') {
+            // Assume format is "HH:mm"
+            const [hours, minutes] = time.split(':');
+            date = new Date();
+            date.setHours(+hours);
+            date.setMinutes(+minutes);
+        } else {
+            // It's already a Date
+            date = time;
+        }
+
+        const hours = date.getHours();
+        const minutes = date.getMinutes();
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        const hour12 = hours % 12 || 12;
+        const paddedMinutes = minutes.toString().padStart(2, '0');
+
+        return `${hour12}:${paddedMinutes} ${ampm}`;
     }
 }

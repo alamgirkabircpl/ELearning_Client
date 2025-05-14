@@ -10,8 +10,8 @@ import {
     Validators,
 } from '@angular/forms';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { ApiService } from '../../../api.service';
 import { ToastNotificationService } from '../../../toast-notification.service';
-import { TruncatePipe } from '../../../truncate.pipe';
 import { AssignCourse, Course, Instructor } from '../../models/assign-course';
 import { AssignCourseService } from '../../services/assign-course.service';
 import { InstructorService } from '../../services/instructor.service';
@@ -19,13 +19,7 @@ import { InstructorService } from '../../services/instructor.service';
 @Component({
     selector: 'app-assign-course',
     standalone: true,
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        FormsModule,
-        TruncatePipe,
-        CKEditorModule,
-    ],
+    imports: [CommonModule, ReactiveFormsModule, FormsModule, CKEditorModule],
     templateUrl: './assign-course.component.html',
     styleUrls: ['./assign-course.component.scss'],
 })
@@ -47,12 +41,43 @@ export class AssignCourseComponent implements OnInit {
     isEditing = false;
     selectedId: number | null = null;
 
+    selectedAssignCourseDetails = {
+        courseAssignId: 11,
+        courseId: 9,
+        instructorDetailsId: 5,
+        courseUrl: [''],
+        status: null,
+        price: 2.1,
+        description: 'ttt',
+        isApproved: false,
+        isPaused: false,
+        isRejected: false,
+        courseName: 'PHP and Laravel',
+        instructorName: 'VN-TESt kabir',
+
+        // Adding some additional fields that would be useful
+        courseDetails: {
+            logo: 'images/Course/php-laravel.png',
+            startDate: '2023-06-01',
+            endDate: '2023-08-30',
+            category: 'Web Development',
+            isOnline: true,
+        },
+        instructorDetails: {
+            profilePicture: 'images/Instructor/kabir-profile.jpg',
+            qualification: 'MSc in Computer Science',
+            experience: '5 years',
+            linkedinProfile: 'https://linkedin.com/in/vn-test-kabir',
+        },
+    };
+
     public Editor: any;
     public config: any;
     public initialData = '<p>Write description here...</p>';
 
     private toastService = inject(ToastNotificationService);
     private instructorService = inject(InstructorService);
+    private apiService = inject(ApiService);
 
     constructor(
         @Inject(PLATFORM_ID) private platformId: Object,
@@ -124,6 +149,7 @@ export class AssignCourseComponent implements OnInit {
         this.selectedInstructor = this.instructors.find(
             (i) => i.instructorDetailsId === +selectedId
         );
+        console.log(this.selectedInstructor);
     }
 
     loadAssignCourses(): void {
@@ -211,8 +237,10 @@ export class AssignCourseComponent implements OnInit {
 
     editAssignCourse(assignCourse: AssignCourse): void {
         this.isEditing = true;
+        this.selectedInstructor = null;
         this.selectedId = assignCourse.courseAssignId;
         this.assignCourseForm.patchValue(assignCourse);
+        this.assignCourseForm.patchValue({ status: 'Active' });
 
         while (this.courseUrls.length) {
             this.courseUrls.removeAt(0);
@@ -244,6 +272,8 @@ export class AssignCourseComponent implements OnInit {
     }
 
     resetForm(): void {
+        this.selectedInstructor = null;
+
         this.assignCourseForm.reset({
             courseId: '',
             instructorDetailsId: '',
@@ -315,5 +345,44 @@ export class AssignCourseComponent implements OnInit {
                 this.markFormGroupTouched(control);
             }
         });
+    }
+
+    details(data: any) {
+        // Find instructor details
+        const instructor = this.instructors.find(
+            (f) => f.instructorDetailsId == data.instructorDetailsId
+        );
+        const course = this.courses.find((f) => f.courseId == data.courseId);
+
+        console.log({ data, instructor, course });
+        // Combine all data into selectedAssignCourseDetails
+        this.selectedAssignCourseDetails = {
+            ...data, // Spread the original assignment data
+            courseDetails: {
+                courseId: data.courseId,
+                courseName: course?.courseTitle,
+                description: data.description,
+                price: course?.coursePrice,
+                logo: course?.logo,
+                // Add other course details you might have
+            },
+            instructorDetails: {
+                instructorDetailsId: data.instructorDetailsId,
+                instructorName: data.instructorName,
+                ...instructor, // Spread all found instructor details
+            },
+        };
+
+        // Open modal (Bootstrap 5)
+        const modalElement = document.getElementById(
+            'assignCourseDetailsModal'
+        );
+        if (modalElement) {
+            const modal = new (window as any).bootstrap.Modal(modalElement);
+            modal.show();
+        }
+    }
+    getImageUrl(path: string | null): string {
+        return this.apiService.getImageUrl(path);
     }
 }

@@ -4,6 +4,7 @@ export interface AssignCourse {
     instructorDetailsId: number;
     courseUrl: string[];
     price: number;
+    status: '';
     description: string;
     isApproved: boolean;
     isPaused: boolean;
@@ -21,6 +22,8 @@ export interface Instructor {
 export interface Course {
     courseId: number;
     courseTitle: string;
+    coursePrice: number;
+    logo: string;
     // Add other course properties as needed
 }
 export interface Page<T> {

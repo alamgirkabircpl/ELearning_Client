@@ -298,4 +298,29 @@ export class CoursesAndInstructorPageComponent implements OnInit {
     getImagePath(imageName: string): string {
         return this.apiService.getImageUrl(imageName);
     }
+
+    convertTo12Hour(time: string | Date | undefined): string {
+        if (!time) return '';
+
+        let date: Date;
+
+        if (typeof time === 'string') {
+            // Assume format is "HH:mm"
+            const [hours, minutes] = time.split(':');
+            date = new Date();
+            date.setHours(+hours);
+            date.setMinutes(+minutes);
+        } else {
+            // It's already a Date
+            date = time;
+        }
+
+        const hours = date.getHours();
+        const minutes = date.getMinutes();
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        const hour12 = hours % 12 || 12;
+        const paddedMinutes = minutes.toString().padStart(2, '0');
+
+        return `${hour12}:${paddedMinutes} ${ampm}`;
+    }
 }

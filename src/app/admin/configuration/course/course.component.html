@@ -589,6 +589,15 @@
                                     >
                                         <i class="fas fa-edit"></i>
                                     </button>
+
+                                    <button
+                                        class="btn btn-sm btn-outline-primary me-1"
+                                        (click)="details(course)"
+                                        [disabled]="isLoading"
+                                        title="Edit"
+                                    >
+                                        <i class="fas fa-eye-slash"></i>
+                                    </button>
                                     <button
                                         class="btn btn-sm btn-outline-danger"
                                         (click)="deleteCourse(course.uid!)"
@@ -672,6 +681,494 @@
                     }}
                     of {{ filteredCourses.length }} entries
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Course Details Modal -->
+<div
+    class="modal fade"
+    id="courseDetailsModal"
+    tabindex="-1"
+    aria-labelledby="courseDetailsModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+            <!-- Modal Header -->
+            <div
+                class="modal-header bg-gradient-primary text-white rounded-top"
+            >
+                <div
+                    class="w-100 d-flex justify-content-between align-items-center"
+                >
+                    <div>
+                        <h5
+                            class="modal-title fs-4 fw-bold"
+                            id="courseDetailsModalLabel"
+                        >
+                            <i class="bi bi-journal-bookmark me-2"></i>
+                            Course Details
+                        </h5>
+                        <p class="mb-0 small opacity-75" *ngIf="selectedCourse">
+                            ID: {{ selectedCourse.courseId }} | UID:
+                            {{ selectedCourse.uid }}
+                        </p>
+                    </div>
+                    <button
+                        type="button"
+                        class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                    ></button>
+                </div>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body p-4">
+                <div *ngIf="selectedCourse" class="course-details-container">
+                    <!-- Course Header Section -->
+                    <div class="card mb-4 border-0 shadow-sm">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <!-- Course Logo -->
+                                <div class="col-md-3 text-center">
+                                    <img
+                                        [src]="getImageUrl(selectedCourse.logo)"
+                                        class="img-fluid rounded shadow-sm"
+                                        style="max-height: 150px; width: auto"
+                                        alt="Course logo"
+                                    />
+                                </div>
+
+                                <!-- Course Title and Basic Info -->
+                                <div class="col-md-9">
+                                    <div
+                                        class="d-flex justify-content-between align-items-start"
+                                    >
+                                        <div>
+                                            <h3 class="mb-2">
+                                                {{ selectedCourse.courseTitle }}
+                                            </h3>
+                                            <div
+                                                class="d-flex flex-wrap gap-2 mb-3"
+                                            >
+                                                <span class="badge bg-primary">
+                                                    {{
+                                                        selectedCourse.courseCategoryId
+                                                    }}
+                                                </span>
+                                                <span
+                                                    class="badge"
+                                                    [ngClass]="
+                                                        selectedCourse.isFreeCourse
+                                                            ? 'bg-success'
+                                                            : 'bg-warning'
+                                                    "
+                                                >
+                                                    {{
+                                                        selectedCourse.isFreeCourse
+                                                            ? "Free"
+                                                            : "Paid"
+                                                    }}
+                                                </span>
+                                                <span
+                                                    class="badge"
+                                                    [ngClass]="
+                                                        selectedCourse.isOnLine
+                                                            ? 'bg-info'
+                                                            : 'bg-secondary'
+                                                    "
+                                                >
+                                                    {{
+                                                        selectedCourse.isOnLine
+                                                            ? "Online"
+                                                            : "Offline"
+                                                    }}
+                                                </span>
+                                                <span
+                                                    class="badge bg-dark"
+                                                    *ngIf="
+                                                        selectedCourse.internal
+                                                    "
+                                                >
+                                                    Internal
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="text-end">
+                                            <h4
+                                                class="text-primary mb-0"
+                                                *ngIf="
+                                                    !selectedCourse.isFreeCourse
+                                                "
+                                            >
+                                                {{
+                                                    selectedCourse.coursePrice
+                                                        | currency
+                                                }}
+                                                <span
+                                                    *ngIf="
+                                                        selectedCourse.discount >
+                                                        0
+                                                    "
+                                                    class="text-danger text-decoration-line-through small ms-1"
+                                                >
+                                                    {{
+                                                        selectedCourse.coursePrice +
+                                                            selectedCourse.discount
+                                                            | currency
+                                                    }}
+                                                </span>
+                                            </h4>
+                                            <h4
+                                                class="text-success mb-0"
+                                                *ngIf="
+                                                    selectedCourse.isFreeCourse
+                                                "
+                                            >
+                                                FREE
+                                            </h4>
+                                        </div>
+                                    </div>
+
+                                    <!-- Visibility Status -->
+                                    <div class="d-flex align-items-center mt-2">
+                                        <span class="me-2 text-muted"
+                                            >Visibility:</span
+                                        >
+                                        <span
+                                            class="badge"
+                                            [ngClass]="
+                                                selectedCourse.isVisible
+                                                    ? 'bg-success'
+                                                    : 'bg-secondary'
+                                            "
+                                        >
+                                            {{
+                                                selectedCourse.isVisible
+                                                    ? "Public"
+                                                    : "Private"
+                                            }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Course Schedule Section -->
+                    <div class="card mb-4 border-0 shadow-sm">
+                        <div class="card-header bg-light">
+                            <h6 class="mb-0 fw-semibold">
+                                <i class="bi bi-calendar-event me-2"></i
+                                >Schedule
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <!-- Date Range -->
+                                <div class="col-md-6 mb-3">
+                                    <div
+                                        class="d-flex align-items-center bg-light p-3 rounded h-100"
+                                    >
+                                        <div
+                                            class="flex-shrink-0 bg-primary text-white rounded-circle p-3 me-3"
+                                        >
+                                            <i
+                                                class="bi bi-calendar-range fs-4"
+                                            ></i>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-1 text-muted">
+                                                Course Dates
+                                            </h6>
+                                            <p class="mb-0 fw-bold">
+                                                {{
+                                                    selectedCourse.startDate
+                                                        | date : "mediumDate"
+                                                }}
+                                                -
+                                                {{
+                                                    selectedCourse.endDate
+                                                        | date : "mediumDate"
+                                                }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Time -->
+                                <div class="col-md-6 mb-3">
+                                    <div
+                                        class="d-flex align-items-center bg-light p-3 rounded h-100"
+                                    >
+                                        <div
+                                            class="flex-shrink-0 bg-info text-white rounded-circle p-3 me-3"
+                                        >
+                                            <i class="bi bi-clock fs-4"></i>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-1 text-muted">
+                                                Class Time
+                                            </h6>
+                                            <p class="mb-0 fw-bold">
+                                                {{
+                                                    selectedCourse.startTime
+                                                        | slice : 0 : 5
+                                                }}
+                                                -
+                                                {{
+                                                    selectedCourse.endTime
+                                                        | slice : 0 : 5
+                                                }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Days -->
+                                <div class="col-12">
+                                    <div
+                                        class="d-flex align-items-center bg-light p-3 rounded"
+                                    >
+                                        <div
+                                            class="flex-shrink-0 bg-success text-white rounded-circle p-3 me-3"
+                                        >
+                                            <i
+                                                class="bi bi-calendar-week fs-4"
+                                            ></i>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-1 text-muted">
+                                                Class Days
+                                            </h6>
+                                            <div class="d-flex flex-wrap gap-2">
+                                                <ng-container
+                                                    *ngIf="
+                                                        selectedDaysArray.length;
+                                                        else noDays
+                                                    "
+                                                >
+                                                    <span
+                                                        *ngFor="
+                                                            let day of selectedDaysArray
+                                                        "
+                                                        class="badge bg-light-primary"
+                                                    >
+                                                        {{ day }}
+                                                    </span>
+                                                </ng-container>
+                                                <ng-template #noDays>
+                                                    <span
+                                                        class="badge bg-light-secondary"
+                                                        >No days specified</span
+                                                    >
+                                                </ng-template>
+
+                                                <ng-template #noDays>
+                                                    <span
+                                                        class="badge bg-light-secondary"
+                                                        >No days specified</span
+                                                    >
+                                                </ng-template>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Course Description -->
+                    <div class="card mb-4 border-0 shadow-sm">
+                        <div class="card-header bg-light">
+                            <h6 class="mb-0 fw-semibold">
+                                <i class="bi bi-card-text me-2"></i>Course
+                                Description
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <div
+                                class="course-description"
+                                [innerHTML]="
+                                    selectedCourse.description ||
+                                    'No description available'
+                                "
+                            ></div>
+                        </div>
+                    </div>
+
+                    <!-- Additional Information -->
+                    <div class="row g-4">
+                        <!-- Pricing Details -->
+                        <div
+                            class="col-md-6"
+                            *ngIf="!selectedCourse.isFreeCourse"
+                        >
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0 fw-semibold">
+                                        <i class="bi bi-cash-stack me-2"></i
+                                        >Pricing Details
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-group list-group-flush">
+                                        <li
+                                            class="list-group-item d-flex justify-content-between align-items-center px-0 border-0"
+                                        >
+                                            <span class="text-muted"
+                                                >Base Price:</span
+                                            >
+                                            <span class="fw-semibold">
+                                                {{
+                                                    selectedCourse.coursePrice +
+                                                        selectedCourse.discount
+                                                        | currency
+                                                }}
+                                            </span>
+                                        </li>
+                                        <li
+                                            class="list-group-item d-flex justify-content-between align-items-center px-0"
+                                        >
+                                            <span class="text-muted"
+                                                >Discount:</span
+                                            >
+                                            <span
+                                                class="fw-semibold text-danger"
+                                            >
+                                                -{{
+                                                    selectedCourse.discount
+                                                        | currency
+                                                }}
+                                            </span>
+                                        </li>
+                                        <li
+                                            class="list-group-item d-flex justify-content-between align-items-center px-0"
+                                        >
+                                            <span class="text-muted"
+                                                >Final Price:</span
+                                            >
+                                            <span
+                                                class="fw-semibold text-success"
+                                            >
+                                                {{
+                                                    selectedCourse.coursePrice
+                                                        | currency
+                                                }}
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Course Type -->
+                        <div class="col-md-6">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0 fw-semibold">
+                                        <i class="bi bi-gear me-2"></i>Course
+                                        Type
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-group list-group-flush">
+                                        <li
+                                            class="list-group-item d-flex justify-content-between align-items-center px-0 border-0"
+                                        >
+                                            <span class="text-muted"
+                                                >Delivery Mode:</span
+                                            >
+                                            <span class="fw-semibold">
+                                                {{
+                                                    selectedCourse.isOnLine
+                                                        ? "Online"
+                                                        : "In-Person"
+                                                }}
+                                            </span>
+                                        </li>
+                                        <li
+                                            class="list-group-item d-flex justify-content-between align-items-center px-0"
+                                        >
+                                            <span class="text-muted"
+                                                >Access Type:</span
+                                            >
+                                            <span class="fw-semibold">
+                                                {{
+                                                    selectedCourse.internal
+                                                        ? "Internal Only"
+                                                        : "Public"
+                                                }}
+                                            </span>
+                                        </li>
+                                        <li
+                                            class="list-group-item d-flex justify-content-between align-items-center px-0"
+                                        >
+                                            <span class="text-muted"
+                                                >Availability:</span
+                                            >
+                                            <span class="fw-semibold">
+                                                <span
+                                                    [ngClass]="
+                                                        selectedCourse.isVisible
+                                                            ? 'text-success'
+                                                            : 'text-warning'
+                                                    "
+                                                >
+                                                    {{
+                                                        selectedCourse.isVisible
+                                                            ? "Publicly Visible"
+                                                            : "Hidden"
+                                                    }}
+                                                </span>
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Empty State -->
+                <div *ngIf="!selectedCourse" class="text-center py-5">
+                    <div class="empty-state-icon mb-3">
+                        <i
+                            class="bi bi-journal-x text-muted"
+                            style="font-size: 3rem"
+                        ></i>
+                    </div>
+                    <h5 class="text-muted mb-2">No course data found</h5>
+                    <p class="text-muted">
+                        Please select a valid course to view details
+                    </p>
+                    <button
+                        class="btn btn-outline-secondary mt-3"
+                        data-bs-dismiss="modal"
+                    >
+                        <i class="bi bi-arrow-left me-1"></i> Go Back
+                    </button>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal-footer border-0 bg-light rounded-bottom">
+                <button
+                    type="button"
+                    class="btn btn-outline-secondary"
+                    data-bs-dismiss="modal"
+                >
+                    <i class="bi bi-x-lg me-1"></i> Close
+                </button>
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    [disabled]="!selectedCourse.isVisible"
+                >
+                    <i class="bi bi-cart-plus me-1"></i> Enroll Now
+                </button>
             </div>
         </div>
     </div>

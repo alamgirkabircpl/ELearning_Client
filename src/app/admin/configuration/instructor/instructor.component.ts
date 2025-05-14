@@ -32,6 +32,23 @@ export class InstructorComponent {
         email: '',
     };
 
+    selectedInstructor = {
+        id: '',
+        firstName: '',
+        lastName: '',
+        qualification: '',
+        certification: '',
+        description: '',
+        experience: '',
+        isActive: false,
+        email: '',
+        userName: '',
+        password: '',
+        confirmPassword: '',
+        linkdinProfile: '',
+        phone: '',
+        profilePicture: 'assets/images/default-profile.png',
+    };
     // Pagination
     // Pagination
     currentPage = 1;
@@ -375,6 +392,18 @@ export class InstructorComponent {
     }
     getImageUrl(path: string | null): string {
         return this.apiService.getImageUrl(path);
+    }
+
+    details(instructor: any) {
+        // Open modal (Bootstrap 5)
+        const modalElement = document.getElementById('instructorDetailsModal');
+        if (modalElement) {
+            if (instructor) {
+                this.selectedInstructor = instructor;
+            }
+            const modal = new (window as any).bootstrap.Modal(modalElement);
+            modal.show();
+        }
     }
     // Template helper
     Math = Math;

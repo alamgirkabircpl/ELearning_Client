@@ -83,14 +83,14 @@ export class PaymentComponent implements OnInit {
 
         try {
             const enrollData = this.buildEnrollData(loggedInUserId);
-            console.log(this.paymentData.coursePrice);
+            console.log(this.paymentData.course.coursePrice);
 
             // Step 1: Process the payment
             const { clientSecret }: any = await this.http
                 .post(
                     'http://localhost:44449/api/Payments/create-payment-intent',
                     {
-                        amount: this.paymentData.coursePrice, // Amount in cents
+                        amount: this.paymentData.course.coursePrice, // Amount in cents
                     }
                 )
                 .toPromise();
@@ -132,7 +132,7 @@ export class PaymentComponent implements OnInit {
                         // receiptUrl: paymentResult.paymentIntent?.charges.data[0]?.receipt_url || 'No receipt URL available',
                         //responseDataJson: JSON.stringify(paymentResult),
                     };
-
+                    console.log(paymentObj);
                     // Send the payment details to your server
                     this.http
                         .post('http://localhost:44449/api/Payments', paymentObj)

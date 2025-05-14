@@ -2,12 +2,12 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from '../../api.service';
-import { Enroll } from '../models/enroll';
+import { Payment } from '../models/payment';
 
 @Injectable({
     providedIn: 'root',
 })
-export class EnrollService {
+export class CoursePaymentService {
     constructor(private http: HttpClient, private apiService: ApiService) {}
 
     getAll(pageNumber: number = 0, pageSize: number = 0): Observable<any> {
@@ -15,13 +15,13 @@ export class EnrollService {
             .set('PageNumber', pageNumber.toString())
             .set('PageSize', pageSize.toString());
 
-        return this.http.get<any>(
-            this.apiService.getFullUrl('api/Enrolls/GetAll')
-        );
+        return this.http.get<any>(this.apiService.getFullUrl('api/Payments'), {
+            params,
+        });
     }
 
-    getById(id: string): Observable<Enroll> {
-        return this.http.get<Enroll>(
+    getById(id: string): Observable<Payment> {
+        return this.http.get<Payment>(
             `${this.apiService.getFullUrl('api/Enrolls/GetById')}${id}`
         );
     }

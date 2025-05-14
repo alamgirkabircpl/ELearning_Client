@@ -1,20 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Enroll } from '../models/enroll';
+import { Payment } from '../models/payment';
 import { CommonService } from '../services/common.service';
-import { EnrollService } from '../services/enroll.service';
+import { CoursePaymentService } from '../services/course-payment.service';
 
 @Component({
-    selector: 'app-enroll',
+    selector: 'app-course-payment',
     standalone: true,
-    imports: [FormsModule, CommonModule],
-    templateUrl: './enroll.component.html',
-    styleUrl: './enroll.component.scss',
+    imports: [CommonModule, FormsModule],
+    templateUrl: './course-payment.component.html',
+    styleUrl: './course-payment.component.scss',
 })
-export class EnrollComponent {
-    enrollments: Enroll[] = [];
-    filteredEnrollments: Enroll[] = [];
+export class CoursePaymentComponent {
+    enrollments: Payment[] = [];
+    filteredEnrollments: Payment[] = [];
     selectedEnrollment: any = null;
 
     pageNumber = 1;
@@ -25,29 +25,34 @@ export class EnrollComponent {
     isApprovedFilter: string = ''; // "", "true", or "false"
     commonService = inject(CommonService);
 
-    constructor(private enrollService: EnrollService) {}
+    constructor(private coursePaymentService: CoursePaymentService) {}
 
     ngOnInit(): void {
         this.loadEnrollments();
     }
 
     loadEnrollments(): void {
-        this.enrollService.getAll().subscribe((res) => {
-            this.enrollments = res.data;
-            this.totalItems = res.totalCount || res.data.length; // adjust based on backend
-            this.applyFilters();
-        });
+        this.coursePaymentService
+            .getAll(this.pageNumber, this.pageSize)
+            .subscribe((res) => {
+                this.enrollments = res;
+                this.totalItems = res.totalCount || res.length; // adjust based on backend
+                this.applyFilters();
+            });
     }
 
     applyFilters(): void {
         this.filteredEnrollments = this.enrollments.filter((item) => {
             const matchesSearch =
                 !this.searchTerm ||
-                item.id.toLowerCase().includes(this.searchTerm.toLowerCase());
+                item.enroll.id
+                    .toLowerCase()
+                    .includes(this.searchTerm.toLowerCase());
 
             const matchesApproval =
                 this.isApprovedFilter === '' ||
-                item.isApproved.toString() === this.isApprovedFilter;
+                item.enroll.course.isActive.toString() ===
+                    this.isApprovedFilter;
 
             return matchesSearch && matchesApproval;
         });
@@ -70,7 +75,6 @@ export class EnrollComponent {
         // navigate or open modal
         console.log('Edit ID:', id);
     }
-
     details(enrolobj: any) {
         // Open modal (Bootstrap 5)
         const modalElement = document.getElementById('enrollmentDetailsModal');
@@ -86,10 +90,9 @@ export class EnrollComponent {
             modal.show();
         }
     }
-
     delete(id: string): void {
         if (confirm('Are you sure you want to delete this enrollment?')) {
-            this.enrollService.delete(id).subscribe(() => {
+            this.coursePaymentService.delete(id).subscribe(() => {
                 this.loadEnrollments();
             });
         }

@@ -31,6 +31,14 @@ export class CommonService {
             )}${courseId}`
         );
     }
+
+    GetEnrollDetailsByEnrollId(enrollId: number): Observable<any> {
+        return this.http.get<any>(
+            `${this.apiService.getFullUrl(
+                'api/Common/GetEnrolmentDetailsByEnrollId/'
+            )}${enrollId}`
+        );
+    }
     GetEnrolmentDetailsByUserId(userId: string): Observable<any> {
         return this.http.get<any>(
             `${this.apiService.getFullUrl(

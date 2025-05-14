@@ -69,6 +69,25 @@ export class CourseComponent implements OnInit {
     public Editor: any;
     public config: any;
     public initialData = '<p>Write description here...</p>';
+    selectedCourse = {
+        uid: '',
+        courseId: 0,
+        courseTitle: '',
+        logo: '',
+        description: '',
+        courseCategoryId: 0,
+        startDate: '',
+        endDate: '',
+        startTime: '',
+        endTime: '',
+        isVisible: false,
+        isFreeCourse: false,
+        isOnLine: false,
+        internal: false,
+        coursePrice: 0,
+        discount: 0,
+        selectedDays: '' as string | string[],
+    };
 
     // Pagination
     currentPage = 1;
@@ -295,6 +314,8 @@ export class CourseComponent implements OnInit {
             if (this.model.courseId) {
                 formData.append('CourseId', this.model.courseId.toString());
             }
+        } else {
+            formData.delete('uid');
         }
         console.log(this.model);
         this.isLoading = true;
@@ -490,5 +511,28 @@ export class CourseComponent implements OnInit {
             { length: endPage - startPage + 1 },
             (_, i) => startPage + i
         );
+    }
+
+    details(course: any) {
+        console.log(course);
+        // Open modal (Bootstrap 5)
+        const modalElement = document.getElementById('courseDetailsModal');
+        if (modalElement) {
+            if (course) {
+                console.log(course);
+                this.selectedCourse = course;
+            }
+            const modal = new (window as any).bootstrap.Modal(modalElement);
+            modal.show();
+        }
+    }
+    get selectedDaysArray(): string[] {
+        const days = this.selectedCourse?.selectedDays;
+        if (typeof days === 'string') {
+            return days.split(',').map((d) => d.trim());
+        } else if (Array.isArray(days)) {
+            return days.map((d) => d.trim());
+        }
+        return [];
     }
 }

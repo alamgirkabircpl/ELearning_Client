@@ -329,9 +329,9 @@
                 <table class="table table-hover align-middle">
                     <thead class="table-light">
                         <tr>
-                            <th>Photo</th>
+                            <th>Image</th>
                             <th>Name</th>
-                            <th>Email</th>
+                            <!-- <th>Email</th> -->
                             <th>Qualification</th>
                             <th>Status</th>
                             <th>Actions</th>
@@ -358,7 +358,7 @@
                                 />
                             </td>
                             <td>{{ cat.firstName }} {{ cat.lastName }}</td>
-                            <td>{{ cat.email }}</td>
+                            <!-- <td>{{ cat.email }}</td> -->
                             <td>{{ cat.qualification }}</td>
                             <td>
                                 <span
@@ -375,12 +375,20 @@
                             <td class="text-end">
                                 <div class="btn-group" role="group">
                                     <button
-                                        class="btn btn-sm btn-outline-primary me-1"
+                                        class="btn btn-sm btn-outline-success me-1"
                                         (click)="edit(cat)"
                                         [disabled]="isLoading"
                                         title="Edit"
                                     >
                                         <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button
+                                        class="btn btn-sm btn-outline-primary me-1"
+                                        (click)="details(cat)"
+                                        [disabled]="isLoading"
+                                        title="Details"
+                                    >
+                                        <i class="fas fa-eye-slash"></i>
                                     </button>
                                     <button
                                         class="btn btn-sm btn-outline-danger"
@@ -438,6 +446,403 @@
                         </li>
                     </ul>
                 </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Instructor Details Modal -->
+<div
+    class="modal fade"
+    id="instructorDetailsModal"
+    tabindex="-1"
+    aria-labelledby="instructorDetailsModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+            <!-- Modal Header -->
+            <div
+                class="modal-header bg-gradient-primary text-white rounded-top"
+            >
+                <div
+                    class="w-100 d-flex justify-content-between align-items-center"
+                >
+                    <div>
+                        <h5
+                            class="modal-title fs-4 fw-bold"
+                            id="instructorDetailsModalLabel"
+                        >
+                            <i class="bi bi-person-badge me-2"></i>
+                            Instructor Profile
+                        </h5>
+                        <p
+                            class="mb-0 small opacity-75"
+                            *ngIf="selectedInstructor != null"
+                        >
+                            ID: {{ selectedInstructor.id }}
+                        </p>
+                    </div>
+                    <button
+                        type="button"
+                        class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                    ></button>
+                </div>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body p-4">
+                <div
+                    *ngIf="selectedInstructor"
+                    class="instructor-details-container"
+                >
+                    <!-- Instructor Profile Card -->
+                    <div class="card mb-4 border-0 shadow-sm">
+                        <div class="card-body">
+                            <div class="row">
+                                <!-- Profile Picture Column -->
+                                <div class="col-md-4 text-center">
+                                    <div class="position-relative mb-3">
+                                        <img
+                                            [src]="
+                                                getImageUrl(
+                                                    selectedInstructor.profilePicture
+                                                )
+                                            "
+                                            class="rounded-circle img-thumbnail shadow-sm"
+                                            style="
+                                                width: 180px;
+                                                height: 180px;
+                                                object-fit: cover;
+                                            "
+                                            alt="Instructor profile picture"
+                                        />
+                                        <span
+                                            *ngIf="selectedInstructor.isActive"
+                                            class="position-absolute bottom-0 end-0 bg-success rounded-circle p-2 border border-3 border-white"
+                                            style="width: 20px; height: 20px"
+                                        ></span>
+                                    </div>
+                                    <h4 class="mb-1">
+                                        {{ selectedInstructor.firstName }}
+                                    </h4>
+                                    <p class="text-muted mb-2">
+                                        {{ selectedInstructor.qualification }}
+                                    </p>
+
+                                    <div
+                                        class="d-flex justify-content-center gap-2 mt-3"
+                                    >
+                                        <a
+                                            *ngIf="
+                                                selectedInstructor.linkdinProfile
+                                            "
+                                            [href]="
+                                                selectedInstructor.linkdinProfile
+                                            "
+                                            target="_blank"
+                                            class="btn btn-outline-primary btn-sm"
+                                        >
+                                            <i class="bi bi-linkedin me-1"></i>
+                                            LinkedIn
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <!-- Details Column -->
+                                <div class="col-md-8">
+                                    <div class="row g-3">
+                                        <!-- Experience -->
+                                        <div class="col-md-6">
+                                            <div
+                                                class="d-flex align-items-center bg-light-primary p-3 rounded"
+                                            >
+                                                <div
+                                                    class="flex-shrink-0 bg-primary text-white rounded-circle p-3 me-3"
+                                                >
+                                                    <i
+                                                        class="bi bi-award fs-4"
+                                                    ></i>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <h6 class="mb-0 text-muted">
+                                                        Experience
+                                                    </h6>
+                                                    <p class="mb-0 fw-bold">
+                                                        {{
+                                                            selectedInstructor.experience
+                                                        }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Certification -->
+                                        <div class="col-md-6">
+                                            <div
+                                                class="d-flex align-items-center bg-light-success p-3 rounded"
+                                            >
+                                                <div
+                                                    class="flex-shrink-0 bg-success text-white rounded-circle p-3 me-3"
+                                                >
+                                                    <i
+                                                        class="bi bi-patch-check fs-4"
+                                                    ></i>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <h6 class="mb-0 text-muted">
+                                                        Certification
+                                                    </h6>
+                                                    <p class="mb-0 fw-bold">
+                                                        {{
+                                                            selectedInstructor.certification
+                                                        }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Status -->
+                                        <div class="col-md-6">
+                                            <div
+                                                class="d-flex align-items-center bg-light-info p-3 rounded"
+                                            >
+                                                <div
+                                                    class="flex-shrink-0 bg-info text-white rounded-circle p-3 me-3"
+                                                >
+                                                    <i
+                                                        class="bi bi-person-check fs-4"
+                                                    ></i>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <h6 class="mb-0 text-muted">
+                                                        Status
+                                                    </h6>
+                                                    <span
+                                                        class="badge"
+                                                        [ngClass]="
+                                                            selectedInstructor.isActive
+                                                                ? 'bg-success'
+                                                                : 'bg-secondary'
+                                                        "
+                                                    >
+                                                        {{
+                                                            selectedInstructor.isActive
+                                                                ? "Active"
+                                                                : "Inactive"
+                                                        }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Instructor ID -->
+                                        <div class="col-md-6">
+                                            <div
+                                                class="d-flex align-items-center bg-light-warning p-3 rounded"
+                                            >
+                                                <div
+                                                    class="flex-shrink-0 bg-warning text-white rounded-circle p-3 me-3"
+                                                >
+                                                    <i
+                                                        class="bi bi-person-vcard fs-4"
+                                                    ></i>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <h6 class="mb-0 text-muted">
+                                                        Instructor ID
+                                                    </h6>
+                                                    <p
+                                                        class="mb-0 fw-bold text-truncate"
+                                                    >
+                                                        {{
+                                                            selectedInstructor.id
+                                                        }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Description -->
+                                    <div class="mt-4">
+                                        <h6 class="text-muted mb-2">
+                                            About Instructor
+                                        </h6>
+                                        <div class="bg-light p-3 rounded">
+                                            <p
+                                                class="mb-0"
+                                                *ngIf="
+                                                    selectedInstructor.description;
+                                                    else noDescription
+                                                "
+                                            >
+                                                {{
+                                                    selectedInstructor.description
+                                                }}
+                                            </p>
+                                            <ng-template #noDescription>
+                                                <p
+                                                    class="mb-0 text-muted fst-italic"
+                                                >
+                                                    No description provided
+                                                </p>
+                                            </ng-template>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Additional Sections -->
+                    <div class="row g-4">
+                        <!-- Contact Information -->
+                        <div class="col-md-6">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0 fw-semibold">
+                                        <i class="bi bi-envelope me-2"></i
+                                        >Contact Information
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-group list-group-flush">
+                                        <li
+                                            class="list-group-item d-flex justify-content-between align-items-center px-0 border-0"
+                                        >
+                                            <span class="text-muted"
+                                                >Email:</span
+                                            >
+                                            <span
+                                                class="fw-semibold text-primary"
+                                            >
+                                                <a
+                                                    href="mailto:{{
+                                                        selectedInstructor.email
+                                                    }}"
+                                                    class="text-decoration-none"
+                                                >
+                                                    {{
+                                                        selectedInstructor.email ||
+                                                            "N/A"
+                                                    }}
+                                                </a>
+                                            </span>
+                                        </li>
+                                        <li
+                                            class="list-group-item d-flex justify-content-between align-items-center px-0"
+                                        >
+                                            <span class="text-muted"
+                                                >Phone:</span
+                                            >
+                                            <span class="fw-semibold">
+                                                {{
+                                                    selectedInstructor.phone ||
+                                                        "N/A"
+                                                }}
+                                            </span>
+                                        </li>
+                                        <li
+                                            class="list-group-item d-flex justify-content-between align-items-center px-0"
+                                        >
+                                            <span class="text-muted"
+                                                >Availability:</span
+                                            >
+                                            <span class="fw-semibold">
+                                                <span
+                                                    class="badge bg-light-success text-success"
+                                                    >Available</span
+                                                >
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Expertise -->
+                        <div class="col-md-6">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0 fw-semibold">
+                                        <i class="bi bi-tools me-2"></i>Areas of
+                                        Expertise
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <span class="badge bg-light-primary"
+                                            >Web Development</span
+                                        >
+                                        <span class="badge bg-light-success"
+                                            >Database Design</span
+                                        >
+                                        <span class="badge bg-light-info"
+                                            >Software Architecture</span
+                                        >
+                                        <span class="badge bg-light-warning"
+                                            >Project Management</span
+                                        >
+                                    </div>
+                                    <div class="mt-3">
+                                        <div
+                                            class="progress mb-2"
+                                            style="height: 8px"
+                                        >
+                                            <div
+                                                class="progress-bar bg-primary"
+                                                role="progressbar"
+                                                style="width: 90%"
+                                                aria-valuenow="90"
+                                                aria-valuemin="0"
+                                                aria-valuemax="100"
+                                            ></div>
+                                        </div>
+                                        <small class="text-muted"
+                                            >Teaching Rating: 4.8/5.0</small
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Empty State -->
+                <div *ngIf="!selectedInstructor" class="text-center py-5">
+                    <div class="empty-state-icon mb-3">
+                        <i
+                            class="bi bi-person-x text-muted"
+                            style="font-size: 3rem"
+                        ></i>
+                    </div>
+                    <h5 class="text-muted mb-2">No instructor data found</h5>
+                    <p class="text-muted">
+                        Please select a valid instructor to view details
+                    </p>
+                    <button
+                        class="btn btn-outline-secondary mt-3"
+                        data-bs-dismiss="modal"
+                    >
+                        <i class="bi bi-arrow-left me-1"></i> Go Back
+                    </button>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal-footer border-0 bg-light rounded-bottom">
+                <button
+                    type="button"
+                    class="btn btn-outline-secondary"
+                    data-bs-dismiss="modal"
+                >
+                    <i class="bi bi-x-lg me-1"></i> Close
+                </button>
+                <button type="button" class="btn btn-primary">
+                    <i class="bi bi-chat-left-text me-1"></i> Contact Instructor
+                </button>
             </div>
         </div>
     </div>

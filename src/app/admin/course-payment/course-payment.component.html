@@ -3,7 +3,7 @@
         <div class="card-header bg-white border-bottom-0">
             <div class="d-flex justify-content-between align-items-center">
                 <h4 class="mb-0 text-primary">
-                    <i class="bi bi-people-fill me-2"></i>Enroll List
+                    <i class="bi bi-people-fill me-2"></i>Payment Information
                 </h4>
                 <div class="d-flex">
                     <button class="btn btn-outline-secondary me-2">
@@ -66,42 +66,16 @@
                     </button>
                 </div>
             </div>
-            <!-- 
-            <div class="card shadow-sm mb-4 p-3">
-                <div class="row g-3">
-                    <div class="col-md-5">
-                        <input
-                            type="text"
-                            class="form-control"
-                            placeholder="🔍 Search by UID"
-                            [(ngModel)]="searchTerm"
-                            (ngModelChange)="onSearchChange()"
-                        />
-                    </div>
 
-                    <div class="col-md-4">
-                        <select
-                            class="form-select"
-                            [(ngModel)]="isApprovedFilter"
-                            (change)="onFilterChange()"
-                        >
-                            <option value="">📂 All Approval Status</option>
-                            <option value="true">✅ Approved</option>
-                            <option value="false">❌ Not Approved</option>
-                        </select>
-                    </div>
-                </div>
-            </div> -->
             <div class="table-responsive">
                 <table class="table table-hover align-middle">
                     <thead class="table-light">
                         <tr>
-                            <!-- <th class="ps-4">UID</th> -->
-                            <!-- <th>Course ID</th> -->
+                            <!-- <th class="ps-4">UID</th>
+                            <th>Course ID</th> -->
                             <th>Enroll Date</th>
                             <th>Status</th>
-                            <th>Paid</th>
-                            <th>Completed</th>
+
                             <th class="text-end pe-4">Actions</th>
                         </tr>
                     </thead>
@@ -110,66 +84,52 @@
                             *ngFor="let enroll of filteredEnrollments"
                             class="border-top"
                         >
-                            <!-- <td class="ps-4 fw-semibold">{{ enroll?.id }}</td> -->
-                            <!-- <td>
+                            <!-- <td class="ps-4 fw-semibold">
+                                {{ enroll?.enroll?.id }}
+                            </td>
+                            <td>
                                 <span class="badge bg-light text-dark">
-                                    {{ enroll.courseId }}
+                                    {{ enroll.enrollId }}
                                 </span>
                             </td> -->
                             <td>
-                                {{ enroll.enrollDate | date : "mediumDate" }}
+                                {{
+                                    enroll.enroll.enrollDate
+                                        | date : "mediumDate"
+                                }}
                             </td>
                             <td>
                                 <span
                                     class="badge"
                                     [ngClass]="{
-                                        'bg-success': enroll.isApproved,
+                                        'bg-success':
+                                            enroll.enroll.course.isActive,
                                         'bg-warning text-dark':
-                                            !enroll.isApproved
+                                            !enroll.enroll.course.isActive
                                     }"
                                 >
                                     <i
                                         class="bi me-1"
                                         [class.bi-check-circle]="
-                                            enroll.isApproved
+                                            enroll.enroll.course.isActive
                                         "
-                                        [class.bi-clock]="!enroll.isApproved"
+                                        [class.bi-clock]="
+                                            !enroll.enroll.course.isActive
+                                        "
                                     ></i>
                                     {{
-                                        enroll.isApproved
+                                        enroll.enroll.course.isActive
                                             ? "Approved"
                                             : "Pending"
                                     }}
                                 </span>
                             </td>
-                            <td>
-                                <span
-                                    class="badge"
-                                    [ngClass]="{
-                                        'bg-success': enroll.isPaid,
-                                        'bg-secondary': !enroll.isPaid
-                                    }"
-                                >
-                                    {{ enroll.isPaid ? "Yes" : "No" }}
-                                </span>
-                            </td>
-                            <td>
-                                <span
-                                    class="badge"
-                                    [ngClass]="{
-                                        'bg-primary': enroll.isCompleted,
-                                        'bg-light text-dark':
-                                            !enroll.isCompleted
-                                    }"
-                                >
-                                    {{ enroll.isCompleted ? "Yes" : "No" }}
-                                </span>
-                            </td>
+
                             <td class="text-end pe-4">
                                 <div class="btn-group" role="group">
                                     <button
                                         class="btn btn-sm btn-outline-primary"
-                                        (click)="edit(enroll.id)"
+                                        (click)="edit(enroll.enroll.id)"
                                         title="Edit"
                                     >
                                         <i class="bi bi-pencil-square"></i>
@@ -183,7 +143,7 @@
                                     </button>
                                     <button
                                         class="btn btn-sm btn-outline-danger"
-                                        (click)="delete(enroll.id)"
+                                        (click)="delete(enroll.enroll.id)"
                                         title="Delete"
                                     >
                                         <i class="bi bi-trash"></i>
@@ -232,6 +192,7 @@
         </div>
     </div>
 </div>
+
 <!-- Enrollment Details Modal -->
 <div
     class="modal fade"
