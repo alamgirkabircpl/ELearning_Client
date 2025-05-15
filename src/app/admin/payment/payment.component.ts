@@ -6,6 +6,7 @@ import { AuthService } from '../../auth.service';
 import { PlatformService } from '../../platform.service';
 import { ToastNotificationService } from '../../toast-notification.service';
 import { CommonService } from '../services/common.service';
+import { CoursePaymentService } from '../services/course-payment.service';
 import { EnrollService } from '../services/enroll.service';
 
 @Component({
@@ -24,6 +25,7 @@ export class PaymentComponent implements OnInit {
     private authService = inject(AuthService);
     private router = inject(Router);
     private enrollService = inject(EnrollService);
+    private coursePaymentService = inject(CoursePaymentService);
 
     private toastService = inject(ToastNotificationService);
     private commonService = inject(CommonService);
@@ -86,13 +88,10 @@ export class PaymentComponent implements OnInit {
             console.log(this.paymentData.course.coursePrice);
 
             // Step 1: Process the payment
-            const { clientSecret }: any = await this.http
-                .post(
-                    'http://localhost:44449/api/Payments/create-payment-intent',
-                    {
-                        amount: this.paymentData.course.coursePrice, // Amount in cents
-                    }
-                )
+            const { clientSecret }: any = await this.coursePaymentService
+                .pay({
+                    amount: this.paymentData.course.coursePrice, // Amount in cents
+                })
                 .toPromise();
 
             const paymentResult = await this.confirmStripePayment(clientSecret);
@@ -134,25 +133,20 @@ export class PaymentComponent implements OnInit {
                     };
                     console.log(paymentObj);
                     // Send the payment details to your server
-                    this.http
-                        .post('http://localhost:44449/api/Payments', paymentObj)
-                        .subscribe(
-                            (response) => {
-                                console.log('Payment response:', response);
-                                this.toastService.showSuccess(
-                                    'Payment and enrollment successful!'
-                                );
-                            },
-                            (error) => {
-                                console.error(
-                                    'Error sending payment data:',
-                                    error
-                                );
-                                this.toastService.showError(
-                                    'Failed to save payment data.'
-                                );
-                            }
-                        );
+                    this.coursePaymentService.paymentPost(paymentObj).subscribe(
+                        (response) => {
+                            console.log('Payment response:', response);
+                            this.toastService.showSuccess(
+                                'Payment and enrollment successful!'
+                            );
+                        },
+                        (error) => {
+                            console.error('Error sending payment data:', error);
+                            this.toastService.showError(
+                                'Failed to save payment data.'
+                            );
+                        }
+                    );
                 } else {
                     console.error('Enrollment failed');
                     this.toastService.showError('Enrollment failed.');

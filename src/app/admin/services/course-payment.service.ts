@@ -20,6 +20,19 @@ export class CoursePaymentService {
         });
     }
 
+    pay(payment: any): Observable<any> {
+        return this.http.post(
+            this.apiService.getFullUrl('api/Payments/create-payment-intent'),
+            payment
+        );
+    }
+
+    paymentPost(paymentObj: any): Observable<any> {
+        return this.http.post(
+            this.apiService.getFullUrl('api/Payments'),
+            paymentObj
+        );
+    }
     getById(id: string): Observable<Payment> {
         return this.http.get<Payment>(
             `${this.apiService.getFullUrl('api/Enrolls/GetById')}${id}`
