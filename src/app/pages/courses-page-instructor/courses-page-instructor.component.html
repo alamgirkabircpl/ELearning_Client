@@ -1,80 +1,78 @@
 <!-- <div class="pb-120 border-bottom"></div> -->
 
 <!-- Courses -->
-<div class="courses-area bg-f3f3f3 pt-120 pb-95">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-xl-4 col-md-6" *ngFor="let cdata of courses">
-                <div class="single-course-box mb-25 position-relative">
-                    <h3 class="fw-semibold">
-                        <a routerLink="/course-details">
-                            {{ cdata.courseCategoryName }}
-                        </a>
-                    </h3>
-                    <!-- <p>{{ cdata.courseDescription }}</p> -->
-                    <p
-                        class="description-clamp-line-2"
-                        style="cursor: pointer"
-                        [innerHTML]="
-                            getSanitizedContent(cdata.courseDescription)
-                        "
-                        data-bs-toggle="offcanvas"
-                        data-bs-target="#courseDetails"
-                        (click)="
-                            handleOpenCourseDetails(
-                                cdata.courseUid,
-                                cdata.instructorRegId,
-                                cdata.courseId
-                            )
-                        "
-                    ></p>
+<div class="courses-area bg-f3f3f3 p-5 pt-50">
+    <h2 class="fw-semibold text-uppercase">You can see more courses</h2>
+    <div class="course-container">
+        <div class="course-card" *ngFor="let cdata of courses">
+            <h3 class="course-title">
+                <a
+                    href="#"
+                    class="text-white text-decoration-none"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#courseDetails"
+                    (click)="
+                        handleOpenCourseDetails(
+                            cdata.courseUid,
+                            cdata.instructorRegId,
+                            cdata.courseId
+                        )
+                    "
+                >
+                    {{ cdata.courseCategoryName }}
+                </a>
+            </h3>
 
-                    <div class="instructor d-flex align-items-center">
-                        <img
-                            [src]="
-                                getImagePath(
-                                    cdata?.instructorProfilePic ||
-                                        'images/teams/team1.jpg'
-                                )
-                            "
-                            loading="lazy"
-                            class="rounded-circle"
-                            alt="user-image"
-                        />
-                        <div>
-                            <h4 class="fw-medium">
-                                {{ cdata.instructorName }}
-                            </h4>
-                            <span class="d-block"> Instructor </span>
-                        </div>
-                    </div>
-                    <button
-                        class="default-btn"
-                        type="button"
-                        data-bs-toggle="offcanvas"
-                        data-bs-target="#courseDetails"
-                        (click)="
-                            handleOpenCourseDetails(
-                                cdata.courseUid,
-                                cdata.instructorRegId,
-                                cdata.courseId
-                            )
-                        "
-                    >
-                        View Details
-                    </button>
-                    <!-- <a
-                        [routerLink]="['/course-details']"
-                        [queryParams]="{
-                            courseUId: course.courseUid,
-                            instructorRegId: course.instructorRegId,
-                        }"
-                        class="default-btn"
-                    >
-                        Enroll Now
-                    </a> -->
+            <p
+                class="course-description"
+                style="cursor: pointer"
+                [innerHTML]="getSanitizedContent(cdata.courseName)"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#courseDetails"
+                (click)="
+                    handleOpenCourseDetails(
+                        cdata.courseUid,
+                        cdata.instructorRegId,
+                        cdata.courseId
+                    )
+                "
+            ></p>
+
+            <div class="instructor-info">
+                <img
+                    [src]="
+                        getImagePath(
+                            cdata.instructorProfilePic ||
+                                'images/teams/team1.jpg'
+                        )
+                    "
+                    alt="Instructor"
+                    class="instructor-img"
+                    loading="lazy"
+                />
+                <div>
+                    <p class="instructor-name">
+                        {{ cdata.instructorName }}
+                    </p>
+                    <p class="instructor-role">Instructor</p>
                 </div>
             </div>
+
+            <button
+                class="details-btn"
+                type="button"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#courseDetails"
+                (click)="
+                    handleOpenCourseDetails(
+                        cdata.courseUid,
+                        cdata.instructorRegId,
+                        cdata.courseId
+                    )
+                "
+            >
+                View Details
+            </button>
         </div>
     </div>
 </div>
@@ -200,7 +198,7 @@
                             )
                         "
                         class="img-fluid w-100"
-                        style="height: 200px; width: 100%; object-fit: contain"
+                        style="object-fit: cover; max-height: 350px"
                         alt="Course image"
                     />
                     <div class="position-absolute bottom-0 end-0 m-3">
@@ -319,21 +317,7 @@
                             </div>
                         </div>
 
-                        <div class="mb-4">
-                            <h6 class="fw-semibold mb-2">
-                                About the Instructor
-                            </h6>
-                            <p
-                                class="text-muted"
-                                [innerHTML]="
-                                    getSanitizedContent(
-                                        instructor?.description || ''
-                                    )
-                                "
-                            ></p>
-                        </div>
-
-                        <div class="row g-2">
+                        <div class="row g-2 mb-4">
                             <div class="col-6">
                                 <div
                                     class="d-flex align-items-center text-muted small"
@@ -368,6 +352,19 @@
                                     <span>5 Awards</span>
                                 </div>
                             </div>
+                        </div>
+                        <div class="">
+                            <h6 class="fw-semibold mb-2">
+                                About the Instructor
+                            </h6>
+                            <p
+                                class="text-muted"
+                                [innerHTML]="
+                                    getSanitizedContent(
+                                        instructor?.description || ''
+                                    )
+                                "
+                            ></p>
                         </div>
                     </div>
                 </div>
@@ -465,7 +462,7 @@
                             <span>Credit/Debit Card</span>
                         </label>
                     </div>
-                    <div class="form-check mb-2">
+                    <!-- <div class="form-check mb-2">
                         <input
                             class="form-check-input"
                             type="radio"
@@ -494,7 +491,7 @@
                             <i class="bi bi-bank2 fs-4 me-3"></i>
                             <span>Bank Transfer</span>
                         </label>
-                    </div>
+                    </div> -->
                 </div>
 
                 <div class="d-grid gap-2">

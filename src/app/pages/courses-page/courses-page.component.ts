@@ -20,7 +20,6 @@ import { FooterComponent } from '../../common/footer/footer.component';
 import { NavbarComponent } from '../../common/navbar/navbar.component';
 import { PlatformService } from '../../platform.service';
 import { ToastNotificationService } from '../../toast-notification.service';
-import { PageBannerComponent } from './page-banner/page-banner.component';
 // Update your CourseData interface to match the API response
 export interface CourseData {
     courseId: number;
@@ -57,7 +56,7 @@ export interface CourseData {
     imports: [
         RouterLink,
         NavbarComponent,
-        PageBannerComponent,
+
         FooterComponent,
         BackToTopComponent,
         CommonModule,

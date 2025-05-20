@@ -6,14 +6,21 @@
     --fontFamily: "Poppins", sans-serif;
     --headingFontFamily: "Unbounded", sans-serif;
     // --primaryColor: #fab758;
-    --primaryColor: #a7ff37;
-    --secondaryColor: #586cec;
+    --primaryColor: #0dcaf0;
+    --secondaryColor: #14a0c7;
+    // --secondaryColor: #586cec;
     // --paragraphColor: #555555;
     --whiteColor: #ffffff;
     --blackColor: #000000;
     --transition: 0.5s;
     --fontSize: 20px;
 }
+
+// html,
+// body {
+//     overflow: auto !important;
+//     height: auto !important;
+// }
 body {
     margin: 0;
     padding: 0;
@@ -110,13 +117,16 @@ p {
     background-color: #fbfbfb;
 }
 .bg-f6ffeb {
-    background-color: #f6ffeb;
+    background-color: #f9f9f9;
+    // background-color: #f6ffeb;
 }
 .bg-f3f3f3 {
-    background-color: #f3f3f3;
+    background-color: #ffffff;
+    // background-color: #f3f3f3;
 }
 .bg-f6ffeb {
-    background-color: #f6ffeb;
+    // background-color: #f6ffeb;
+    background-color: #f9f9f9;
 }
 .bg-1c1c1c {
     background-color: #1c1c1c;
@@ -621,4 +631,44 @@ p {
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+// abc Custom css
+
+/* Enroll Now Button */
+.enroll-btn {
+    padding: 0.6rem 1.4rem;
+    border: 2px solid #0dcaf0;
+    background-color: transparent;
+    color: #0dcaf0;
+    font-weight: 600;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    margin: 1rem;
+    display: inline-block;
+}
+
+.enroll-btn:hover {
+    background-color: #0dcaf0;
+    color: white;
+}
+
+/* Enroll Now Button */
+.pay-btn {
+    padding: 0.6rem 1.4rem;
+    border: 2px solid #0dcaf0;
+    background-color: #0dcaf0;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    margin: 1rem;
+    display: inline-block;
+}
+
+.pay-btn:hover {
+    background-color: var(--secondaryColor);
+    // color: #0dcaf0;
 }

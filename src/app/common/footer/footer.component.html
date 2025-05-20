@@ -1,160 +1,137 @@
 <!-- Default -->
 <footer class="footer-area bg-f6ffeb pt-120">
     <div class="container">
-        <div class="subscribe-box row">
-            <div class="col-lg-6 col-md-12">
-                <div class="subscribe-content">
-                    <h3 class="fw-semibold">Subscribe to Newsletter</h3>
-                    <p>Stay updated with our latest news and offers</p>
-                </div>
-            </div>
-            <div class="col-lg-6 col-md-12">
-                <div class="subscribe-form">
-                    <!-- <form>
-                        <input
-                            type="text"
-                            class="form-control"
-                            placeholder="Enter email address"
-                        />
-                        <button type="button">Subscribe</button>
-                    </form> -->
-
-                    <form
-                        [formGroup]="subscribeForm"
-                        (ngSubmit)="submitSubscribe()"
-                    >
-                        <input
-                            type="email"
-                            class="form-control"
-                            formControlName="subscribeEmail"
-                            placeholder="Enter email address"
-                        />
-                        <div
-                            *ngIf="
-                                subscribeForm.get('subscribeEmail')?.touched &&
-                                subscribeForm.get('subscribeEmail')?.invalid
-                            "
-                            class="text-danger"
-                        >
-                            Valid email is required
-                        </div>
-
-                        <button
-                            class="default-btn"
-                            type="submit"
-                            [disabled]="isSubmitting"
-                        >
-                            {{ isSubmitting ? "Subscribing..." : "Subscribe" }}
-                        </button>
-                    </form>
-                    <p>By subscribing, you agree to our Privacy Policy</p>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-3 col-sm-6">
-                <div class="single-footer-widget mb-25">
-                    <a routerLink="/" class="logo mb-0 d-inline-block">
-                        <img src="images/newlogo.webp" alt="logo" />
-                    </a>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <div class="single-footer-widget mb-25">
-                    <h3 class="fw-medium">About Us</h3>
-                    <ul class="custom-links p-0 mb-0 list-unstyled">
-                        <li>
-                            <a routerLink="/contact"> Contact </a>
-                        </li>
-                        <li>
-                            <a routerLink="/contact"> Support </a>
-                        </li>
-                        <!-- <li>
-                            <a routerLink="/blog"> Resources </a>
-                        </li>
-                        <li>
-                            <a routerLink="/privacy-policy"> Help Center </a>
-                        </li>
-                        <li>
-                            <a routerLink="/blog"> Blog </a>
-                        </li> -->
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <div class="single-footer-widget mb-25">
-                    <h3 class="fw-medium">Courses</h3>
-                    <ul class="custom-links p-0 mb-0 list-unstyled">
-                        <li>
-                            <a routerLink="/courses"> Our Courses </a>
-                        </li>
-                        <li>
-                            <a routerLink="/team"> Instructors </a>
-                        </li>
-                        <!-- <li>
-                            <a href="#"> Events </a>
-                        </li>
-                        <li>
-                            <a href="#"> Partners </a>
-                        </li>
-                        <li>
-                            <a href="#"> Careers </a>
-                        </li> -->
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <div class="single-footer-widget mb-25">
-                    <h3 class="fw-medium">Terms</h3>
-                    <ul class="custom-links p-0 mb-0 list-unstyled">
-                        <li>
-                            <a routerLink="/privacy-policy"> Privacy </a>
-                        </li>
-                        <li>
-                            <a routerLink="/privacy-policy"> Cookies </a>
-                        </li>
-                        <!-- <li>
-                            <a routerLink="/terms-conditions"> Sitemap </a>
-                        </li>
-                        <li>
-                            <a routerLink="/terms-conditions">
-                                Accessibility
-                            </a>
-                        </li>
-                        <li>
-                            <a routerLink="/terms-conditions">
-                                Terms of Service
-                            </a>
-                        </li> -->
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="copyright-area border-top">
-            <div class="row align-items-center">
-                <div class="col-lg-3 col-sm-6">
-                    <p class="mb-0">
-                        © 2024 Corporate Projukti Limited. All rights reserved.
+        <!-- Newsletter -->
+        <!-- <div class="row align-items-center mb-5 pb-4">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <h4 class="fw-semibold mb-2">
+                        Subscribe to our Newsletter
+                    </h4>
+                    <p class="text-muted mb-0">
+                        Stay updated with the latest news, updates, and offers.
                     </p>
                 </div>
+            </div>
+            <div class="col-md-6">
+                <form
+                    [formGroup]="subscribeForm"
+                    (ngSubmit)="submitSubscribe()"
+                    class="d-flex flex-column flex-sm-row gap-2"
+                >
+                    <input
+                        type="email"
+                        class="form-control"
+                        required
+                        formControlName="subscribeEmail"
+                        placeholder="Enter your email"
+                    />
+                    <button
+                        class="btn btn-info text-white px-4"
+                        type="submit"
+                        [disabled]="isSubmitting"
+                    >
+                        {{ isSubmitting ? "Subscribing..." : "Subscribe" }}
+                    </button>
+                </form>
+                <small class="text-muted d-block mt-2"
+                    >By subscribing, you agree to our Privacy Policy.</small
+                >
+            </div>
+        </div> -->
+        <div class="row text-start text-md-left mb-4">
+            <div class="col-md-4 col-sm-6 mb-4">
+                <a routerLink="/" class="d-inline-block mb-3">
+                    <img
+                        src="images/newlogo.webp"
+                        alt="Logo"
+                        style="height: 50px"
+                    />
+                </a>
+                <p class="text-muted">
+                    Empowering knowledge through practical learning and expert
+                    guidance.
+                </p>
+            </div>
+
+            <div class="col-md-2 col-sm-6 mb-4">
+                <h5 class="fw-medium mb-3">Useful Links</h5>
+                <ul class="list-unstyled text-muted">
+                    <li>
+                        <a
+                            routerLink="/about"
+                            class="text-reset text-decoration-none"
+                            >About Us</a
+                        >
+                    </li>
+                    <li>
+                        <a
+                            routerLink="/contact"
+                            class="text-reset text-decoration-none"
+                            >Contact</a
+                        >
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-md-2 col-sm-6 mb-4">
+                <h5 class="fw-medium mb-3">Courses</h5>
+                <ul class="list-unstyled text-muted">
+                    <li>
+                        <a
+                            routerLink="/courses"
+                            class="text-reset text-decoration-none"
+                            >Courses</a
+                        >
+                    </li>
+                    <li>
+                        <a
+                            routerLink="/team"
+                            class="text-reset text-decoration-none"
+                            >Instructors</a
+                        >
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-md-4 col-sm-6 mb-4">
+                <h5 class="fw-medium mb-3">Newsletter</h5>
+                <form
+                    [formGroup]="subscribeForm"
+                    (ngSubmit)="submitSubscribe()"
+                    class="d-flex flex-column flex-sm-row gap-2"
+                >
+                    <input
+                        type="email"
+                        class="form-control"
+                        required
+                        formControlName="subscribeEmail"
+                        placeholder="Enter your email"
+                    />
+                    <button
+                        class="btn btn-info text-white px-4"
+                        type="submit"
+                        [disabled]="isSubmitting"
+                    >
+                        {{ isSubmitting ? "Subscribing..." : "Subscribe" }}
+                    </button>
+                </form>
+                <small class="text-muted d-block mt-2"
+                    >By subscribing, you agree to our Privacy Policy.</small
+                >
+            </div>
+        </div>
+
+        <div class="copyright-area">
+            <div class="row align-items-center">
                 <div class="col-lg-6 col-sm-6">
-                    <ul class="custom-links mb-0 list-unstyled">
-                        <li class="d-inline-block">
-                            <a routerLink="/privacy-policy"> Privacy Policy </a>
-                        </li>
-                        <li class="d-inline-block">
-                            <a routerLink="/terms-conditions">
-                                Terms of Service
-                            </a>
-                        </li>
-                        <li class="d-inline-block">
-                            <a routerLink="/privacy-policy">
-                                Cookies Settings
-                            </a>
-                        </li>
-                    </ul>
+                    <p class="mb-0">
+                        © {{ currentYear }} Corporate Projukti Limited. All
+                        rights reserved.
+                    </p>
                 </div>
-                <div class="col-lg-3 col-sm-6">
+
+                <div class="col-lg-6 col-sm-6">
                     <div class="socials">
                         <a
                             href="#"

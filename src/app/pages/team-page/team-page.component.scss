@@ -1,1 +1,79 @@
 @import "../../common/team/team.component";
+
+.instructor-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 2rem 1rem;
+}
+
+.instructor-card {
+    width: 300px;
+    height: 360px;
+    background-color: #0dcaf0;
+    color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.3s ease;
+    padding: 1.5rem;
+}
+
+.instructor-card:hover {
+    transform: translateY(-6px);
+}
+.instructor-img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%; /* Makes it a circle */
+    margin-bottom: 1rem;
+    border: 3px solid white; /* Optional: adds a clean border */
+}
+
+.instructor-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.instructor-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0;
+    color: white;
+    text-decoration: none;
+}
+
+.instructor-name a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.instructor-name a:hover {
+    color: #dcefff; /* lighter on hover */
+}
+
+.instructor-role {
+    font-size: 0.9rem;
+    color: #dcdcdc;
+    margin-top: 0.25rem;
+}
+
+/* Responsive behavior */
+@media (max-width: 768px) {
+    .instructor-card {
+        width: 90%;
+        height: auto;
+    }
+
+    .instructor-img {
+        height: 160px;
+    }
+}

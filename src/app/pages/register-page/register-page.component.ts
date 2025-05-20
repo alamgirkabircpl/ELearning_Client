@@ -8,7 +8,6 @@ import { BackToTopComponent } from '../../common/back-to-top/back-to-top.compone
 import { FooterComponent } from '../../common/footer/footer.component';
 import { NavbarComponent } from '../../common/navbar/navbar.component';
 import { ToastNotificationService } from '../../toast-notification.service';
-import { PageBannerComponent } from './page-banner/page-banner.component';
 
 @Component({
     selector: 'app-register-page',
@@ -18,7 +17,7 @@ import { PageBannerComponent } from './page-banner/page-banner.component';
         RouterLink,
         FormsModule,
         NavbarComponent,
-        PageBannerComponent,
+
         FooterComponent,
         BackToTopComponent,
     ],

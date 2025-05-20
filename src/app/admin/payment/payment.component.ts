@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -12,7 +13,7 @@ import { EnrollService } from '../services/enroll.service';
 @Component({
     selector: 'app-payment',
     standalone: true,
-    imports: [],
+    imports: [CommonModule],
     templateUrl: './payment.component.html',
     styleUrl: './payment.component.scss',
 })
@@ -22,6 +23,9 @@ export class PaymentComponent implements OnInit {
 
     stripe!: Stripe | null;
     card!: StripeCardElement;
+
+    isLoading = false;
+
     private authService = inject(AuthService);
     private router = inject(Router);
     private enrollService = inject(EnrollService);
@@ -47,6 +51,7 @@ export class PaymentComponent implements OnInit {
 
     async pay(event: Event) {
         event.preventDefault();
+        this.isLoading = true;
 
         if (!this.authService.isLoggedIn()) {
             this.router.navigate(['/register']);
@@ -101,6 +106,8 @@ export class PaymentComponent implements OnInit {
                 this.toastService.showError(
                     'Payment failed: ' + paymentResult.error.message
                 );
+                this.isLoading = false;
+
                 return;
             }
 
@@ -152,10 +159,13 @@ export class PaymentComponent implements OnInit {
                     this.toastService.showError('Enrollment failed.');
                 }
             }
+            this.isLoading = false;
         } catch (error) {
             console.error('Payment error:', error);
             this.toastService.showError('Payment process failed.');
+            this.isLoading = false;
         }
+        this.isLoading = false;
     }
 
     private buildEnrollData(userId: string) {

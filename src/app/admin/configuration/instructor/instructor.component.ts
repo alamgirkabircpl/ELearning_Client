@@ -55,7 +55,7 @@ export class InstructorComponent {
     pageSize = 2;
     totalPages = 0;
     searchText = '';
-
+    imageSizeError: string | null = null;
     // Form state
     instructor: Instructor = this.createEmptyInstructor();
     selectedFile: File | null = null;
@@ -176,22 +176,32 @@ export class InstructorComponent {
             this.instructor
         );
     }
-
-    // File handling
     onFileSelected(event: Event): void {
         const input = event.target as HTMLInputElement;
         if (input.files?.length) {
             this.selectedFile = input.files[0];
 
-            // Create preview
+            // Check image dimensions
             const reader = new FileReader();
-            reader.onload = () => {
-                this.profileImagePreview = reader.result as string;
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    if (img.width === 300 && img.height === 300) {
+                        this.profileImagePreview = reader.result as string;
+                        this.imageSizeError = null; // Clear any previous error
+                    } else {
+                        this.imageSizeError =
+                            'Image must be exactly 300x300 pixels';
+                        this.profileImagePreview = null;
+                        this.selectedFile = null;
+                        input.value = ''; // Clear the file input
+                    }
+                };
+                img.src = e.target?.result as string;
             };
             reader.readAsDataURL(this.selectedFile);
         }
     }
-
     removeImage(): void {
         this.selectedFile = null;
         this.profileImagePreview = null;

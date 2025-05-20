@@ -3,6 +3,16 @@
         <div id="card-element">
             <!-- Stripe will inject card element here -->
         </div>
-        <button type="submit" class="default-btn d-block w-100">Pay Now</button>
+        <button
+            type="submit"
+            class="pay-btn d-block w-100"
+            [disabled]="isLoading"
+        >
+            <span
+                *ngIf="isLoading"
+                class="spinner-border spinner-border-sm me-1"
+            ></span>
+            Pay Now
+        </button>
     </form>
 </div>

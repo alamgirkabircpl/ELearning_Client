@@ -2,7 +2,9 @@
 
 .team-details-box {
     border: 1px solid #c3c3c3;
-    background-color: #f6ffeb;
+    background-color: var(--primaryColor);
+    color: var(--whiteColor);
+    // background-color: #f6ffeb;
     border-radius: 15px;
     padding: 50px;
 
@@ -14,7 +16,7 @@
             top: 40px;
             left: 40px;
             right: 40px;
-        };
+        }
         .socials {
             border-radius: 10px 10px 0 0;
             background-color: #f3f3f3;
@@ -30,7 +32,7 @@
                 margin: {
                     left: 5px;
                     right: 5px;
-                };
+                }
                 i {
                     left: 0;
                     right: 0;
@@ -60,7 +62,7 @@
             font: {
                 size: 24px;
                 family: var(--fontFamily);
-            };
+            }
         }
         .designation {
             margin-bottom: 20px;
@@ -82,7 +84,7 @@
                 font-size: 16px;
                 padding-left: 37px;
                 margin-right: 45px;
-                
+
                 img {
                     left: 0;
                     top: 50%;
@@ -106,24 +108,23 @@
 }
 
 /* Max width 767px */
-@media only screen and (max-width : 767px) {
-
+@media only screen and (max-width: 767px) {
     .team-details-box {
         padding: 30px;
-    
+
         .image {
             margin: {
                 right: 0;
                 bottom: 25px;
-            };
+            }
             padding: {
                 top: 20px;
                 left: 20px;
                 right: 20px;
-            };
+            }
             .socials {
                 margin-top: 20px;
-    
+
                 a {
                     width: 40px;
                     height: 40px;
@@ -131,7 +132,7 @@
                     margin: {
                         left: 4px;
                         right: 4px;
-                    };
+                    }
                     i {
                         margin-top: 0;
                     }
@@ -140,7 +141,7 @@
         }
         .content {
             margin-left: 0;
-    
+
             h3 {
                 font-size: 20px;
             }
@@ -154,7 +155,7 @@
             }
             .info {
                 margin-top: -10px;
-    
+
                 li {
                     font-size: 14px;
                     padding-left: 32px;
@@ -162,37 +163,36 @@
                     margin: {
                         right: 20px;
                         top: 15px;
-                    };
+                    }
                 }
             }
         }
     }
-
 }
 
 /* Min width 576px to Max width 767px */
-@media only screen and (min-width : 576px) and (max-width : 767px) {}
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+}
 
 /* Min width 768px to Max width 991px */
-@media only screen and (min-width : 768px) and (max-width : 991px) {
-
+@media only screen and (min-width: 768px) and (max-width: 991px) {
     .team-details-box {
         padding: 30px;
-    
+
         .image {
             margin: {
                 right: 0;
                 bottom: 30px;
-            };
+            }
             padding: {
                 top: 30px;
                 left: 30px;
                 right: 30px;
-            };
+            }
             .socials {
                 padding: 10px 10px 3px;
                 margin-top: 20px;
-    
+
                 a {
                     width: 45px;
                     height: 45px;
@@ -206,7 +206,7 @@
         }
         .content {
             margin-left: 0;
-    
+
             h3 {
                 font-size: 22px;
             }
@@ -220,7 +220,7 @@
             }
             .info {
                 margin-top: 22px;
-    
+
                 li {
                     font-size: 15px;
                     padding-left: 35px;
@@ -229,29 +229,27 @@
             }
         }
     }
-
 }
 
 /* Min width 992px to Max width 1199px */
-@media only screen and (min-width : 992px) and (max-width : 1199px) {
-
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
     .team-details-box {
         padding: 40px;
-    
+
         .image {
             margin-right: 0;
             padding: {
                 top: 30px;
                 left: 30px;
                 right: 30px;
-            };
+            }
             .socials {
                 margin-top: 30px;
             }
         }
         .content {
             margin-left: 0;
-    
+
             .designation {
                 margin-bottom: 15px;
             }
@@ -262,7 +260,7 @@
             }
             .info {
                 margin-top: 20px;
-    
+
                 li {
                     font-size: 15px;
                     padding-left: 35px;
@@ -271,21 +269,19 @@
             }
         }
     }
-
 }
 
 /* Min width 1200px to Max width 1399px */
 @media only screen and (min-width: 1200px) and (max-width: 1399px) {
-
     .team-details-box {
         padding: 40px;
-    
+
         .image {
             margin-right: 50px;
         }
         .content {
             margin-left: -40px;
-    
+
             .designation {
                 margin-bottom: 15px;
             }
@@ -294,15 +290,15 @@
             }
             .info {
                 margin-top: 20px;
-    
+
                 li {
                     margin-right: 25px;
                 }
             }
         }
     }
-
 }
 
 /* Min width 1600px */
-@media only screen and (min-width: 1600px) {}
+@media only screen and (min-width: 1600px) {
+}

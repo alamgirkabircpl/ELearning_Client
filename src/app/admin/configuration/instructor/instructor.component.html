@@ -185,12 +185,11 @@
                         />
                     </div>
 
-                    <!-- Course Image -->
                     <div class="col-md-6">
                         <label
                             for="profilePicture"
                             class="form-label fw-semibold"
-                            >Image</label
+                            >Profile Picture</label
                         >
                         <input
                             type="file"
@@ -208,14 +207,37 @@
                             {{ selectedFile.name }}
                         </small>
                         <div
-                            *ngIf="isEditMode && instructor.profilePicture"
+                            *ngIf="imageSizeError"
+                            class="alert alert-danger mt-2"
+                        >
+                            {{ imageSizeError }}
+                        </div>
+                        <div
+                            *ngIf="
+                                isEditMode &&
+                                instructor.profilePicture &&
+                                !profileImagePreview
+                            "
                             class="mt-3"
                         >
-                            <p class="mb-2 fw-semibold">Current Image:</p>
+                            <p class="mb-2 fw-semibold">Current Picture:</p>
                             <img
                                 [src]="getImageUrl(instructor.profilePicture)"
                                 alt="Current logo"
                                 style="max-height: 120px"
+                                class="img-thumbnail"
+                            />
+                        </div>
+                        <div *ngIf="profileImagePreview" class="mt-3">
+                            <!-- <p class="mb-2 fw-semibold">New Picture Preview:</p> -->
+                            <img
+                                [src]="profileImagePreview"
+                                alt="Preview"
+                                style="
+                                    height: 120px;
+                                    width: 120px;
+                                    object-fit: cover;
+                                "
                                 class="img-thumbnail"
                             />
                         </div>

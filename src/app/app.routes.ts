@@ -27,6 +27,7 @@ import { ContactPageComponent } from './pages/contact-page/contact-page.componen
 import { ErrorPageComponent } from './pages/error-page/error-page.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { PrivacyPolicyPageComponent } from './pages/privacy-policy-page/privacy-policy-page.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { RegisterPageComponent } from './pages/register-page/register-page.component';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
@@ -84,7 +85,7 @@ export const routes: Routes = [
         component: ChangePasswordComponent,
     },
     { path: 'register', component: RegisterPageComponent },
-    // { path: 'privacy-policy', component: PrivacyPolicyPageComponent },
+    { path: 'privacy-policy', component: PrivacyPolicyPageComponent },
     // { path: 'terms-conditions', component: TermsConditionsPageComponent },
     { path: 'contact', component: ContactPageComponent },
     { path: 'test', component: TestPageComponent },

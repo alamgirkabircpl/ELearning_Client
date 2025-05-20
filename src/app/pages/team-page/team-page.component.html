@@ -1,63 +1,29 @@
 <app-navbar />
 
-<app-page-banner />
+<!-- <app-page-banner /> -->
 
-<!-- <div class="pb-120 border-bottom"></div> -->
+<div class="pb-120"></div>
 
 <!-- Team -->
 <div class="team-area bg-f3f3f3 pt-120 pb-95">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-3 col-sm-6" *ngFor="let team of instructors">
-                <div
-                    class="single-team-member text-center mb-25 position-relative"
-                >
-                    <img
-                        [src]="
-                            getImagePath(
-                                team.profilePicture || 'images/teams/team1.jpg'
-                            )
-                        "
-                        alt="team-image"
-                    />
-                    <div class="content">
-                        <h3 class="fw-semibold">
-                            <a [routerLink]="['/team-details', team.id]">
-                                {{ team.fullName }}
-                            </a>
-                        </h3>
-                        <span class="d-block"> Instructor </span>
-                        <ul class="socials p-0 mb-0 list-unstyled">
-                            <li class="d-inline-block">
-                                <a
-                                    href="#"
-                                    class="d-block rounded-circle"
-                                    onclick="event.preventDefault(); return false;"
-                                >
-                                    <i class="fa-brands fa-facebook-f"></i>
-                                </a>
-                            </li>
-                            <li class="d-inline-block">
-                                <a
-                                    href="#"
-                                    class="d-block rounded-circle"
-                                    onclick="event.preventDefault(); return false;"
-                                >
-                                    <i class="fa-brands fa-x-twitter"></i>
-                                </a>
-                            </li>
-                            <li class="d-inline-block">
-                                <a
-                                    href="#"
-                                    class="d-block rounded-circle"
-                                    onclick="event.preventDefault(); return false;"
-                                >
-                                    <i class="fa-brands fa-linkedin-in"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+    <div class="instructor-container">
+        <div class="instructor-card" *ngFor="let team of instructors">
+            <img
+                class="instructor-img"
+                [src]="
+                    getImagePath(
+                        team.profilePicture || 'images/teams/team1.jpg'
+                    )
+                "
+                alt="team-image"
+            />
+            <div class="instructor-info">
+                <h3 class="instructor-name">
+                    <a [routerLink]="['/team-details', team.id]">
+                        {{ team.fullName }}
+                    </a>
+                </h3>
+                <span class="instructor-role">Instructor</span>
             </div>
         </div>
     </div>

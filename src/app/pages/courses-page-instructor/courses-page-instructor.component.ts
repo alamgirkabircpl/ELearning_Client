@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Course } from '../../admin/models/course';
 import { Enroll } from '../../admin/models/enroll';
 import { Instructor } from '../../admin/models/trainer';
@@ -50,7 +50,7 @@ interface CourseData {
 @Component({
     selector: 'app-courses-and-instructor-page',
     standalone: true,
-    imports: [RouterLink, CommonModule, FormsModule, PaymentComponent],
+    imports: [CommonModule, FormsModule, PaymentComponent],
     templateUrl: './courses-page-instructor.component.html',
     styleUrl: './courses-page-instructor.component.scss',
 })

@@ -188,7 +188,7 @@
                             )
                         "
                         class="img-fluid w-100"
-                        style="height: 200px; width: 100%; object-fit: contain"
+                        style="object-fit: cover; max-height: 350px"
                         alt="Course image"
                     />
                     <div class="position-absolute bottom-0 end-0 m-3">
@@ -307,21 +307,7 @@
                             </div>
                         </div>
 
-                        <div class="mb-4">
-                            <h6 class="fw-semibold mb-2">
-                                About the Instructor
-                            </h6>
-                            <p
-                                class="text-muted"
-                                [innerHTML]="
-                                    getSanitizedContent(
-                                        instructor?.description || ''
-                                    )
-                                "
-                            ></p>
-                        </div>
-
-                        <div class="row g-2">
+                        <div class="row g-2 mb-4">
                             <div class="col-6">
                                 <div
                                     class="d-flex align-items-center text-muted small"
@@ -356,6 +342,20 @@
                                     <span>5 Awards</span>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="">
+                            <h6 class="fw-semibold mb-2">
+                                About the Instructor
+                            </h6>
+                            <p
+                                class="text-muted"
+                                [innerHTML]="
+                                    getSanitizedContent(
+                                        instructor?.description || ''
+                                    )
+                                "
+                            ></p>
                         </div>
                     </div>
                 </div>
@@ -453,7 +453,7 @@
                             <span>Credit/Debit Card</span>
                         </label>
                     </div>
-                    <div class="form-check mb-2">
+                    <!-- <div class="form-check mb-2">
                         <input
                             class="form-check-input"
                             type="radio"
@@ -482,7 +482,7 @@
                             <i class="bi bi-bank2 fs-4 me-3"></i>
                             <span>Bank Transfer</span>
                         </label>
-                    </div>
+                    </div> -->
                 </div>
 
                 <div class="d-grid gap-2">

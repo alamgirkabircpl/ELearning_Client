@@ -1,4 +1,4 @@
-import { NgClass, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
     FormBuilder,
@@ -13,13 +13,14 @@ import { ToastNotificationService } from '../../toast-notification.service';
 @Component({
     selector: 'app-footer',
     standalone: true,
-    imports: [RouterLink, NgIf, NgClass, ReactiveFormsModule],
+    imports: [RouterLink, NgIf, ReactiveFormsModule],
     templateUrl: './footer.component.html',
     styleUrl: './footer.component.scss',
 })
 export class FooterComponent {
     subscribeForm: FormGroup;
     isSubmitting = false;
+    currentYear = new Date().getFullYear();
     private toastService = inject(ToastNotificationService);
 
     constructor(

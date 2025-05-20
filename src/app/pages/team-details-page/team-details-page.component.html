@@ -1,93 +1,67 @@
 <app-navbar />
 
-<app-page-banner />
+<!-- <app-page-banner /> -->
+<div class="pb-120"></div>
 
 <!-- Team Details -->
 <div class="team-details-area ptb-120">
     <div class="container">
-        <div class="team-details-box">
+        <div class="bg-info rounded-4 p-4 shadow-lg">
             <div class="row align-items-center">
-                <div class="col-lg-4 col-md-12">
-                    <div class="image text-center">
-                        <img
-                            [src]="
-                                getImagePath(
-                                    instructor?.profilePicture ||
-                                        'images/teams/team16.jpg'
-                                )
-                            "
-                            alt="team-image"
-                        />
-                        <div class="socials">
-                            <a
-                                href="#"
-                                class="d-inline-block position-relative rounded-circle text-center"
-                                onclick="event.preventDefault(); return false;"
-                            >
-                                <i class="fa-brands fa-facebook-f"></i>
-                            </a>
-                            <a
-                                href="#"
-                                class="d-inline-block position-relative rounded-circle text-center"
-                                onclick="event.preventDefault(); return false;"
-                            >
-                                <i class="fa-brands fa-x-twitter"></i>
-                            </a>
-                            <a
-                                href="#"
-                                class="d-inline-block position-relative rounded-circle text-center"
-                                onclick="event.preventDefault(); return false;"
-                            >
-                                <i class="fa-brands fa-linkedin-in"></i>
-                            </a>
-                        </div>
-                    </div>
+                <!-- Instructor Image -->
+                <div class="col-lg-4 text-center mb-4 mb-lg-0">
+                    <img
+                        [src]="
+                            getImagePath(
+                                instructor?.profilePicture ||
+                                    'images/teams/team16.jpg'
+                            )
+                        "
+                        alt="Instructor profile"
+                        class="img-fluid rounded-circle border border-3 border-light shadow-sm"
+                        style="width: 200px; height: 200px; object-fit: cover"
+                    />
+                    <!-- Optional Social Icons -->
+                    <!--
+                <div class="mt-3 d-flex justify-content-center gap-3">
+                    <a href="#" (click)="$event.preventDefault()" class="btn btn-outline-light btn-sm rounded-circle">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" (click)="$event.preventDefault()" class="btn btn-outline-light btn-sm rounded-circle">
+                        <i class="fab fa-x-twitter"></i>
+                    </a>
+                    <a href="#" (click)="$event.preventDefault()" class="btn btn-outline-light btn-sm rounded-circle">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
                 </div>
-                <div class="col-lg-8 col-md-12">
-                    <div class="content">
-                        <h3 class="text-uppercase fw-semibold">
-                            {{ instructor?.fullName }}
-                        </h3>
-                        <span class="d-block designation">
-                            {{ instructor?.certification }}
-                        </span>
-                        <p>
-                            {{ instructor?.description }}
-                        </p>
-                        <!-- <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit, sed do eiusmod tempor incididunt ut labore et
-                            dolore magna aliqua. Ut enim ad minim veniam, quis
-                            nostrud exercitation ullamco laboris nisi ut aliquip
-                            ex ea commodo consequat.
-                        </p> -->
-                        <ul class="info mb-0 p-0 list-unstyled">
-                            <li class="d-inline-block position-relative">
-                                <img
-                                    src="images/icons/phone-call.svg"
-                                    alt="phone-call"
-                                />
-                                <a
-                                    href="#"
-                                    onclick="event.preventDefault(); return false;"
-                                >
-                                    {{
-                                        instructor?.phoneNumber ??
-                                            "+88 XXXXXXXXX"
-                                    }}
-                                </a>
-                            </li>
-                            <li class="d-inline-block position-relative">
-                                <img src="images/icons/email.svg" alt="email" />
-                                <a
-                                    href="#"
-                                    onclick="event.preventDefault(); return false;"
-                                >
-                                    {{ instructor?.email }}
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                --></div>
+
+                <!-- Instructor Info -->
+                <div class="col-lg-8">
+                    <h3 class="text-white fw-bold mb-1 text-uppercase">
+                        {{ instructor?.fullName }}
+                    </h3>
+                    <p class="text-white fst-italic mb-3">
+                        {{ instructor?.certification }}
+                    </p>
+                    <div
+                        class="text-light mb-4"
+                        [innerHTML]="instructor?.description"
+                    ></div>
+
+                    <!-- Contact Info -->
+                    <ul class="list-unstyled text-light">
+                        <li class="mb-2 d-flex align-items-center">
+                            <i class="fas fa-phone-alt me-2 text-white"></i>
+                            <span>
+                                {{ instructor?.phoneNumber ?? "+88 XXXXXXXXX" }}
+                            </span>
+                        </li>
+                        <li class="d-flex align-items-center">
+                            <i class="fas fa-envelope me-2 text-white"></i>
+                            <span>{{ instructor?.email }}</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>

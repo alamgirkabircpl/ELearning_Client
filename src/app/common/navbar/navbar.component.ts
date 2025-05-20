@@ -16,7 +16,7 @@ export class NavbarComponent implements OnInit {
     private authService = inject(AuthService);
     private userService = inject(UserService);
     userObject: any;
-    isLoggedIn: boolean = false;
+    // isLoggedIn: boolean = false;
     isAdmin: boolean = false;
     private toastService = inject(ToastNotificationService);
 
@@ -47,10 +47,12 @@ export class NavbarComponent implements OnInit {
     toggleClass() {
         this.classApplied = !this.classApplied;
     }
+    get isLoggedIn(): boolean {
+        return this.authService.isLoggedIn();
+    }
 
     getUserData() {
         if (this.authService.isLoggedIn()) {
-            this.isLoggedIn = true;
             const user = this.authService.getCurrentUser();
             this.userObject = user;
             this.userService.getUserByEmail(user.email).subscribe({
@@ -70,7 +72,6 @@ export class NavbarComponent implements OnInit {
             },
         });
         this.toastService.showSuccess('You are successfully logout.');
-        this.isLoggedIn = false;
         this.isAdmin = false;
     }
 }

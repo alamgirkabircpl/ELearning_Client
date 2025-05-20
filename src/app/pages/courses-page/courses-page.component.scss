@@ -25,3 +25,96 @@
 .offcanvas-backdrop.show {
     opacity: 0;
 }
+
+/* Container to wrap cards responsively */
+.course-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 2rem 1rem;
+}
+
+/* Fixed size card with responsive scaling */
+.course-card {
+    background-color: #0dcaf0;
+    color: #fff;
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    height: 360px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s ease;
+}
+
+.course-card:hover {
+    transform: translateY(-6px);
+}
+
+.course-title {
+    color: white;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.course-description {
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    flex-grow: 1;
+}
+
+.instructor-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.instructor-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 0.75rem;
+    object-fit: cover;
+}
+
+.instructor-name {
+    font-weight: 600;
+    margin: 0;
+}
+
+.instructor-role {
+    font-size: 0.85rem;
+    color: #dcdcdc;
+    margin: 0;
+}
+
+.details-btn {
+    align-self: start;
+    padding: 0.5rem 1.2rem;
+    border: 2px solid #fff;
+    color: #0dcaf0;
+    border-radius: 20px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.details-btn:hover {
+    background-color: white;
+    color: #4a6cf7;
+}
+
+/* Responsive fix for smaller devices */
+@media (max-width: 768px) {
+    .course-card {
+        width: 90%;
+        height: auto;
+    }
+
+    .course-container {
+        padding: 1rem;
+    }
+}
